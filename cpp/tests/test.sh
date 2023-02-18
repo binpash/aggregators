@@ -1,13 +1,11 @@
-if [[ -z "$PASH_TOP" ]]; then
-    export PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+if [[ -z "$PASH_AGG_TOP" ]]; then
+    export PASH_AGG_TOP=${PASH_AGG_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
 fi
 
-export IN1=$PASH_TOP/evaluation/intro/input/100M.txt
-export IN2=$PASH_TOP/evaluation/intro/input/words
+export IN1=$PASH_AGG_TOP/cpp/tests/input/1M.txt
+export IN2=$PASH_AGG_TOP/cpp/tests/input/words
 
-if [ ! -f $IN1 ]; then
-    $PASH_TOP/evaluation/intro/input/setup.sh
-fi
+"$PASH_AGG_TOP/cpp/tests/input/setup.sh"
 
 if [[ $(uname -s) == 'Linux' ]]; then
     ./test-linux.sh
