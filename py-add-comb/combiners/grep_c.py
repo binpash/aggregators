@@ -58,6 +58,7 @@ def grep_c_comb_two(output_A:str, output_B:str):
         parallel_res.append(Grep_Par_Output(output_B.split("\n"), 2))
     return grep_c(parallel_res)
 
+# Run 
 output_A = "hi.txt:2\nbye.txt:10\ntotal:12"
 output_B = "hi.txt:60\nbye.txt:400\napples.txt:10\ntotal:470"
 output_A2 = "3"

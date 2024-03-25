@@ -1,3 +1,4 @@
+import math
 from typing import Dict
 from grep_meta import Grep_Par_Output, Grep_Par_Metadata
 
@@ -128,12 +129,20 @@ def grep_in(parallel_res: list[Grep_Par_Output], metadata_list: list[Grep_Par_Me
 
 def grep_build_metada_two_blocks(file_name:str, file_content:str): 
     count_lines = len(file_content.split("\n"))
-    return Grep_Par_Metadata(file_name, number_of_blocks=2, size_arr=[count_lines/2, count_lines/2])
+    block_1_size = 0 
+    block_2_size = 0
+    if count_lines % 2 != 0 : 
+        block_1_size = math.floor(count_lines / 2)
+        block_2_size = math.floor(count_lines / 2) + 1 
+    else : 
+        block_1_size = count_lines / 2
+        block_2_size = count_lines / 2
+    return Grep_Par_Metadata(file_name, number_of_blocks=2, size_arr=[block_1_size, block_2_size])
 
-def grep_in_comb_two(output_A:str, output_B:str, input_files:list[(str, str)]): 
+def grep_in_comb_two(output_A:str, output_B:str, input_files: Dict[str, str]): 
     metadata_list = []
-    for file_tuple in input_files:
-        metadata_list.append(grep_build_metada_two_blocks(file_tuple[0], file_tuple[1]))
+    for file_name, file_content in input_files.items():
+        metadata_list.append(grep_build_metada_two_blocks(file_name, file_content))
 
     parallel_res = []
     if (output_B == None or output_B.strip() == "") and (output_A == None or output_A.strip() == ""):
@@ -148,8 +157,13 @@ def grep_in_comb_two(output_A:str, output_B:str, input_files:list[(str, str)]):
         parallel_res.append(Grep_Par_Output(output_B.split("\n"), 2))
     return grep_in(parallel_res=parallel_res, metadata_list=metadata_list)
 
-
-
+# Run 
+files_to_content = {} 
+files_to_content["hi.txt"] = "hi 1 gh \nhi 2\nhi3\nhi 4\nhi5\nhi6\nhi7"
+files_to_content["bye.txt"] = "hi 1\nhi 2\nhi3\nhi4\nhi 5\nhi 6\nhi 7"
+output_A = "bye.txt:1:hi 1\nhi.txt:3:hi 3 2"
+output_B = "hi.txt:3:hi 6 g\nbye.txt:1:hi 4\nhi.txt:4:hi7"
+print(grep_in_comb_two(output_A, output_B, files_to_content))
 
 # grep -in: displays line count + case insensitive search
 #   Multiple files:

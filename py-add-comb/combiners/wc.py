@@ -62,6 +62,7 @@ def wc_comb_two(output_A:str, output_B:str):
         parallel_res.extend(output_B.split("\n"))
     return wc_flags_combine(parallel_res)
 
+# Run 
 output_A = "30 100 0 hi.txt\n0 0 0 apples.txt\n0 0 0 bye.txt\n30 100 0 total"
 output_B = "10 300 1 bye.txt\n20 200 2 hi.txt\n0 0 0 apples.txt\n30 500 3 total"
 print(wc_comb_two(output_A, output_B))
