@@ -56,3 +56,8 @@ runtime/dgsh-tee
 .vscode/*
 .idea/*
 .vs/*
+
+# data files 
+py-add-comb/outputs/*
+py-add-comb/data/*
+py-add-comb/simple_combiners/*
