@@ -1,4 +1,4 @@
-import sys 
+import sys, re 
 
 def read_file(file_path):
     file = open(file_path, "r")
@@ -29,3 +29,14 @@ def process_input_to_array(output_A, output_B):
 def write_file(content:str):
     sys.stdout.write(content + "\n")
     sys.stdout.flush()
+
+def match_file(full_file, par_file):
+    match = full_file.split(".txt")[0]
+    pattern = re.escape(match) + '-\d+\.txt'
+    return True if (re.search(re.compile(pattern), par_file) != None) else False
+
+def extract_base_file(par_file): 
+    if par_file == "total": return par_file
+    pattern = re.compile(r'(.+)-\d+\.txt')
+    match = re.search(pattern, par_file)
+    return (match.group(1)+".txt").strip()
