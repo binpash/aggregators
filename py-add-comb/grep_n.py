@@ -1,6 +1,7 @@
 import math
 from typing import Dict
 from grep_meta import Grep_Par_Output, Grep_Par_Metadata
+import utilities
 
 def get_line_number_correction(metadata: Grep_Par_Metadata, block_number: int):
     '''
@@ -139,41 +140,12 @@ def grep_build_metada_two_blocks(file_name:str, file_content:str):
         block_2_size = count_lines / 2
     return Grep_Par_Metadata(file_name, number_of_blocks=2, size_arr=[block_1_size, block_2_size])
 
-def grep_in_comb_two(output_A:str, output_B:str, input_files: Dict[str, str]): 
+def grep_in_comb_two(output_A, output_B, input_files): 
     metadata_list = []
-    for file_name, file_content in input_files.items():
-        metadata_list.append(grep_build_metada_two_blocks(file_name, file_content))
-
-    parallel_res = []
-    if (output_B == None or output_B.strip() == "") and (output_A == None or output_A.strip() == ""):
-        raise ValueError('both input cannot be nothing')
+    for tup in input_files: 
+        metadata_list.append(grep_build_metada_two_blocks(tup[0], tup[1]))
     
-    if output_A == None or output_A.strip() == "": 
-        parallel_res.append(Grep_Par_Output(output_B.split("\n"), 1))
-    elif output_B == None or output_B.strip() == "":
-        parallel_res.append(Grep_Par_Output(output_A.split("\n"), 1))
-    else: 
-        parallel_res.append(Grep_Par_Output(output_A.split("\n"), 1))
-        parallel_res.append(Grep_Par_Output(output_B.split("\n"), 2))
-    return grep_in(parallel_res=parallel_res, metadata_list=metadata_list)
+    content = utilities.process_input_to_array(output_A, output_B) 
+    print(len(content[0].split("\n")))
 
-# Run 
-files_to_content = {} 
-files_to_content["hi.txt"] = "hi 1 gh \nhi 2\nhi3\nhi 4\nhi5\nhi6\nhi7"
-files_to_content["bye.txt"] = "hi 1\nhi 2\nhi3\nhi4\nhi 5\nhi 6\nhi 7"
-output_A = "bye.txt:1:hi 1\nhi.txt:3:hi 3 2"
-output_B = "hi.txt:3:hi 6 g\nbye.txt:1:hi 4\nhi.txt:4:hi7"
-print(grep_in_comb_two(output_A, output_B, files_to_content))
-
-# grep -in: displays line count + case insensitive search
-#   Multiple files:
-# randomText.txt:2:hi
-# randomText.txt:3:hiHIiii
-# randomText.txt:4:Hiii
-# randomText2.txt:2:hi
-# randomText2.txt:3:hiHIiii
-# randomText2.txt:4:Hiii
-# grep -c : counts how many lines there are -- single file: 3
-#   Multiple files:
-#   # randomText.txt:3
-# randomText2.txt:3
+grep_in_comb_two("outputs/grep-n-yw-1.txt", "outputs/grep-n-yw-2.txt")
