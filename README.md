@@ -25,3 +25,25 @@ Let's assume that the aggregator being implemented is for a command called `cmd`
 3. Add unit tests for the created aggregator in `cpp/tests/test-OS.sh` for each `OS`. Consult the instructions in that file. Remember to test all options and flags of the aggregator.
 
 Note: after completing these steps the aggregator will automatically be built by the `Makefile` with no changes to it required.
+
+## Aggregators in ./py-2 
+### Overview + Running 
+
+#### Single File Aggregators:
+* Aggregates parallel results when commands are applied to single file input.
+* Single input to a command looks like: `wc hi.txt` 
+
+| File | Aggregator    | Description | Notes   
+| ---- | ------------- | ----------- | -----  
+| `wc.py` | `s_wc` | <li>Combines each count for </li><li>Supports flags `-l, -c, -w, -m`</li> |   | Discripancy with combining byte size, might be due to file being split manually during  
+ 
+
+#### Multiple File Aggregators:  
+* Commands when ran on single file input vs. multiple file input often produce different results as file name often gets appended to the result
+* Multiple inputs to a command looks like: `wc hi.txt bye.txt`  
+
+| File | Aggregator    | Description | Sample Input + Output | Performance | Notes   
+| ---- | ------------- | ----------- | --------------------- | ----------- | -----  
+| `wc.py` | `m_wc` |  | ``` ``` 
+
+### Performance 
