@@ -3,6 +3,8 @@ from typing import Dict
 from grep_meta import Grep_Par_Output, Grep_Par_Metadata
 import utilities
 
+#TODO: needs refactoring 
+
 def get_line_number_correction(metadata: Grep_Par_Metadata, block_number: int):
     '''
     Adds up the size of blocks before this block for the total number of lines to correct by 

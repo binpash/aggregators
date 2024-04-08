@@ -1,0 +1,3 @@
+    1222 inputs/yw.txt
+     660 inputs/ms.txt
+    1882 total
