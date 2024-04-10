@@ -1,3 +1,0 @@
-     663   26292 inputs/yw-1.txt
-     305   13132 inputs/ms-1.txt
-     968   39424 total

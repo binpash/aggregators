@@ -1,2 +1,0 @@
-inputs/yw-1.txt:2
-inputs/ms-1.txt:2

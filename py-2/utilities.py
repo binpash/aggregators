@@ -15,16 +15,21 @@ def file_content_to_str_arr(file_path):
         sys.stderr.write("err: " + e.strerror + " from " + file_path + "\n")
         return None
 
-def process_input_to_array(output_A, output_B): 
-    parallel_res = []
-    if output_A == None or output_A.strip() == "": 
-        parallel_res.append(file_content_to_str_arr(output_A))
-    elif output_B == None or output_B.strip() == "":
-        parallel_res.append(file_content_to_str_arr(output_B))
-    else: 
-        parallel_res.append(file_content_to_str_arr(output_A))
-        parallel_res.append(file_content_to_str_arr(output_B))
-    return parallel_res
+def read_all(): 
+  all_contents = []
+  for f in sys.argv[1:]:
+    contents = file_content_to_str_arr(f)
+    all_contents.append(contents)
+  return all_contents
+
+def read_all_w_original_files(): 
+  all_contents = []
+  i = 1 
+  while sys.argv[i] != "full": 
+    contents = file_content_to_str_arr(sys.argv[i])
+    all_contents.append(contents)
+    i+=1 
+  return [all_contents, sys.argv[i+1:]]
 
 def write_file(content:str):
     sys.stdout.write(content + "\n")

@@ -1,3 +1,0 @@
-     559 inputs/yw-2.txt
-     354 inputs/ms-2.txt
-     913 total

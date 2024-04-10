@@ -1,6 +1,24 @@
-import math, utilities
+import math
 from typing import Dict
 from grep_meta import Grep_Par_Output, Grep_Par_Metadata
+import utilities
+
+
+def get_line_number_correction(metadata: Grep_Par_Metadata, block_number: int):
+    '''
+    Adds up the size of blocks before this block for the total number of lines to correct by 
+
+    Returns: 
+        add this value to the line to get the corrected line; 
+        the corrected line is the line number of this line considering the entire file 
+            and not only this parallel output block 
+    '''
+    line_number_correction: int = 0
+    for prev_block_number in range(0, block_number):
+        line_number_correction += metadata.size_arr[prev_block_number]
+    return line_number_correction
+
+
 def line_correction_all(blocks: list[Grep_Par_Output], metadata: Grep_Par_Metadata, is_single_file: bool):
     '''
     Correct all lines in a block 
@@ -39,21 +57,11 @@ def line_correction_all(blocks: list[Grep_Par_Output], metadata: Grep_Par_Metada
 
     return correction_arr
 
-def get_line_number_correction(metadata: Grep_Par_Metadata, block_number: int):
-    '''
-    Adds up the size of blocks before this block for the total number of lines to correct by 
+# TODO: error checking for output line number is within bounds of the metadata size
+# TODO: error checking for block number is within range of metadata
 
-    Returns: 
-        add this value to the line to get the corrected line; 
-        the corrected line is the line number of this line considering the entire file 
-            and not only this parallel output block 
-    '''
-    line_number_correction: int = 0
-    for prev_block_number in range(0, block_number):
-        line_number_correction += metadata.size_arr[prev_block_number]
-    return line_number_correction
 
-def s_grep_n(parallel_res: list[Grep_Par_Output], metadata_list: list[Grep_Par_Metadata]):
+def grep_in(parallel_res: list[Grep_Par_Output], metadata_list: list[Grep_Par_Metadata]):
     '''
     Combines parallized grep result when used with the -in flag 
     Specifically fit to combine grep results with -n flag by correcting line number on the line 
@@ -120,11 +128,23 @@ def s_grep_n(parallel_res: list[Grep_Par_Output], metadata_list: list[Grep_Par_M
             append_together = append_together + corrected_res + '\n'
 
     return append_together.rstrip()
-    
 
-def s_combine(output_A, output_B, full_file:str): 
+def grep_build_metada_two_blocks(file_name:str, file_content:str): 
+    count_lines = len(file_content.split("\n"))
+    block_1_size = 0 
+    block_2_size = 0
+    if count_lines % 2 != 0 : 
+        block_1_size = math.floor(count_lines / 2)
+        block_2_size = math.floor(count_lines / 2) + 1 
+    else : 
+        block_1_size = count_lines / 2
+        block_2_size = count_lines / 2
+    return Grep_Par_Metadata(file_name, number_of_blocks=2, size_arr=[block_1_size, block_2_size])
+
+def grep_in_comb_two(output_A, output_B, input_files): 
     metadata_list = []
+    for tup in input_files: 
+        metadata_list.append(grep_build_metada_two_blocks(tup[0], tup[1]))
+    
     content = utilities.process_input_to_array(output_A, output_B) 
-    s_grep_n([Grep_Par_Output(content[0], 1), Grep_Par_Output(content[1], 2)], Grep_Par_Metadata(full_file, 2, [664, 560]))
-
-s_combine("outputs/grep-n-yw-1.txt", "outputs/grep-n-yw-2.txt", "py-2/inputs/yw-1.txt")
+    print(len(content[0].split("\n")))
