@@ -25,10 +25,14 @@ def read_all():
 def read_all_w_original_files(): 
   all_contents = []
   i = 1 
-  while sys.argv[i] != "full": 
-    contents = file_content_to_str_arr(sys.argv[i])
-    all_contents.append(contents)
-    i+=1 
+  try: 
+    while sys.argv[i] != "full": 
+      contents = file_content_to_str_arr(sys.argv[i])
+      all_contents.append(contents)
+      i+=1 
+  except IndexError:
+      sys.stderr.write("missing full files, please add: full [path to full file 1] [path to full file 2] <etc> \n")
+      sys.exit
   return [all_contents, sys.argv[i+1:]]
 
 def write_file(content:str):

@@ -1,4 +1,4 @@
-import math, utilities
+import utilities
 from typing import Dict
 from grep_meta import Grep_Par_Output, Grep_Par_Metadata
 def line_correction_all(blocks: list[Grep_Par_Output], metadata: Grep_Par_Metadata, is_single_file: bool):
@@ -128,3 +128,6 @@ def s_combine(output_A, output_B, full_file:str):
     s_grep_n([Grep_Par_Output(content[0], 1), Grep_Par_Output(content[1], 2)], Grep_Par_Metadata(full_file, 2, [664, 560]))
 
 s_combine("outputs/grep-n-yw-1.txt", "outputs/grep-n-yw-2.txt", "py-2/inputs/yw-1.txt")
+
+read = utilities.read_all()
+utilities.write_file(s_combine(read))

@@ -18,7 +18,7 @@ def m_combine(parallel_res: list[str], full_files: list[str]):
                     file_found_map[base_file] = file_found_map[base_file] + "\n" + new_entry
     append_together = ""
     for values in file_found_map.values(): append_together = append_together + values
-    return append_together.strip() 
+    return append_together.rstrip('\n') 
 
 
 all_read = utilities.read_all_w_original_files(); 

@@ -58,6 +58,6 @@ runtime/dgsh-tee
 .vs/*
 
 # data files 
-py-add-comb/outputs/*
-py-add-comb/data/*
-py-add-comb/simple_combiners/*
+py-2/outputs/*
+py-2/data/*
+py-2/simple_combiners/*

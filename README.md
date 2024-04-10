@@ -49,13 +49,14 @@ Note: after completing these steps the aggregator will automatically be built by
 
 - Aggregates parallel results when commands are applied to single file input.
 - Single input to a command looks like: `wc hi.txt`
+- directly takes input argument from system argument; for example `python s_wc.py [parallel output file 1] [parallel output file 2]`
 
-| File        | Aggregator | Description                                                                                                                                                                   | Notes                                                                                                              |
-| ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `wc.py`     | `s_wc`     | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
-| `grep.py`   | `s_grep`   | <li> Combines `grep` results (directly concat) </li>                                                                                                                          |
-| `grep_c.py` | `s_grep_c` | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
-| `grep_n.py` | `s_grep_n` | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
+| File To Run   | Additional info. needed | Description                                                                                                                                                                   | Notes                                                                                                              |
+| ------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
+| `s_grep.py`   | No                      | <li> Combines `grep` results (directly concat) </li>                                                                                                                          |
+| `s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
+| `s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
 
 ### Testing
 
@@ -74,14 +75,23 @@ Note: after completing these steps the aggregator will automatically be built by
 ## Multiple File Argument Aggregators
 
 - Commands when ran on single file input vs. multiple file input often produce different results as file name often gets appended to the result
-- Multiple inputs to a command looks like: `wc hi.txt bye.txt`
+- Multiple inputs to a command looks like: `wc hi.txt bye.txt` and would produce outputs that looks like
 
-| File        | Aggregator | Description                                                                                                                                             | Notes                                                                                                              |
-| ----------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `wc.py`     | `m_wc`     | <li>Combines count results, appends source file name to end, includes total count</li><li>Supports flags `-l, -c, -w, -m`</li>                          | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
-| `grep.py`   | `m_grep`   | <li> Combines `grep` results, sort output based on source file </li>                                                                                    |
-| `grep_c.py` | `m_grep_c` | <li> Combines `grep -c`, apprend prefix source file name, includes total count</li>                                                                     |
-| `grep_n.py` | `m_grep_n` | <li> Combines `grep -n`, makes line correction accordingly to file</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
+```
+     559    4281   25733 inputs/hi.txt
+     354    2387   14041 inputs/bye.txt
+     913    6668   39774 total
+```
+
+- directly takes input argument from system argument; for example, enter in your terminal
+  `python m_wc.py [parallel output file 1] [parallel output file 2]`
+
+| File To Run   | Additional info. needed                                                                                 | Description                                                                                                                                             | Notes                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `m_wc.py`     | N/A                                                                                                     | <li>Combines count results, appends source file name to end, includes total count</li><li>Supports flags `-l, -c, -w, -m`</li>                          | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
+| `m_grep.py`   | after parallel output args: `full [path to original file 1] [path to original file 2] <more if needed>` | <li> Combines `grep` results, sort output based on source file </li>                                                                                    |
+| `m_grep_c.py` | N/A                                                                                                     | <li> Combines `grep -c`, apprend prefix source file name, includes total count</li>                                                                     |
+| `m_grep_n.py` | Yes                                                                                                     | <li> Combines `grep -n`, makes line correction accordingly to file</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
 
 <i>Note: all multiple argument combiners requires a [file_list] argument that is a list of all the full files utilized in the call</i>
 

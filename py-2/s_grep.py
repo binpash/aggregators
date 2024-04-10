@@ -7,7 +7,7 @@ def s_combine(parallel_res: list[str]):
     for res in parallel_res:
         if res != "":
             append_together = append_together + res + '\n'
-    return append_together.strip() 
+    return append_together.rstrip('\n')
 
 
 read = utilities.read_all()
