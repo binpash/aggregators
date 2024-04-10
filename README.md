@@ -30,7 +30,7 @@ Note: after completing these steps the aggregator will automatically be built by
 
 ## Overview
 
-- After running Linux terminal commands on file inputs using parallelization with PaSh, we must find a way to combine those parallel outputs correctly so the parallel execution of command produced matches the sequential execution
+- After running terminal commands on file inputs using parallelization with PaSh, we must find a way to combine those parallel outputs correctly so the parallel execution of command produced matches the sequential execution
 - This directory contains:
   - several aggregators in python that reads parallel ouput result from
   - utilitie functions to assist with
