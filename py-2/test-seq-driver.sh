@@ -18,6 +18,6 @@ for CMD in "${CMDLIST[@]}"; do
         FILENAME=$(basename ${FILE})
         WITHOUTTXT="${FILENAME%.*}"
         CMD_FILE_NAME="${CMD// /-}"
-        echo "cat "${FILE}" | $CMD > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"" >>$P
+        echo "cat ${FILE} | $CMD > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"" >>$P
     done
 done
