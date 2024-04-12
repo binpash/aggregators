@@ -9,7 +9,7 @@ CMDMAP["grep"]="s_grep.py"
 CMDMAP["grep -c"]="s_grep_c.py"
 
 # Global variables
-INPUT_DIR="inputs-s/"
+INPUT_DIR="inputs/"
 OUTPUT_DIR="outputs/"
 FILE_TYPE=".txt"
 P='./par-execute.sh'
@@ -24,11 +24,11 @@ SPLIT_SIZE=2
 wget --no-check-certificate 'https://atlas.cs.brown.edu/data/gutenberg/0/1/old/1.txt' -O inputs/${FILE}${FILE_TYPE}
 
 # SAME FOR ALL FILES
-split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt ${INPUT_DIR}/${FILE}- |
-    IFS=''
-while read -r -d split_file; do
-    wc <"$split_file" >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}"
-done
+IFS=''
+split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt | \
+{ while read -r -d split_file; do 
+	wc < "$split_file" > "${OUTPUT_DIR}3-${FILE}${FILE_TYPE}" 
+done }
 
 # # apply command to all split files
 # for CMD in "${CMDLIST[@]}"; do
