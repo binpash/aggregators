@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir outputs
+mkdir inputs
 
 # make cmd to agg. map to get which cmd should be used
 declare -A CMDMAP
@@ -13,7 +14,7 @@ INPUT_DIR="inputs/"
 OUTPUT_DIR="outputs/"
 FILE_TYPE=".txt"
 P='./par-execute.sh'
-CMDLIST=("wc" "grep and" "grep project" "grep -c Project" "wc -lm" "wc -c")
+CMDLIST=("wc")
 
 # Build par execute file
 echo '#!/bin/bash' >$P
@@ -24,14 +25,16 @@ SPLIT_SIZE=2
 wget --no-check-certificate 'https://atlas.cs.brown.edu/data/gutenberg/0/1/old/1.txt' -O inputs/${FILE}${FILE_TYPE}
 
 # SAME FOR ALL FILES
-split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt inputs-s/${FILE}-
+mkdir inputs-s
+split -dl $(($(wc -l < inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt inputs-s/${FILE}-
 # apply command to all split files
 for CMD in "${CMDLIST[@]}"; do
     for FILE in "inputs-s/"*; do
-        mkfifo int-"${FILE}"
-        "cat $CMD ${FILE}" >int-"${FILE}"
-    done
-    python "$CMD" int-* >${OUTPUT_DIR}"${FILE}"-par.txt
+	mkfifo s.txt
+        "$CMD ${FILE}" > s.txt > "${FILE}"
+    done 
+    chmod +x ./s_"$CMD".py
+    ./s_"$CMD".py int-* > ${OUTPUT_DIR}"${FILE}"-par.txt
 done
 
 # Old piping method, doesn't seem to work but seems more efficient
