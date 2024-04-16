@@ -24,20 +24,19 @@ SPLIT_SIZE=2
 wget --no-check-certificate 'https://atlas.cs.brown.edu/data/gutenberg/0/1/old/1.txt' -O inputs/${FILE}${FILE_TYPE}
 
 # SAME FOR ALL FILES
-IFS=''
-split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt | \
-{ while read -r -d split_file; do 
-	wc < "$split_file" > "${OUTPUT_DIR}3-${FILE}${FILE_TYPE}" 
-done }
+split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt inputs-s/${FILE}-
+# apply command to all split files
+for CMD in "${CMDLIST[@]}"; do
+    for FILE in "inputs-s/"*; do
+        mkfifo int-"${FILE}"
+        "cat $CMD ${FILE}" >int-"${FILE}"
+    done
+    python "$CMD" int-* >${OUTPUT_DIR}"${FILE}"-par.txt
+done
 
-# # apply command to all split files
-# for CMD in "${CMDLIST[@]}"; do
-#     for FILE in "$INPUT_DIR"*; do
-#         FILENAME=$(basename ${FILE})
-#         WITHOUTTXT="${FILENAME%.*}"
-#         CMD_FILE_NAME="${CMD// /-}"
-#         echo "cat ${FILE} | $CMD > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}"" >>$P
+# Old piping method, doesn't seem to work but seems more efficient
+# IFS=''
+# split -dl $(($(wc -l <inputs/${FILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FILE}.txt |
+#     while read -r -d split_file; do
+#         wc <"$split_file" >"${OUTPUT_DIR}3-${FILE}${FILE_TYPE}"
 #     done
-# done
-
-# grap the right cmd and build parallel execution script

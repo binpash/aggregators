@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import utilities
 
 def s_combine(parallel_res: list[str]):
