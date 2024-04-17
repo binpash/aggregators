@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import utilities
 
 def m_combine(parallel_res: list[str], full_files: list[str]):

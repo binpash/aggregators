@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import utilities
 
 def s_combine(parallel_res: list[str]):
