@@ -26,21 +26,20 @@ wget --no-check-certificate 'https://atlas.cs.brown.edu/data/gutenberg/0/1/old/1
 
 # SAME FOR ALL FILES
 mkdir inputs-s
-split -dl $(($(wc -l < inputs/${FULLFILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FULLFILE}.txt inputs-s/${FULLFILE}-
+split -dl $(($(wc -l <inputs/${FULLFILE}.txt) / SPLIT_SIZE)) -a 1 --additional-suffix=${FILE_TYPE} ${INPUT_DIR}${FULLFILE}.txt inputs-s/${FULLFILE}-
 # apply command to all split files
 for CMD in "${CMDLIST[@]}"; do
-    cd inputs-s
+    cd inputs-s || exit
     for FILE in *; do
-	echo "$CMD $FILE" 
-	cat ${FILE} | ${CMD} > ${FILE} 
-    done 
-    cd .. 
+        echo "$CMD $FILE"
+        cat ${FILE} | ${CMD} >${FILE}
+    done
+    cd ..
     chmod +x ./s_"$CMD".py
-    filelist=$(ls -p1 inputs-s/*)
-    echo $filelist 
-    cat "./s_$CMD.py $filelist > ${OUTPUT_DIR}${FULLFILE}-par.txt" >> $P
+    filelist=$(ls -1 inputs-s/* | tr '\n' ' ')
+    echo $filelist
+    echo "./s_$CMD.py $filelist > ${OUTPUT_DIR}${FULLFILE}-par.txt" >>$P
 done
-
 
 # Old piping method, doesn't seem to work but seems more efficient
 # IFS=''
