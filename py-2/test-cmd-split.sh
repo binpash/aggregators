@@ -31,16 +31,16 @@ split -dl $(($(wc -l < inputs/${FULLFILE}.txt) / SPLIT_SIZE)) -a 1 --additional-
 for CMD in "${CMDLIST[@]}"; do
     cd inputs-s
     for FILE in *; do
-	echo ${FILE} 
-	$CMD ${FILE} | sponge ${FILE} 
+	echo "$CMD $FILE" 
+	cat ${FILE} | ${CMD} > ${FILE} 
     done 
     cd .. 
     chmod +x ./s_"$CMD".py
-    filelist=$(ls -p inputs-s/*)
+    filelist=$(ls -p1 inputs-s/*)
     echo $filelist 
-    echo ""$filelist" | xargs ./s_$CMD.py > ${OUTPUT_DIR}${FULLFILE}-par.txt" >> $P
-    # echo "./s_"$CMD".py $filelist > ${OUTPUT_DIR}"${FULLFILE}"-par.txt" > $P
+    cat "./s_$CMD.py $filelist > ${OUTPUT_DIR}${FULLFILE}-par.txt" >> $P
 done
+
 
 # Old piping method, doesn't seem to work but seems more efficient
 # IFS=''
