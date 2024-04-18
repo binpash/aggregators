@@ -7,14 +7,7 @@ FILE_TYPE=".txt"
 P='./test-par-execute.sh'
 CMDLIST=(wc "grep hi")
 
-# Build par execute file
-echo '#!/bin/bash' >$P
-printf '# Already executed -- records down what was exectued \n' >>$P
 
-# Get + Read, determine split size
-FULLFILE="gb01"
-SPLIT_SIZE=2
-wget --no-check-certificate 'https://atlas.cs.brown.edu/data/gutenberg/0/1/old/1.txt' -O inputs/${FULLFILE}${FILE_TYPE}
 
 # SAME FOR ALL FILES
 mkdir inputs-s
