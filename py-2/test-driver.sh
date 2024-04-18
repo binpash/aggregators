@@ -3,11 +3,16 @@
 # GLOBAL SETUP
 INPUT_DIR="inputs/"
 OUTPUT_DIR="outputs/"
+SPLIT_DIR="inputs-s/"
 FILE_TYPE=".txt"
 
-# make relative directories + ensure driver files are executables
+# make relative NEW directories + ensure driver files are executables
+rm -rf "${INPUT_DIR%/}"
+rm -rf "${OUTPUT_DIR%/}"
+rm -rf "${SPLIT_DIR%/}" 
 mkdir -p "${INPUT_DIR%/}"
 mkdir -p "${OUTPUT_DIR%/}"
+mkdir -p "${SPLIT_DIR%/}"
 chmod +x ./test-files-driver.sh 
 chmod +x ./test-seq-driver.sh
 chmod +x ./test-par-driver.sh
@@ -16,7 +21,7 @@ chmod +x ./test-par-driver.sh
 # !! Change here to add cmds / aggregators / testing files !!
 CMDLIST=("grep -c hi" "wc" "grep and" "wc -lm") 
 declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.py" ["grep -c"]="s_grep_c.py")
-./test-files-driver.sh 
+./test-files-driver.sh "${INPUT_DIR}" "${SPLIT_DIR}" ${FILE_TYPE}
 # -------------------------------------------------------------
 
 # Build seq execute file
@@ -62,11 +67,11 @@ find() {
     echo $RESULT 
 }
 
-# Main loop for generating seq + par result with each cmd in the cmd list
+# MAIN LOOP for generating seq + par result with each cmd in the cmd list
 for CMD in "${CMDLIST[@]}"; do
     AGG="$(find "${CMD}")"
     for FILE in "${INPUT_DIR}"*; do
         seq "${FILE}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${SP}"
-        par "${FILE}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}"
+        par "${FILE}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${PP}"
     done
 done
