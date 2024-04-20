@@ -1,7 +1,7 @@
 import sys, re 
 
 def read_file(file_path):
-    file = open(file_path, "r")
+    file = open(file_path, "r", encoding='utf-8-sig')
     if file == None: raise FileNotFoundError
     return file.read()
 
@@ -9,7 +9,7 @@ def file_content_to_str_arr(file_path):
     try: 
         content = read_file(file_path=file_path)
         # remove final '\n' at the end of the file
-        if len(content) > 0 and content[-1].endswith('\n'): content = content[:-1]
+        # if len(content) > 0 and content[-1].endswith('\n'): content = content[:-1]
         return str(content)
     except (FileNotFoundError, IOError) as e : 
         sys.stderr.write("err: " + e.strerror + " from " + file_path + "\n")

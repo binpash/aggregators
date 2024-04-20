@@ -37,4 +37,4 @@ done
 
 filelist=$(find "inputs-s-par/${WITHOUTTXT}/${CMD_FILE_NAME}-${WITHOUTTXT}"* -type f | sort | tr '\n' ' ')
 echo "./${AGG} ${filelist} > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}" >>"${P}" # print to accumulating  file
-"./${AGG}" "${filelist}" >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"            # run
+# "./${AGG}" "${filelist}" >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"            # run

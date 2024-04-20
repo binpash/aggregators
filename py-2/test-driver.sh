@@ -33,23 +33,25 @@ echo '# A record of test (actual value) executed -- parallel command execution a
 
 # Build evaulation result file
 EP="evaluation.txt"
-ROWFORMAT=" %-5s | %-20s | %-9s | %-10s | %-20s | %-9s \n" # field width of each content in one row
+ROWFORMAT=" %-5s | %-20s | %-9s | %-30s | %-15s | %-9s \n" # field width of each content in one row
 echo "This test was generated on: $(date +"%Y-%m-%d %H:%M:%S")" >$EP
-cho "Check out sequential execution script (input / output) in ${PP}" >>$EP
+echo "Check out sequential execution script (input / output) in ${PP}" >>$EP
 echo "Check out parallel execution script (input / output) in ${PP}" >>$EP
 printf '\n' >>$EP
 printf "${ROWFORMAT}" "COUNT" "FILE" "SPLITSIZE" "CMD" "AGG" "CORRECT?" >>$EP
-printf "............................................................................... \n" >>$EP
+printf "............................................................................................................... \n" >>$EP
 
 # ===== FUNCTIONS =====
 # function to invoke sequential driver
 seq() {
     ./test-seq-driver.sh "$1" "$2" "$3" "$4" "$5"
+    ./test-seq-execute.sh
 }
 
 # function to invoke parallel driver
 par() {
     ./test-par-driver.sh "$1" "$2" "$3" "$4" "$5" "$6"
+    ./test-par-execute.sh 
 }
 
 # function to find the right agg. given a CMD
@@ -93,8 +95,24 @@ function get_split() {
     else
         cp "${URL}" "${INPUT_DIR}${SAVEFILEAS}${FILE_TYPE}"
     fi
-    split -dl $(($(wc -l <"${INPUT_DIR}/${SAVEFILEAS}${FILE_TYPE}") / SPLITSIZE)) -a 1 --additional-suffix=${FILE_TYPE} "${INPUT_DIR}${SAVEFILEAS}${FILE_TYPE}" "${SPLIT_DIR}${SAVEFILEAS}/${SAVEFILEAS}"-
+    split -dl $(($(wc -l <"${INPUT_DIR}/${SAVEFILEAS}${FILE_TYPE}") / SPLITSIZE)) -a 2 --additional-suffix=${FILE_TYPE} "${INPUT_DIR}${SAVEFILEAS}${FILE_TYPE}" "${SPLIT_DIR}${SAVEFILEAS}/${SAVEFILEAS}"-
 }
+
+function check() {
+    FILE=$1
+    CMD=$2
+    FILENAME=$(basename "${FILE}")                                                                   # get filename (hi.txt)
+    WITHOUTTXT="${FILENAME%.*}"                                                                      # get filename without ext. (hi)
+    CMD_FILE_NAME="${CMD// /-}"                                                                      # make CMD extension for file name (grep-and)
+   
+    SEQ="${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"
+    PAR="${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"
+    if cmp "${OUTPUT_DIR}${SEQ}" "${OUTPUT_DIR}${PAR}" ; then 
+        echo "YES!"
+    else 
+        echo "NO"
+    fi
+} 
 
 # function for main execution
 #   1) split given file with given SPLITSIZE
@@ -115,7 +133,8 @@ run() {
         FILE=${INPUT_DIR}${SAVEFILEAS}${FILE_TYPE}
         seq "${FILE}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${SP}"
         par "${FILE}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${PP}"
-        printf "${ROWFORMAT}" $TESTCOUNT "${FILE}" "${SPLITSIZE}" "${CMD}" "${AGG}" >>"${EP}"
+        CORRECT="$(check "${FILE}" "${CMD}")"
+        printf "${ROWFORMAT}" $TESTCOUNT "${FILE}" "${SPLITSIZE}" "${CMD}" "${AGG}" "${CORRECT}" >>"${EP}"
         TESTCOUNT=$((TESTCOUNT + 1))
     done
 }
@@ -123,20 +142,23 @@ run() {
 # ===== EDIT HERE! =====
 # -------------------------------------------------------------
 # !!! Edit here to add cmds / aggregators / testing files !!!
-CMDLIST=("grep -c hi" "wc" "grep and" "wc -lm" "grep -c Project")                   # CMD to apply to each file
-declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.py" ["grep -c"]="s_grep_c.py") # Map of aggregators
+CMDLIST=("grep is" "wc -cl" "grep -c hi" "wc" "grep Twentieth" "wc -w -m")  
+declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.sh" ["grep -c"]="s_grep_c.py") # Map of aggregators
 
 # Put testing files here:
 # SPLITSIZE                         SROUCE                          FILENAME
+run 2 data/hi.txt hi
 run 8 'https://atlas.cs.brown.edu/data/gutenberg/3/7/9/3790/3790.txt' gb37
 run 2 'https://atlas.cs.brown.edu/data/gutenberg/3/7/9/3790/3790.txt' gb37II
 run 10 'https://atlas.cs.brown.edu/data/gutenberg/7/0/0/0/70000/70000-0.txt' gb70
 run 5 'https://atlas.cs.brown.edu/data/gutenberg/7/0/0/0/70001/70001-0.txt' gb71
-run 1 'https://atlas.cs.brown.edu/data/gutenberg/7/0/0/0/70002/70002-0.txt' gb72
+run 2 'https://atlas.cs.brown.edu/data/gutenberg/7/0/0/0/70002/70002-0.txt' gb72
 
 # -------------------------------------------------------------
 
+printf "...........................................................................................................DONE \n" >>$EP
+
 # Run clean up script to get rid of intermediate files (split files + cmd applied on split files)
 #   (NOTE: Comment out if you want to see the intermediate files for debugging!)
-chmod +x ./test-eval-clean.sh
-./test-eval-clean.sh
+chmod +x ./test-clean.sh
+./test-clean.sh

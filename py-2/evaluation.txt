@@ -1,12 +1,43 @@
-This test was generated on: 2024-04-19 23:28:02 : )
+This test was generated on: 2024-04-20 19:44:54
+Check out sequential execution script (input / output) in ./test-par-execute.sh
+Check out parallel execution script (input / output) in ./test-par-execute.sh
 
-FILE                 | SPLITSIZE | CMD        | AGG                  | CORRECT?  
-............................................................................... 
-inputs/gb37.txt      | 8         | wc         | s_wc.py              |          
-inputs/gb37.txt      | 8         | grep hi    | s_grep.py            |           
-inputs/gb37.txt      | 8         | wc -l      | s_wc.py              |           
-inputs/gb37.txt      | 8         | grep -c hi | s_grep_c.py          |           
-inputs/gb37II.txt    | 2         | wc         | s_wc.py              |           
-inputs/gb37II.txt    | 2         | grep hi    | s_grep.py            |           
-inputs/gb37II.txt    | 2         | wc -l      | s_wc.py              |           
-inputs/gb37II.txt    | 2         | grep -c hi | s_grep_c.py          |           
+ COUNT | FILE                 | SPLITSIZE | CMD                            | AGG             | CORRECT?  
+............................................................................................................... 
+ 1     | inputs/hi.txt        | 2         | grep is                        | s_grep.sh       | YES!      
+ 2     | inputs/hi.txt        | 2         | wc -cl                         | s_wc.py         | YES!      
+ 3     | inputs/hi.txt        | 2         | grep -c hi                     | s_grep_c.py     | YES!      
+ 4     | inputs/hi.txt        | 2         | wc                             | s_wc.py         | YES!      
+ 5     | inputs/hi.txt        | 2         | grep Twentieth                 | s_grep.sh       | YES!      
+ 6     | inputs/hi.txt        | 2         | wc -w -m                       | s_wc.py         | YES!      
+ 7     | inputs/gb37.txt      | 8         | grep is                        | s_grep.sh       | YES!      
+ 8     | inputs/gb37.txt      | 8         | wc -cl                         | s_wc.py         | YES!      
+ 9     | inputs/gb37.txt      | 8         | grep -c hi                     | s_grep_c.py     | YES!      
+ 10    | inputs/gb37.txt      | 8         | wc                             | s_wc.py         | YES!      
+ 11    | inputs/gb37.txt      | 8         | grep Twentieth                 | s_grep.sh       | YES!      
+ 12    | inputs/gb37.txt      | 8         | wc -w -m                       | s_wc.py         | YES!      
+ 13    | inputs/gb37II.txt    | 2         | grep is                        | s_grep.sh       | YES!      
+ 14    | inputs/gb37II.txt    | 2         | wc -cl                         | s_wc.py         | YES!      
+ 15    | inputs/gb37II.txt    | 2         | grep -c hi                     | s_grep_c.py     | YES!      
+ 16    | inputs/gb37II.txt    | 2         | wc                             | s_wc.py         | YES!      
+ 17    | inputs/gb37II.txt    | 2         | grep Twentieth                 | s_grep.sh       | YES!      
+ 18    | inputs/gb37II.txt    | 2         | wc -w -m                       | s_wc.py         | YES!      
+ 19    | inputs/gb70.txt      | 10        | grep is                        | s_grep.sh       | YES!      
+ 20    | inputs/gb70.txt      | 10        | wc -cl                         | s_wc.py         | YES!      
+ 21    | inputs/gb70.txt      | 10        | grep -c hi                     | s_grep_c.py     | YES!      
+ 22    | inputs/gb70.txt      | 10        | wc                             | s_wc.py         | YES!      
+ 23    | inputs/gb70.txt      | 10        | grep Twentieth                 | s_grep.sh       | YES!      
+ 24    | inputs/gb70.txt      | 10        | wc -w -m                       | s_wc.py         | YES!      
+ 25    | inputs/gb71.txt      | 5         | grep is                        | s_grep.sh       | YES!      
+ 26    | inputs/gb71.txt      | 5         | wc -cl                         | s_wc.py         | YES!      
+ 27    | inputs/gb71.txt      | 5         | grep -c hi                     | s_grep_c.py     | YES!      
+ 28    | inputs/gb71.txt      | 5         | wc                             | s_wc.py         | YES!      
+ 29    | inputs/gb71.txt      | 5         | grep Twentieth                 | s_grep.sh       | YES!      
+ 30    | inputs/gb71.txt      | 5         | wc -w -m                       | s_wc.py         | YES!      
+ 31    | inputs/gb72.txt      | 2         | grep is                        | s_grep.sh       | YES!      
+ 32    | inputs/gb72.txt      | 2         | wc -cl                         | s_wc.py         | YES!      
+ 33    | inputs/gb72.txt      | 2         | grep -c hi                     | s_grep_c.py     | YES!      
+ 34    | inputs/gb72.txt      | 2         | wc                             | s_wc.py         | YES!      
+ 35    | inputs/gb72.txt      | 2         | grep Twentieth                 | s_grep.sh       | YES!      
+ 36    | inputs/gb72.txt      | 2         | wc -w -m                       | s_wc.py         | YES!      
+...........................................................................................................DONE 

@@ -20,4 +20,4 @@ FILENAME=$(basename "${FILE}")                                                  
 WITHOUTTXT="${FILENAME%.*}"                                                                      # get filename without ext. (hi)
 CMD_FILE_NAME="${CMD// /-}"                                                                      # make CMD extension for file name (grep-and)
 echo "cat ${FILE} | $CMD > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}" >>"${P}" # print seq to accumulating file
-cat "${FILE}" | $CMD >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"              # execute seq output
+# cat "${FILE}" | $CMD >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"              # execute seq output
