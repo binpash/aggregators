@@ -1,0 +1,10 @@
+#!/bin/bash
+# A record of test (actual value) executed -- parallel command execution already ran
+./s_wc.py inputs-s-par/gb37/wc-gb37-0.txt inputs-s-par/gb37/wc-gb37-1.txt inputs-s-par/gb37/wc-gb37-2.txt inputs-s-par/gb37/wc-gb37-3.txt inputs-s-par/gb37/wc-gb37-4.txt inputs-s-par/gb37/wc-gb37-5.txt inputs-s-par/gb37/wc-gb37-6.txt inputs-s-par/gb37/wc-gb37-7.txt inputs-s-par/gb37/wc-gb37-8.txt  > outputs/gb37-wc-par.txt
+./s_grep.py inputs-s-par/gb37/grep-hi-gb37-0.txt inputs-s-par/gb37/grep-hi-gb37-1.txt inputs-s-par/gb37/grep-hi-gb37-2.txt inputs-s-par/gb37/grep-hi-gb37-3.txt inputs-s-par/gb37/grep-hi-gb37-4.txt inputs-s-par/gb37/grep-hi-gb37-5.txt inputs-s-par/gb37/grep-hi-gb37-6.txt inputs-s-par/gb37/grep-hi-gb37-7.txt inputs-s-par/gb37/grep-hi-gb37-8.txt  > outputs/gb37-grep-hi-par.txt
+./s_wc.py inputs-s-par/gb37/wc--l-gb37-0.txt inputs-s-par/gb37/wc--l-gb37-1.txt inputs-s-par/gb37/wc--l-gb37-2.txt inputs-s-par/gb37/wc--l-gb37-3.txt inputs-s-par/gb37/wc--l-gb37-4.txt inputs-s-par/gb37/wc--l-gb37-5.txt inputs-s-par/gb37/wc--l-gb37-6.txt inputs-s-par/gb37/wc--l-gb37-7.txt inputs-s-par/gb37/wc--l-gb37-8.txt  > outputs/gb37-wc--l-par.txt
+./s_grep_c.py inputs-s-par/gb37/grep--c-hi-gb37-0.txt inputs-s-par/gb37/grep--c-hi-gb37-1.txt inputs-s-par/gb37/grep--c-hi-gb37-2.txt inputs-s-par/gb37/grep--c-hi-gb37-3.txt inputs-s-par/gb37/grep--c-hi-gb37-4.txt inputs-s-par/gb37/grep--c-hi-gb37-5.txt inputs-s-par/gb37/grep--c-hi-gb37-6.txt inputs-s-par/gb37/grep--c-hi-gb37-7.txt inputs-s-par/gb37/grep--c-hi-gb37-8.txt  > outputs/gb37-grep--c-hi-par.txt
+./s_wc.py inputs-s-par/gb37II/wc-gb37II-0.txt inputs-s-par/gb37II/wc-gb37II-1.txt  > outputs/gb37II-wc-par.txt
+./s_grep.py inputs-s-par/gb37II/grep-hi-gb37II-0.txt inputs-s-par/gb37II/grep-hi-gb37II-1.txt  > outputs/gb37II-grep-hi-par.txt
+./s_wc.py inputs-s-par/gb37II/wc--l-gb37II-0.txt inputs-s-par/gb37II/wc--l-gb37II-1.txt  > outputs/gb37II-wc--l-par.txt
+./s_grep_c.py inputs-s-par/gb37II/grep--c-hi-gb37II-0.txt inputs-s-par/gb37II/grep--c-hi-gb37II-1.txt  > outputs/gb37II-grep--c-hi-par.txt

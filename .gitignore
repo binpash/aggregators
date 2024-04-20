@@ -56,3 +56,8 @@ runtime/dgsh-tee
 .vscode/*
 .idea/*
 .vs/*
+
+# data files 
+py-2/outputs/*
+py-2/data/*
+py-2/simple_combiners/*
