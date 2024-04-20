@@ -20,20 +20,18 @@ shift
 P=$1
 $P
 
-# apply command to all split files
-TEMP="inputs-s-par/"
-rm -r $TEMP
-mkdir inputs-s-par
-for FILE in inputs-s/*; do
-    FILENAME=$(basename "${FILE}") # get filename (hi.txt)
-    WITHOUTTXT="${FILENAME%.*}" # get filename without ext. (hi)
-    CMD_FILE_NAME="${CMD// /-}"    # make CMD extension for file name (grep-and)
-    cat ${FILE} | ${CMD} > "${TEMP}/${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}"
-done
-filelist=$(ls -1 $TEMP* | tr '\n' ' ')
 FILENAME=$(basename "${FULLFILE}") # get filename (hi.txt)
 WITHOUTTXT="${FILENAME%.*}"    # get filename without ext. (hi)
 CMD_FILE_NAME="${CMD// /-}"
-echo "./${AGG} "${filelist}" > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}" >>$P
-./${AGG} "${filelist}" > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"
 
+mkdir -p inputs-s-par
+mkdir -p "inputs-s-par/${WITHOUTTXT}"
+for FILE in inputs-s/${WITHOUTTXT}/*; do
+    S_FILENAME=$(basename "${FILE}") # get filename (hi.txt)
+    S_WITHOUTTXT="${S_FILENAME%.*}" # get filename without ext. (hi)
+    cat ${FILE} | ${CMD} > inputs-s-par/${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}.txt
+done
+filelist=$(find "inputs-s-par/${WITHOUTTXT}/${CMD_FILE_NAME}-${WITHOUTTXT}"* -type f | sort | tr '\n' ' ')
+
+echo "./${AGG} "${filelist}" > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}" >>$P
+"./${AGG}" $filelist > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"
