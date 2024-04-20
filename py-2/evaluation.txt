@@ -2,7 +2,7 @@ This test was generated on: 2024-04-19 23:28:02 : )
 
 FILE                 | SPLITSIZE | CMD        | AGG                  | CORRECT?  
 ............................................................................... 
-inputs/gb37.txt      | 8         | wc         | s_wc.py              |           
+inputs/gb37.txt      | 8         | wc         | s_wc.py              |          
 inputs/gb37.txt      | 8         | grep hi    | s_grep.py            |           
 inputs/gb37.txt      | 8         | wc -l      | s_wc.py              |           
 inputs/gb37.txt      | 8         | grep -c hi | s_grep_c.py          |           

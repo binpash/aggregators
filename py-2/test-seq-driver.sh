@@ -12,12 +12,12 @@ FILE_TYPE=$1
 shift
 
 CMD=$1
-shift 
+shift
 
 P=$1
 
-FILENAME=$(basename "${FILE}") # get filename (hi.txt)
-WITHOUTTXT="${FILENAME%.*}"    # get filename without ext. (hi)
-CMD_FILE_NAME="${CMD// /-}"    # make CMD extension for file name (grep-and)
-echo "cat ${FILE} | $CMD > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}" >>$P
-cat "${FILE}" | $CMD > "${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}" # execute seq output
+FILENAME=$(basename "${FILE}")                                                                   # get filename (hi.txt)
+WITHOUTTXT="${FILENAME%.*}"                                                                      # get filename without ext. (hi)
+CMD_FILE_NAME="${CMD// /-}"                                                                      # make CMD extension for file name (grep-and)
+echo "cat ${FILE} | $CMD > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}" >>"${P}" # print seq to accumulating file
+cat "${FILE}" | $CMD >"${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"              # execute seq output
