@@ -32,16 +32,16 @@ Note: after completing these steps the aggregator will automatically be built by
 
 - After running terminal commands on file inputs using parallelization with PaSh, we must find a way to combine those parallel outputs correctly so the parallel execution of command produced matches the sequential execution
 - This directory contains:
-  - several aggregators in python that reads parallel ouput result from
+  - several aggregators in python and bash scripts that reads parallel ouput results and combines them
   - utilitie functions to assist with
     - reading + writing from/to files
     - parsing read input into string arrays for the aggregator functions
     - (for combining results of commands applied to multiple input files) matching command ran on split files in output by parsing out original full file name to ensure final combined result utilizes the original file name
-  - aggregator test scripts (put .txt for testing, including full file and split files, in `/input`)
+  - testing scripts, highest level of execution being `./test-driver.sh` (edit here to add more tests)
 
 ## Running Aggregators
 
-- Currently, the aggregator scripts written in Python must run in a conda environment (included when running tests)
+- Run the aggregator scripts, passing in parallel outputs as arguments
 
 ## Single File Argument Aggregators
 
@@ -49,28 +49,31 @@ Note: after completing these steps the aggregator will automatically be built by
 
 - Aggregates parallel results when commands are applied to single file input.
 - Single input to a command looks like: `wc hi.txt`
-- directly takes input argument from system argument; for example `python s_wc.py [parallel output file 1] [parallel output file 2]`
+- directly takes input argument from system argument; for example `./s_wc.py [parallel output file 1] [parallel output file 2]`
 
-| File To Run   | Additional info. needed | Description                                                                                                                                                                   | Notes                                                                                                              |
-| ------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
-| `s_grep.py`   | No                      | <li> Combines `grep` results (directly concat) </li>                                                                                                                          |
-| `s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
-| `s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
+| Script          | Additional info. needed | Description                                                                                                                                                                   | Notes                        |
+| --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `./s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    |                              |
+| `./s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) <li>`.sh` for more accurate result compared to going through utilities file                                              |
+| `./s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
+| `./s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still |
 
 ### Testing
 
-- testing scripts produce all relevant files directed to `/outputs` when given files in `/inputs` to produce sequential / parallel results on
-- Run `./test-single.sh`:
-  1. manually split file into 2 -- put in `/input `
-  2. apply command to entire file for sequential output (expected)
-  3. apply command to file-1 > output/output-1
-     apply command to file-2 > output/output-2
-  4. apply aggregators to combine output/output-1 output/output-2 for parallel outpus
-  5. eye check that parallel outputs = sequential output
-     NOTE: use `s_combine` from the [cmd].py file as aggregators
+- The testing infrastructure pattern (how expected result vs. actual results are produced when applying commands and aggregators appropriately)
 
-### Performance
+```
+Sequential:
+cat file | $CMD > file-seq.txt
+
+Parallel:
+cat file-0 | $CMD > file-0-par
+cat file-1 | $CMD > file-1-par
+agg file-0-par file-1-par > file-par.txt
+```
+
+- Run `./test-driver.sh` (see this script for where to edit in order to add your own test). Below shows those files and directories that are produced/interacted with after you run this script:
+  ![alt text](py-2/testing_structure.png)
 
 ## Multiple File Argument Aggregators
 
@@ -98,7 +101,7 @@ Note: after completing these steps the aggregator will automatically be built by
 ### Testing
 
 - testing scripts produce all relevant files directed to `/outputs` when given files in `/inputs` to produce sequential / parallel results on
-- Run `./test-mult.sh`:
+- Run `./test-mult.sh` in `test-old` directory:
   1. manually split files (multiple) into 2 -- put in `/input `
   2. apply command to entire file for sequential output (expected)
   3. apply command to file-1 > output/output-1

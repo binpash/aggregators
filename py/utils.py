@@ -4,7 +4,7 @@ EOF_IS_NL = True
 
 def read_file(fname):
   try:
-    return open(fname, 'r').readlines()
+    return open(fname, 'r', encoding='utf-8-sig').readlines()
   except IOError as _err:
     # os.path.basename(sys.argv[0]) + ": " + 
     sys.stderr.write(f + ": " + _err.strerror + "\n")
