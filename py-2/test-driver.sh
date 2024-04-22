@@ -142,7 +142,7 @@ run() {
 # ===== EDIT HERE! =====
 # -------------------------------------------------------------
 # !!! Edit here to add cmds / aggregators / testing files !!!
-CMDLIST=("grep is" "wc -cl" "grep -c hi" "wc" "grep Twentieth" "wc -w -m")  
+CMDLIST=("grep is" "wc -cl" "grep -c hi" "wc" "grep Twentieth" "wc -w -m")   
 declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.sh" ["grep -c"]="s_grep_c.py") # Map of aggregators
 
 # Put testing files here:
