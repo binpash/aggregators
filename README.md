@@ -51,12 +51,12 @@ Note: after completing these steps the aggregator will automatically be built by
 - Single input to a command looks like: `wc hi.txt`
 - directly takes input argument from system argument; for example `python s_wc.py [parallel output file 1] [parallel output file 2]`
 
-| File To Run   | Additional info. needed | Description                                                                                                                                                                   | Notes                                                                                                              |
-| ------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    | Discripancy with combining byte size (might be due to manually splitting file to create parallel input in testing) |
-| `s_grep.py`   | No                      | <li> Combines `grep` results (directly concat) </li>                                                                                                                          |
+| File To Run   | Additional info. needed | Description                                                                                                                                                                   | Notes                        |
+| ------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    |                              |
+| `s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) < li><li>`.sh` for more accurate result compared to going through utilities file                                               |
 | `s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
-| `s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still                                                                                       |
+| `s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still |
 
 ### Testing
 

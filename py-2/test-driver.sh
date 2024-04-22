@@ -51,7 +51,7 @@ seq() {
 # function to invoke parallel driver
 par() {
     ./test-par-driver.sh "$1" "$2" "$3" "$4" "$5" "$6"
-    ./test-par-execute.sh 
+    ./test-par-execute.sh
 }
 
 # function to find the right agg. given a CMD
@@ -101,18 +101,17 @@ function get_split() {
 function check() {
     FILE=$1
     CMD=$2
-    FILENAME=$(basename "${FILE}")                                                                   # get filename (hi.txt)
-    WITHOUTTXT="${FILENAME%.*}"                                                                      # get filename without ext. (hi)
-    CMD_FILE_NAME="${CMD// /-}"                                                                      # make CMD extension for file name (grep-and)
-   
-    SEQ="${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}"
-    PAR="${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"
-    if cmp "${OUTPUT_DIR}${SEQ}" "${OUTPUT_DIR}${PAR}" ; then 
+    FILENAME=$(basename "${FILE}")                       # get filename (hi.txt)
+    WITHOUTTXT="${FILENAME%.*}"                          # get filename without ext. (hi)
+    CMD_FILE_NAME="${CMD// /-}"                          # make CMD extension for file name (grep-and)
+    SEQ="${WITHOUTTXT}-${CMD_FILE_NAME}-seq${FILE_TYPE}" # build + exec sequential
+    PAR="${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}" # build + exec parallel
+    if cmp "${OUTPUT_DIR}${SEQ}" "${OUTPUT_DIR}${PAR}"; then
         echo "YES!"
-    else 
+    else
         echo "NO"
     fi
-} 
+}
 
 # function for main execution
 #   1) split given file with given SPLITSIZE
@@ -142,7 +141,7 @@ run() {
 # ===== EDIT HERE! =====
 # -------------------------------------------------------------
 # !!! Edit here to add cmds / aggregators / testing files !!!
-CMDLIST=("grep is" "wc -cl" "grep -c hi" "wc" "grep Twentieth" "wc -w -m")  
+CMDLIST=("grep is" "wc -cl" "grep -c hi" "wc" "grep Twentieth" "wc -w -m")
 declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.sh" ["grep -c"]="s_grep_c.py") # Map of aggregators
 
 # Put testing files here:
