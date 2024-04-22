@@ -54,7 +54,7 @@ Note: after completing these steps the aggregator will automatically be built by
 | Script          | Additional info. needed | Description                                                                                                                                                                   | Notes                        |
 | --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
 | `./s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    |                              |
-| `./s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) < li><li>`.sh` for more accurate result compared to going through utilities file                                               |
+| `./s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) <li><li>`.sh` for more accurate result compared to going through utilities file                                               |
 | `./s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
 | `./s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still |
 
