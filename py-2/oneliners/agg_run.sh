@@ -35,9 +35,6 @@ par() {
 parse_simple() {
     CMDLIST=()
     while IFS= read -r line; do
-        # Trim leading/trailing whitespace
-        line=$(echo "$line" | xargs)
-
         # Skip comments and empty lines
         if [[ "$line" == \#* ]] || [[ -z "$line" ]]; then
             continue
@@ -45,7 +42,7 @@ parse_simple() {
         
         # Parse out simple one-line commands separated by "|"
         # Leave out the first 'cat $1' for reading in input file
-        IFS='|' read -ra CMDLIST <<< "$line"
+        IFS='|' read -ra CMDLIST <<< "$line"        
         if [[ "${CMDLIST[0]}" == cat* ]]; then
             CMDLIST=("${CMDLIST[@]:1}")
         fi
@@ -56,26 +53,32 @@ mkdir_get_split() {
     local FILE=$1
     WITHOUTTXT=$(basename "${FILE}" .txt)
     SPLIT_DIR="inputs-s/${WITHOUTTXT}/"
-    mkdir -p "${SPLIT_DIR%/}"   
-    split -dl $(($(wc -l < "$FILE") / SPLIT_SIZE)) -a 2 --additional-suffix=${FILE_TYPE} "$FILE" "${SPLIT_DIR}${WITHOUTTXT}"-
-    split_files=("${SPLIT_DIR}${WITHOUTTXT}-"*)       
+    mkdir -p "${SPLIT_DIR%/}"  
+    if [ $(wc -l < "$FILE" ) -le 0 ]; then 
+        touch "${SPLIT_DIR}${WITHOUTTXT}"-00.txt 
+    else 
+        split -dl $(($(wc -l < "$FILE") / SPLIT_SIZE)) -a 2 --additional-suffix=${FILE_TYPE} "$FILE" "${SPLIT_DIR}${WITHOUTTXT}"-
+    fi 
+    split_files=("${SPLIT_DIR}${WITHOUTTXT}-"*)    
     echo "${split_files[@]}"
 }
 
 # function to find the right agg. given a CMD
 find_agg() {
-    # Parse CMD out from Flags
-    CMD="$(echo "${1}" | cut -d ' ' -f1)"
-    FLAG="$(echo "${1}" | cut -d ' ' -f2)"
+    local FULL=$(echo "$1" | xargs)
     
+    # Parse CMD out from Flags
+    CMD="$(echo "${FULL}" | cut -d ' ' -f1)"
+    FLAG="$(echo "${FULL}" | cut -d ' ' -f2)"
+
     # see if we use flags
     if [ "${FLAG:0:1}" = "-" ]; then
         PARSE="$CMD $FLAG"
-
+        
         # CMD has a flag specific agg
         #   EX: grep -c => grep_c
         RESULT="${CMDMAP["$PARSE"]}"
-
+       
         # if the agg doesn't have a flag version, return agg without flags
         #   wc -l => wc & wc -lm => wc (share same agg)
         if [ -z "${RESULT}" ]; then
@@ -96,7 +99,6 @@ run() {
     local CURR_CMD_COUNT=0
     for CMD in "${CMDLIST[@]}"; do
 
-        CMD=$(echo "$CMD" | xargs)  # Trim cmd for better formatting
         if [[ $CURR_CMD_COUNT == 0 ]]; then 
             CURR_INPUT=$INPUT_FILE
         fi
@@ -106,8 +108,12 @@ run() {
         if [[ -z "$AGG" ]]; then 
         ## agg not found, pass entire input through cmd as normal 
             echo "AGG: aggregator for command and flag: $CMD is not implemented; executing this part of the script sequentially" >> $LOG_FILE 
+            # get sequential execution line
             seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
-            CURR_INPUT=$S_OUTPUT
+            # execute sequentially 
+            eval "$S_OUTPUT"
+            # parse out the output file to use as next input
+            CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
         else
         ## has agg for cmd + flag
             echo "AGG: aggregator for command and flag: $CMD is implemented; executing this part of the script with split size $SPLIT_SIZE" >> $LOG_FILE 
@@ -122,6 +128,9 @@ run() {
         fi
         ((CURR_CMD_COUNT++))
     done
+
+    # print final result to output file
+    cat $CURR_INPUT 
 }
 
 run

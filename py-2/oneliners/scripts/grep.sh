@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat $1 | grep "and" | wc -l | sort
+cat $1 | grep "and"

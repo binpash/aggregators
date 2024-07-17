@@ -30,7 +30,8 @@ IFS=' ' read -r -a split_filelist <<< $SPLIT_FILELIST
 
 FILENAME=$(basename "${FULLFILE}") # get filename (hi.txt)
 WITHOUTTXT="${FILENAME%.*}"        # get filename without ext. (hi)
-CMD_FILE_NAME="${CMD// /-}"        # get command file name append form (grep and -> grep-and)
+# CMD_FILE_NAME="${CMD// /-}"      # get command file name append form (grep and -> grep)
+CMD_FILE_NAME=$(echo "${CMD}" | awk '{print $1}')
 
 # make intermediate files for cmd applied to files
 mkdir -p inputs-s-par
@@ -39,10 +40,9 @@ mkdir -p "inputs-s-par/${WITHOUTTXT}"
 # for files in the temporary
 filelist=()
 for FILE in "${split_filelist[@]}"; do
-    echo $FILE >> hi2.txt
     S_FILENAME=$(basename "${FILE}")                                                          # get filename (hi.txt)
     S_WITHOUTTXT="${S_FILENAME%.*}"                                                           # get filename without ext. (hi)
-    cat "${FILE}" | ${CMD} > inputs-s-par/"${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}.txt" # apply command to all split file
+    eval "cat "${FILE}" | "${CMD}" > inputs-s-par/"${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}.txt"" # apply command to all split file
     filelist+="inputs-s-par/${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}.txt "
 done
 
