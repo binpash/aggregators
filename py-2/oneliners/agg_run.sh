@@ -21,8 +21,13 @@ LOG_FILE="log.txt"
 echo "Running aggregators for script: $SCRIPT and input file: $INPUT_FILE" >> $LOG_FILE
 
 ## AGG MAP (aggregators we have)
-declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.sh" ["grep -c"]="s_grep_c.py") 
-
+declare -A CMDMAP=(
+    ["wc"]="s_wc.py" 
+    ["grep"]="s_grep.sh" 
+    ["grep -c"]="s_grep_c.py" 
+    ["uniq"]="s_uniq.py" 
+    ["uniq -c"]="s_uniq_c.py"
+    ) 
 
 seq() {
     S_OUTPUT=$(./test-seq-driver.sh "$1" "$2" "$3" "$4" "$5")

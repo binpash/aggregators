@@ -25,13 +25,12 @@ elif [[ "$@" == *"--test"* ]]; then
         "top-n;test"
         "sort;test"
         "wf;test"
-        "shortest-scripts;test"
         "sort-sort;test"
         # "spell;test"
     )
 elif [[ "$@" == *"--single"* ]]; then 
     scripts_inputs=(
-        "bi-grams;test"
+        "wf;1M"
     )
 else
     scripts_inputs=(

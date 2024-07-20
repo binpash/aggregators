@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import utilities, re 
+import utils, re 
 
 def s_combine(parallel_res: list[str]):
     # maintain string pad length by splitting when number ends
@@ -10,5 +10,5 @@ def s_combine(parallel_res: list[str]):
         build_sum = "".join(str(int(x) + int(y)).rjust(len(x)) for x, y in zip(re.findall(r, build_sum), re.findall(r, res)))
     return build_sum
 
-read = utilities.read_all()
-utilities.write_file(s_combine(read)) 
+read = utils.read_all_2()
+utils.write_file(s_combine(read)) 
