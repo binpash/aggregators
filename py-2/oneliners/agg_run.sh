@@ -1,5 +1,5 @@
 # Given a script and a input file 
-#   1. Parse out the commands from the entire pipeline -- (test each commands one by one) 
+#   1. Parse out the commands from the entire pipeline -- (test each commands one by one) ··
 #   2. With each command, find the right aggregator to use 
 #   3. Run this  
 
@@ -9,7 +9,7 @@ SCRIPT=$1
 INPUT_FILE=$2
 FILE_TYPE=".txt"
 
-OUTPUT_DIR="outputs/agg/"
+OUTPUT_DIR="outputs-temp/agg/"
 mkdir -p "${OUTPUT_DIR%/}"
 
 # RUN THIS FILE TO EXECUTE ENTIRE SCRIPT WHEN AGG PRESENT
@@ -18,7 +18,7 @@ echo "## Run this file to execute entire script considering aggregators! " > $EX
 
 # LOG FILE FOR DEBUGGING 
 LOG_FILE="log.txt"
-echo "Running aggregators for script: $SCRIPT and input file: $INPUT_FILE" > $LOG_FILE
+echo "Running aggregators for script: $SCRIPT and input file: $INPUT_FILE" >> $LOG_FILE
 
 ## AGG MAP (aggregators we have)
 declare -A CMDMAP=(["wc"]="s_wc.py" ["grep"]="s_grep.sh" ["grep -c"]="s_grep_c.py") 
@@ -107,7 +107,7 @@ run() {
         
         if [[ -z "$AGG" ]]; then 
         ## agg not found, pass entire input through cmd as normal 
-            echo "AGG: aggregator for command and flag: $CMD is not implemented; executing this part of the script sequentially" >> $LOG_FILE 
+            echo "NOT IMPLEMENTED: $CMD" >> $LOG_FILE 
             # get sequential execution line
             seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
             # execute sequentially 
@@ -116,7 +116,7 @@ run() {
             CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
         else
         ## has agg for cmd + flag
-            echo "AGG: aggregator for command and flag: $CMD is implemented; executing this part of the script with split size $SPLIT_SIZE" >> $LOG_FILE 
+            echo "IMPLEMENTED: $CMD" >> $LOG_FILE 
             # split input according to split size
             local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT")
             # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files

@@ -6,14 +6,15 @@ cd $SUITE_DIR
 
 if [[ "$@" == *"--small"* ]]; then
     scripts_inputs=(
+        "grep;1M"
         "nfa-regex;1M"
         "sort;1M"
         "top-n;1M"
         "wf;1M"
-        "spell;1M"
-        "diff;1M"
-        "bi-grams;1M"
-        "set-diff;1M"
+        # "spell;1M"
+        # "diff;1M"
+        # "bi-grams;1M"
+        # "set-diff;1M"
         "sort-sort;1M"
         "shortest-scripts;all_cmds"
     )
@@ -21,6 +22,16 @@ elif [[ "$@" == *"--test"* ]]; then
     scripts_inputs=(
         "grep;test"
         "nfa-regex;test"
+        "top-n;test"
+        "sort;test"
+        "wf;test"
+        "shortest-scripts;test"
+        "sort-sort;test"
+        # "spell;test"
+    )
+elif [[ "$@" == *"--single"* ]]; then 
+    scripts_inputs=(
+        "bi-grams;test"
     )
 else
     scripts_inputs=(
@@ -45,7 +56,6 @@ all_res_file="./outputs/oneliners.res"
 # mode_res_file stores the time taken and the script name for every script in a mode (e.g. bash, pash, dish, fish)
 # all_res_file stores the time taken for each script for every script run, making it easy to copy and paste into the spreadsheet
 oneliners_bash() {
-    chmod +x ./agg_run.sh
     mkdir -p "outputs/bash"
     mode_res_file="./outputs/bash/oneliners.res"
     > $mode_res_file
@@ -56,6 +66,7 @@ oneliners_bash() {
     do
         IFS=";" read -r -a parsed <<< "${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
         script_file="./scripts/${parsed[0]}.sh" 
+        chmod +x $script_file
         input_file="./inputs/${parsed[1]}.txt"
         output_file="./outputs/bash/${parsed[0]}.out"
         time_file="./outputs/bash/${parsed[0]}.time"
@@ -71,6 +82,7 @@ oneliners_bash() {
 
 # run the onliner suite using aggregators 
 oneliners_agg() {
+    chmod +x ./agg_run.sh
     mkdir -p "outputs/agg"
     # mode_res_file="./outputs/agg/oneliners.res"
     # > $mode_res_file
@@ -84,7 +96,7 @@ oneliners_agg() {
             output_file="./outputs/agg/${parsed[0]}.out"
             time_file="./outputs/bash/${parsed[0]}.time"
             log_file="./outputs/bash/${parsed[0]}.log"
-
+            
             
             { time ./agg_run.sh $script_file $input_file > $output_file; } 2> $time_file #run file with input and direct to output
             
