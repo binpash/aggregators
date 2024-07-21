@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import utilities 
+import utils 
 
 def s_combine(parallel_res: list[str]):
     '''
@@ -17,5 +17,5 @@ def s_combine(parallel_res: list[str]):
     return str(total)
 
 
-read = utilities.read_all()
-utilities.write_file(s_combine(read)) 
+read = utils.read_all_2()
+utils.write_file(s_combine(read)) 

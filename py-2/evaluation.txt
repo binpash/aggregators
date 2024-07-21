@@ -1,9 +1,0 @@
-This test was generated on: 2024-04-22 19:22:31
-Check out sequential execution script (input / output) in ./test-par-execute.sh
-Check out parallel execution script (input / output) in ./test-par-execute.sh
-
- COUNT | FILE                 | SPLITSIZE | CMD                            | AGG             | CORRECT?  
-............................................................................................................... 
- 1     | inputs/gb37II.txt    | 2         | grep is                        | s_grep.py       | outputs/gb37II-grep-is-seq.txt outputs/gb37II-grep-is-par.txt differ: byte 65, line 1
-NO 
-...........................................................................................................DONE 

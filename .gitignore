@@ -62,3 +62,5 @@ py-2/outputs/*
 py-2/inputs/*
 py-2/data/*
 py-2/simple_combiners/*
+py-2/utilities.py
+py-2/test-old/* 

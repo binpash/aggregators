@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import utilities
+import utils
 
 def m_combine(parallel_res: list[str]):
     '''
@@ -17,7 +17,7 @@ def m_combine(parallel_res: list[str]):
     file_to_count = {}
     for line in lines: 
         grep_output_to_arr = line.split(":")
-        base_file = utilities.extract_base_file(grep_output_to_arr[0])
+        base_file = utils.extract_base_file(grep_output_to_arr[0])
         # build count map
         file_to_count.setdefault(base_file, 0)
         file_to_count[base_file] += int(grep_output_to_arr[1])
@@ -25,5 +25,5 @@ def m_combine(parallel_res: list[str]):
     # build answers to file:count if there is more than 1 file
     return '\n'.join(key+":"+str(value) for key, value in file_to_count.items())
 
-read = utilities.read_all()
-utilities.write_file(m_combine(read))
+read = utils.read_all_2()
+utils.write_file(m_combine(read))
