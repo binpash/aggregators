@@ -12,20 +12,20 @@ do
         wget "http://atlas-group.cs.brown.edu/data/unix50/${input}.txt" -q
     fi
 
-    # TODO: Maybe upload 1M and 3G files to the server?
-    if [ ! -f "${input}_1M.txt" ]; then
-        file_content_size=$(wc -c < "${input}.txt")
-        iteration_limit=$((1048576 / $file_content_size))
-        for (( i = 0; i < iteration_limit; i++ )); do
-            cat "${input}.txt" >> "${input}_1M.txt"
-        done
-    fi
+    # # TODO: Maybe upload 1M and 3G files to the server?
+    # if [ ! -f "${input}_1M.txt" ]; then
+    #     file_content_size=$(wc -c < "${input}.txt")
+    #     iteration_limit=$((1048576 / $file_content_size))
+    #     for (( i = 0; i < iteration_limit; i++ )); do
+    #         cat "${input}.txt" >> "${input}_1M.txt"
+    #     done
+    # fi
 
-    if [ ! -f "${input}_3G.txt" ]; then
-        for (( i = 0; i < 3000; i++ )); do
-            cat "${input}_1M.txt" >> "${input}_3G.txt"
-        done
-    fi
+    # if [ ! -f "${input}_3G.txt" ]; then
+    #     for (( i = 0; i < 3000; i++ )); do
+    #         cat "${input}_1M.txt" >> "${input}_3G.txt"
+    #     done
+    # fi
 
     echo "Finished processing ${input}.txt"
 done

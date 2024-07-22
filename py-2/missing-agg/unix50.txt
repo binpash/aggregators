@@ -1,0 +1,49 @@
+NOT IMPLEMENTED:  awk "{\$1=\$1};1"
+NOT IMPLEMENTED:  awk "length >= 16"
+NOT IMPLEMENTED:  awk 'length <= 45' 
+NOT IMPLEMENTED:  awk "{print \$2, \$0}" 
+NOT IMPLEMENTED:  cut -c 1-1 
+NOT IMPLEMENTED:  cut -c 1-12
+NOT IMPLEMENTED:  cut -c 1-2 
+NOT IMPLEMENTED:  cut -c 1-4
+NOT IMPLEMENTED:  cut -c 3-3 
+NOT IMPLEMENTED:  cut -d ' ' -f 1 
+NOT IMPLEMENTED:  cut -d ')' -f 1 
+NOT IMPLEMENTED:  cut -d "\"" -f 2 
+NOT IMPLEMENTED:  cut -d ' ' -f 2
+NOT IMPLEMENTED:  cut -d ' ' -f 2 
+NOT IMPLEMENTED:  cut -d '(' -f 2 
+NOT IMPLEMENTED:  cut -d ',' -f 2 
+NOT IMPLEMENTED:  cut -d '.' -f 2 
+NOT IMPLEMENTED:  cut -d ' ' -f 4 
+NOT IMPLEMENTED:  cut -f 1
+NOT IMPLEMENTED:  cut -f 1 
+NOT IMPLEMENTED:  cut -f 2
+NOT IMPLEMENTED:  cut -f 2 
+NOT IMPLEMENTED:  cut -f 4 
+NOT IMPLEMENTED:  fmt -w1 
+NOT IMPLEMENTED:  sed 1d
+NOT IMPLEMENTED:  sed 1d 
+NOT IMPLEMENTED:  sed 2d 
+NOT IMPLEMENTED:  sed 3d 
+NOT IMPLEMENTED:  sed 4d 
+NOT IMPLEMENTED:  sed 5d 
+NOT IMPLEMENTED:  sed s/\$/'0s'/
+NOT IMPLEMENTED:  sort
+NOT IMPLEMENTED:  sort 
+NOT IMPLEMENTED:  sort -n 
+NOT IMPLEMENTED:  sort -nr
+NOT IMPLEMENTED:  sort -nr 
+NOT IMPLEMENTED:  sort -r
+NOT IMPLEMENTED:  sort -r 
+NOT IMPLEMENTED:  tr '[A-Z]' '[a-z]'
+NOT IMPLEMENTED:  tr '[a-z]' '\n' 
+NOT IMPLEMENTED:  tr '[a-z]' 'P' 
+NOT IMPLEMENTED:  tr -c "[a-z][A-Z]" '\n' 
+NOT IMPLEMENTED:  tr -c '[a-z][A-Z]' '\n' 
+NOT IMPLEMENTED:  tr -c '[A-Z]' '\n' 
+NOT IMPLEMENTED:  tr -d ','
+NOT IMPLEMENTED:  tr -d '\n'
+NOT IMPLEMENTED:  tr -d '\n' 
+NOT IMPLEMENTED:  tr ' ' '\n' 
+NOT IMPLEMENTED:  tr -s ' ' '\n' 

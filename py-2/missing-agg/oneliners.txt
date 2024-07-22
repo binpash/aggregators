@@ -1,0 +1,12 @@
+NOT IMPLEMENTED:  cut -d: -f1 
+NOT IMPLEMENTED:  sed 100q
+NOT IMPLEMENTED:  sort
+NOT IMPLEMENTED:  sort 
+NOT IMPLEMENTED:  sort -n 
+NOT IMPLEMENTED:  sort -r
+NOT IMPLEMENTED:  sort -rn
+NOT IMPLEMENTED:  sort -rn 
+NOT IMPLEMENTED:  tr A-Z a-z 
+NOT IMPLEMENTED:  tr -c 'A-Za-z' '[\n*]' 
+NOT IMPLEMENTED:  xargs file 
+NOT IMPLEMENTED:  xargs -L 1 wc -l 
