@@ -25,7 +25,7 @@ def read_file_2(file_path):
 
 def file_content_to_str_arr(file_path):
     try: 
-        content = read_file(file_path=file_path)
+        content = read_file(file_path)
         # remove final '\n' at the end of the file
         # if len(content) > 0 and content[-1].endswith('\n'): content = content[:-1]
         return str(content)

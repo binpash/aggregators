@@ -27,6 +27,6 @@ def combiner(a, b):
   # print pair
   return a[:-1]  + pair + b[1:]
 
-utils.help()
+
 res = functools.reduce(combiner, utils.read_all(), [])
 utils.out("".join(res))

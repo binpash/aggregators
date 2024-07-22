@@ -13,7 +13,7 @@ OUTPUT_DIR="outputs-temp/agg/"
 mkdir -p "${OUTPUT_DIR%/}"
 
 # RUN THIS FILE TO EXECUTE ENTIRE SCRIPT WHEN AGG PRESENT
-EXECFILE='./execution.sh'
+EXECFILE="./execution.sh"
 echo "## Run this file to execute entire script considering aggregators! " > $EXECFILE
 
 # LOG FILE FOR DEBUGGING 
@@ -27,14 +27,16 @@ declare -A CMDMAP=(
     ["grep -c"]="s_grep_c.py" 
     ["uniq"]="s_uniq.py" 
     ["uniq -c"]="s_uniq_c.py"
+    ["head"]="s_head.py"
+    ["tail"]="s_tail.py"
     ) 
 
 seq() {
-    S_OUTPUT=$(./test-seq-driver.sh "$1" "$2" "$3" "$4" "$5")
+    S_OUTPUT=$(../test-seq-driver.sh "$1" "$2" "$3" "$4" "$5")
 }
 
 par() {
-    P_OUTPUT=$(./test-par-driver.sh "$1" "$2" "$3" "$4" "$5" "$6" "$7")
+    P_OUTPUT=$(../test-par-driver.sh "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8")
 }
 
 parse_simple() {
@@ -125,7 +127,7 @@ run() {
             # split input according to split size
             local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT")
             # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files
-            par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}"
+            par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "inputs-s"
             # run agg script with files ran with cmd 
             eval "$P_OUTPUT"
             # parse out the output file to use as next input

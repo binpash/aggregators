@@ -6,7 +6,6 @@ PAD_LEN = None
 def parseLine(s):
   global PAD_LEN
   if PAD_LEN == None : PAD_LEN = 7
-  sys.stderr.write(str(PAD_LEN))
   res = s.split(None, 1)
   try: 
     return (int(res[0]), res[1])
@@ -33,6 +32,5 @@ def agg(a, b):
     return b
   return a[:-1]  + combinePair(a[-1], b[0]) + b[1:]
 
-utils.help()
 res = functools.reduce(agg, utils.read_all(), [])
 utils.out("".join(res))
