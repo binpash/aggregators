@@ -33,11 +33,11 @@ Note: after completing these steps the aggregator will automatically be built by
 - After running terminal commands on file inputs using parallelization with PaSh, we must find a way to combine those parallel outputs correctly so the parallel execution of command produced matches the sequential execution
 - This directory contains:
   - several aggregators in python and bash scripts that reads parallel ouput results and combines them
-  - utilitie functions to assist with
+  - util functions to assist with
     - reading + writing from/to files
     - parsing read input into string arrays for the aggregator functions
     - (for combining results of commands applied to multiple input files) matching command ran on split files in output by parsing out original full file name to ensure final combined result utilizes the original file name
-  - testing scripts, highest level of execution being `./test-driver.sh` (edit here to add more tests)
+  - benchmarks to test correctness, performance, and identify implemented/not implemented aggregators 
 
 ## Running Aggregators
 
@@ -57,8 +57,13 @@ Note: after completing these steps the aggregator will automatically be built by
 | `./s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) <li>`.sh` for more accurate result compared to going through utilities file                                              |
 | `./s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
 | `./s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still |
+| `./s_head.py` | No                     | <li> Combines `head` results by always returning former split document when given multiple split documents </li> | Test working on files with ~10 lines |
+| `./s_tail.py` | No                     | <li> Combines `tail` results by always returning later split document when given multiple split documents </li> | Test working on files with ~10 lines |
+| `./s_uniq.py` | No                     | <li> Combines `uniq` , merge same lines at end of files/beginning of files </li> | |
+| `./s_uniq_c.py` | No                     | <li> Combines `uniq -c`, merge count </li> | |
 
-### Testing
+
+### Benchmarks 
 
 - The testing infrastructure pattern (how expected result vs. actual results are produced when applying commands and aggregators appropriately)
 
