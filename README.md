@@ -76,8 +76,18 @@ Note: after completing these steps the aggregator will automatically be built by
 - `./agg_run.sh [script] [input]` : applies available `agg` on scripts with `cmd` separated by `|` 
    -  `CMDMAP`: includes all current available `agg` for cmds + flags  
    - parse script into `CMDLIST`, running below with each cmd: 
-      - if current cmd has implemented `agg`, split file into `SIZE=2` and apply `./test-par-driver.sh` to run each split file with cmd and apply `agg` 
+      - if current cmd has implemented `agg`, split file into `SIZE=2` and apply `./test-par-driver.sh` to run each split file with cmd and apply `agg`
+        ```
+        Parallel:
+        cat file-0 | $CMD > file-0-par
+        cat file-1 | $CMD > file-1-par
+        agg file-0-par file-1-par > file-par.txt
+        ```
       - if current cmd doesn't have implemented `agg`, run script through this command sequentially with `./test-seq-driver.sh`
+        ```
+        Sequential:
+        cat file | $CMD > file-seq.txt
+        ```
       - output becomes the new input to next iteration 
    - records script + input ran and whether each cmd has a `agg` to `log.txt`
 - `./find-missing.sh [log.txt]`: outputs only cmd that doesn't have a `agg` implemented
