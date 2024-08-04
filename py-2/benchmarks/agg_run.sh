@@ -29,6 +29,8 @@ declare -A CMDMAP=(
     ["uniq -c"]="s_uniq_c.py"
     ["head"]="s_head.py"
     ["tail"]="s_tail.py"
+    ["tail -n"]="NA"
+    # ["sort"]="s_sort.py"
     ) 
 
 seq() {
@@ -86,8 +88,8 @@ find_agg() {
         #   EX: grep -c => grep_c
         RESULT="${CMDMAP["$PARSE"]}"
        
-        # if the agg doesn't have a flag version, return agg without flags
-        #   wc -l => wc & wc -lm => wc (share same agg)
+        # # if the agg doesn't have a flag version, return agg without flags
+        # #   wc -l => wc & wc -lm => wc (share same agg)
         if [ -z "${RESULT}" ]; then
             RESULT=${CMDMAP[${CMD}]}
         fi
@@ -109,10 +111,8 @@ run() {
         if [[ $CURR_CMD_COUNT == 0 ]]; then 
             CURR_INPUT=$INPUT_FILE
         fi
-
         AGG="$(find_agg "${CMD}")"  # See if agg exist
-        
-        if [[ -z "$AGG" ]]; then 
+        if [[ -z "$AGG" || "$AGG" == "NA" ]]; then 
         ## agg not found, pass entire input through cmd as normal 
             echo "NOT IMPLEMENTED: $CMD" >> $LOG_FILE 
             # get sequential execution line
