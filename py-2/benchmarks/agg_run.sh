@@ -30,7 +30,13 @@ declare -A CMDMAP=(
     ["head"]="s_head.py"
     ["tail"]="s_tail.py"
     ["tail -n"]="NA"
-    # ["sort"]="s_sort.py"
+    ["sort"]="s_sort.py"
+    ["sort -nr"]="s_sort_rn.py"
+    ["sort -rn"]="s_sort_rn.py"
+    ["sort -n"]="s_sort_n.py"
+    ["sort -r"]="s_sort_r.py"
+    ["sort -u"]="NA"
+    ["sort -k 1 -n"]="NA"
     ) 
 
 seq() {

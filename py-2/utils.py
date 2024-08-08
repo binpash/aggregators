@@ -1,20 +1,23 @@
-import sys, subprocess, os, re 
+import sys, subprocess, os, re, locale, io 
 
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 EOF_IS_NL = True
 
 def read_file(fname):
   try:
-    return open(fname, 'r', encoding='utf-8-sig').readlines()
+    return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
   except IOError as _err:
     # os.path.basename(sys.argv[0]) + ": " + 
-    sys.stderr.write(f + ": " + _err.strerror + "\n")
+    sys.stderr.write(fname + ": " + _err.strerror + "\n")
 
-def read_all(): 
+def read_all(append_NL_end=False): 
   global EOF_IS_NL
   all_contents = []
   for f in sys.argv[1:]:
     contents = read_file(f)
     EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
+    if append_NL_end: 
+      if EOF_IS_NL is False: contents[-1] += "\n"
     all_contents.append(contents)
   return all_contents
 
