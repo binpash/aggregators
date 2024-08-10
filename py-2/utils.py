@@ -4,21 +4,22 @@ locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 EOF_IS_NL = True
 
 def read_file(fname):
-  try:
-    return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
-  except IOError as _err:
-    # os.path.basename(sys.argv[0]) + ": " + 
-    sys.stderr.write(fname + ": " + _err.strerror + "\n")
+  return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
+  
 
 def read_all(append_NL_end=False): 
   global EOF_IS_NL
   all_contents = []
   for f in sys.argv[1:]:
-    contents = read_file(f)
-    EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
-    if append_NL_end: 
-      if EOF_IS_NL is False: contents[-1] += "\n"
-    all_contents.append(contents)
+    try: 
+      contents = read_file(f)
+      EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
+      if append_NL_end: 
+        if EOF_IS_NL is False: contents[-1] += "\n"
+      all_contents.append(contents)
+    except IOError as _err:
+      # sys.stderr.write(f + ": " + _err.strerror + "\n") 
+      continue 
   return all_contents
 
 def read_file_2(file_path):
@@ -85,20 +86,6 @@ def execute(command, data):
     # Python 3 equivalent:
     # p = subprocess.run([cmd], stdout=subprocess.PIPE, input=data, encoding='ascii', check=True)
     # return p.stdout
-
-def help(c=cmd()):
-  m = c
-  s = ' <(cat 1.t | ' + m + ') <(cat 2.t | ' + m + ') <(cat 3.t | ' + m + ')'
-  # if len(sys.argv) < 2:
-  #   print 'echo "one\\ntwo\\nthree" > 1.t'
-  #   print 'echo "four\\nfive" > 2.t'
-  #   print 'echo "one\\ntwo\\nthree" > 3.t'
-  #   print sys.argv[0] + s
-  #   print '\nTo quickly test equivalence: '
-  #   print sys.argv[0] + s + ' > par.txt'
-  #   print 'cat 1.t 2.t 3.t | ' + m + ' > seq.txt'
-  #   print 'diff {seq,par}.txt'
-
 
 def findPadLength(s): 
   return len(s) - len(s.lstrip(' '))
