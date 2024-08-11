@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Global variables -- grab from passed-in arguments
-
+# Global variables -- grab from passed-in arguments 
 FULLFILE=$1
 shift
 
@@ -15,7 +14,6 @@ CMD=$1
 shift
 
 AGG="../../$1"
-chmod +x $AGG
 shift
 
 P=$1

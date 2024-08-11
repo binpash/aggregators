@@ -1,7 +1,7 @@
 # Given a script and a input file 
 #   1. Parse out the commands from the entire pipeline -- (test each commands one by one) ··
 #   2. With each command, find the right aggregator to use 
-#   3. Run this  
+#   3. Run this 
 
 ## SET UP GLOBAL VARs
 SPLIT_SIZE=2    # change split size for different sizes the files should be split into 
@@ -31,10 +31,10 @@ declare -A CMDMAP=(
     ["tail"]="s_tail.py"
     ["tail -n"]="NA"
     ["sort"]="s_sort.py"
-    ["sort -nr"]="s_sort_rn.py"
-    ["sort -rn"]="s_sort_rn.py"
-    ["sort -n"]="s_sort_n.py"
-    ["sort -r"]="s_sort_r.py"
+    ["sort -nr"]="s_sort.py -rn"
+    ["sort -rn"]="s_sort.py -rn"
+    ["sort -n"]="s_sort.py -n"
+    ["sort -r"]="s_sort.py -r"
     ["sort -u"]="NA"
     ["sort -k 1 -n"]="NA"
     ) 

@@ -1,11 +1,8 @@
 import sys, subprocess, os, re, locale, io 
 
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 EOF_IS_NL = True
-
 def read_file(fname):
   return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
-  
 
 def read_all(append_NL_end=False): 
   global EOF_IS_NL
