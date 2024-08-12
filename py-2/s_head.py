@@ -6,6 +6,5 @@ def agg(a, b):
     return b
   return a
 
-utils.help()
 res = functools.reduce(agg, utils.read_all(), [])
 utils.out("".join(res))

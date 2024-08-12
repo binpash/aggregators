@@ -9,7 +9,7 @@ parser.add_argument('-r', action='store_true', help="reverse sort; larger values
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")
 args, unknown = parser.parse_known_args()
 
-locale.setlocale(locale.LC_ALL, locale.getlocale()) # ensure locale is correct 
+locale.setlocale(locale.LC_ALL, "") # ensure locale is correct 
 
 ## SORT UTILS FUNCTIONS ## 
 def atof(str):
@@ -28,7 +28,14 @@ def natural_keys(str):
 # compare based on numerical values 
 def compare_num(a,b): 
     res = [a,b]
-    res = sorted(res, key=natural_keys) # cmp using correct locale, by float 
+    a.strip()
+    b.strip()
+    try: 
+        res = sorted(res, key=natural_keys) # cmp using correct locale, by float 
+        if res[0].split()[0] == res[1].split()[0]: 
+            res = sorted(res, key=locale.strxfrm) # ensure rest of string is sorted normally if num is same
+    except:
+        res = sorted(res, key=locale.strxfrm) 
     return -1 if res[0] == a else 1 
  
 # compare based on number and alphabetical chars only 
