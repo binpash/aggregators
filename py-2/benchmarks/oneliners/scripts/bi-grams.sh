@@ -13,6 +13,4 @@
 
 # ../scripts/bi-gram.aux.sh # took out main aux function pipeline and replaced it for call to bigrams_aux function  
 
-cat $1 | tr -c 'A-Za-z' '[\n*]' | grep -v "^\s*$" | tee | tail -n +2 | paste | sed '$d' | tr A-Z a-z | sort 
-# | uniq (Currently does not work with agg)
-# tee | tail -n +2 | sed '$d' | 
+cat $1 | tr -c 'A-Za-z' '[\n*]' | grep -v "^\s*$" | tee | tail -n +2 | paste | sed '$d' | tr A-Z a-z | sort | uniq

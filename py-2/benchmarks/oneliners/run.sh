@@ -13,10 +13,11 @@ if [[ "$@" == *"--small"* ]]; then
         "wf;1M"
         "sort-sort;1M"
         "shortest-scripts;all_cmds"
-        # "spell;1M"
-        # "diff;1M"
-        # "bi-grams;1M"
-        # "set-diff;1M"
+        "spell;1M"
+        "diff;1M"
+        "bi-grams;1M"
+        "set-diff;1M"
+        "set-diff-2;1M"
     )
 elif [[ "$@" == *"--test"* ]]; then 
     scripts_inputs=(
@@ -29,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then 
     scripts_inputs=(
-         "grep;1M"
+        "bi-grams;1M"
     )
 else
     scripts_inputs=(
@@ -45,6 +46,8 @@ else
         "shortest-scripts;all_cmdsx100"
     )
 fi
+
+dos2unix inputs/1M.txt 
 
 mkdir -p "outputs"
 all_res_file="./outputs/oneliners.res"
