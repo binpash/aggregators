@@ -10,9 +10,10 @@ def read_all(append_NL_end=False):
   for f in sys.argv[1:]:
     try: 
       contents = read_file(f)
-      EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
-      if append_NL_end: 
-        if EOF_IS_NL is False: contents[-1] += "\n"
+      if contents: 
+        EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
+        if append_NL_end: 
+          if EOF_IS_NL is False: contents[-1] += "\n"
       all_contents.append(contents)
     except IOError as _err:
       # sys.stderr.write(f + ": " + _err.strerror + "\n") 
@@ -58,11 +59,6 @@ def write_file(content:str):
     sys.stdout.write(content + "\n")
     sys.stdout.flush()
 
-#def out():
-#  if (sys.version_info.major == 2):
-#    print **locals(),
-#  else:
-#    print(**locals(), end=' ')
 def out(s):
   global EOF_IS_NL
   if not s.endswith('\n') and EOF_IS_NL:

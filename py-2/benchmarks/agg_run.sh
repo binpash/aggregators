@@ -23,8 +23,8 @@ echo "Running aggregators for script: $SCRIPT and input file: $INPUT_FILE" >> $L
 ## AGG MAP (aggregators we have)
 declare -A CMDMAP=(
     ["wc"]="s_wc.py" ## for all wc and flags 
-    ["grep"]="s_grep.sh" 
-    ["grep -c"]="s_grep_c.py" 
+    ["grep"]="s_grep.py" 
+    ["grep -c"]="s_grep.py -c" 
     ["uniq"]="s_uniq.py" 
     ["uniq -c"]="s_uniq_c.py"
     ["head"]="s_head.py"
