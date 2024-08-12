@@ -6,6 +6,7 @@ import argparse, functools, utils, re, locale
 parser = argparse.ArgumentParser(description="Check which flags we use for sort")
 parser.add_argument('-n', action='store_true', help="numeric sort")
 parser.add_argument('-r', action='store_true', help="reverse sort; larger values goes in front")
+parser.add_argument('-u', action='store_true', help="uniq sort")
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")
 args, unknown = parser.parse_known_args()
 
@@ -61,17 +62,20 @@ def sort_basic(a_list, b_list):
     
     a_curr, b_curr = 0, 0 
     while a_curr < len(a_list) and b_curr < len(b_list):
-        comp_res = compare(a_list[a_curr], b_list[b_curr])
-        if args.r:
-            comp_res *= -1    
-        if (comp_res < 0):
-            # a is smaller (goes in front)
-            res.append(a_list[a_curr]) 
-            a_curr += 1 
-        else: 
-            res.append(b_list[b_curr])
-            b_curr += 1 
-    
+        if args.u and a_list[a_curr] == b_list[b_curr]:
+            b_curr += 1 # skip over b to not consider the same value
+        else:  
+            comp_res = compare(a_list[a_curr], b_list[b_curr])
+            if args.r:
+                comp_res *= -1    
+            if (comp_res < 0):
+                # a is smaller (goes in front)
+                res.append(a_list[a_curr]) 
+                a_curr += 1 
+            else: 
+                res.append(b_list[b_curr])
+                b_curr += 1 
+        
     # if a ended, add all b; else add all a
     if a_curr < len(a_list): 
         res = res + a_list[a_curr:]

@@ -35,7 +35,7 @@ declare -A CMDMAP=(
     ["sort -rn"]="s_sort.py -rn"
     ["sort -n"]="s_sort.py -n"
     ["sort -r"]="s_sort.py -r"
-    ["sort -u"]="NA"
+    ["sort -u"]="s_sort.py -u"
     ["sort -k 1 -n"]="NA"
     ) 
 
