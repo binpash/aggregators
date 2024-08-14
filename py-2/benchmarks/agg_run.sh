@@ -36,6 +36,7 @@ declare -A CMDMAP=(
     ["sort -n"]="s_sort.py -n"
     ["sort -r"]="s_sort.py -r"
     ["sort -u"]="s_sort.py -u"
+    ["sort -f"]="s_sort.py -f"
     ["sort -k 1 -n"]="NA"
     ) 
 
@@ -69,11 +70,7 @@ mkdir_get_split() {
     WITHOUTTXT=$(basename "${FILE}" .txt)
     SPLIT_DIR="inputs-s/${WITHOUTTXT}/"
     mkdir -p "${SPLIT_DIR%/}"  
-    if [ $(wc -l < "$FILE" ) -le 0 ]; then 
-        touch "${SPLIT_DIR}${WITHOUTTXT}"-00.txt 
-    else 
-        split -dl $(($(wc -l < "$FILE") / SPLIT_SIZE)) -a 2 --additional-suffix=${FILE_TYPE} "$FILE" "${SPLIT_DIR}${WITHOUTTXT}"-
-    fi 
+    split -dl $(($(wc -l < "$FILE") / SPLIT_SIZE)) -a 2 --additional-suffix=${FILE_TYPE} "$FILE" "${SPLIT_DIR}${WITHOUTTXT}"-
     split_files=("${SPLIT_DIR}${WITHOUTTXT}-"*)    
     echo "${split_files[@]}"
 }
@@ -130,14 +127,27 @@ run() {
         else
         ## has agg for cmd + flag
             echo "IMPLEMENTED: $CMD" >> $LOG_FILE 
-            # split input according to split size
-            local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT")
-            # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files
-            par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "inputs-s"
-            # run agg script with files ran with cmd 
-            eval "$P_OUTPUT"
-            # parse out the output file to use as next input
-            CURR_INPUT=$(echo "$P_OUTPUT" | awk -F '> ' '{print $2}')
+            # split input according to split size; don't split if the file is empty 
+            if ! grep -q . "$CURR_INPUT"; then 
+                seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
+                eval "$S_OUTPUT"
+                CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
+            else 
+                local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT") 
+                # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files
+                par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "inputs-s"
+                # run agg script with files ran with cmd 
+                eval "$P_OUTPUT"
+                if [ $? -eq 1 ]; then
+                    echo "Cannot read in file correctly" >&2
+                    seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
+                    eval "$S_OUTPUT"
+                    CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
+                else
+                    # parse out the output file to use as next input
+                    CURR_INPUT=$(echo "$P_OUTPUT" | awk -F '> ' '{print $2}')
+                fi
+            fi
         fi
         ((CURR_CMD_COUNT++))
     done
