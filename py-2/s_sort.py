@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-import argparse, functools, utils, re, locale
+import argparse, functools, utils, re, locale, sys
 
 ## SORT FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for sort")
 parser.add_argument('-n', action='store_true', help="numeric sort")
 parser.add_argument('-r', action='store_true', help="reverse sort; larger values goes in front")
 parser.add_argument('-u', action='store_true', help="uniq sort")
+parser.add_argument('-f', action='store_true', help="ignore case sort")
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")
 args, unknown = parser.parse_known_args()
 
@@ -43,6 +44,8 @@ def compare_num(a,b):
 def compare_alphanum(a,b): 
     res = [a,b] 
     res = sorted(res, key=locale.strxfrm) # cmp using correct locale
+    if args.f: 
+        res = sorted(res, key=lambda s: s.upper())
     return -1 if res[0] == a else 1
 
 # determine which compare function to use
@@ -86,5 +89,8 @@ def sort_basic(a_list, b_list):
 def agg(a, b):
     return sort_basic(a,b)
 
-res = functools.reduce(agg, utils.read_all(), [])
-utils.out("".join(res)) 
+try: 
+    res = functools.reduce(agg, utils.read_all(), [])
+    utils.out("".join(res)) 
+except: 
+    sys.exit(1)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import functools, argparse, utils
+import functools, argparse, utils, sys
 
 ## SORT FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for uniq")
@@ -56,6 +56,8 @@ def agg(a, b):
     # pair = combineBlackbox(a[-1], b[0])
     # print pair
     return a[:-1]  + pair + b[1:]
-
-res = functools.reduce(agg, utils.read_all(), [])
-utils.out("".join(res))
+try: 
+  res = functools.reduce(agg, utils.read_all(), [])
+  utils.out("".join(res))
+except UnicodeDecodeError: 
+  sys.exit(1)
