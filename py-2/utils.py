@@ -2,7 +2,10 @@ import sys, subprocess, os, re, locale, io
 
 EOF_IS_NL = True
 def read_file(fname):
-  return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
+  try: 
+    return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
+  except UnicodeDecodeError: 
+    raise UnicodeDecodeError
 
 def read_all(append_NL_end=False): 
   global EOF_IS_NL
@@ -17,7 +20,7 @@ def read_all(append_NL_end=False):
       all_contents.append(contents)
     except IOError as _err:
       # sys.stderr.write(f + ": " + _err.strerror + "\n") 
-      continue 
+      continue
   return all_contents
 
 def read_file_2(file_path):
@@ -60,7 +63,11 @@ def write_file(content:str):
     sys.stdout.flush()
 
 def out(s):
+  # print(s)
   global EOF_IS_NL
+  if (not s): 
+    sys.stdout.write("")
+    return
   if not s.endswith('\n') and EOF_IS_NL:
     sys.stdout.write(s + '\n')
   else:
