@@ -39,14 +39,14 @@ names_scripts=(
     "verses_2om_3om_2instances;6_7-2"
     "verses_2om_3om_2instances;6_7-3"
     "vowel_sequencies_gr_1K;8.2_1"
-    "verses_2om_3om_2instances;6_7" # might need separate re-run
-    "bigrams;4_3" # might need separate re-run 
-    "count_vowel_seq;2_2" # might need separate re-run
-    "count_words;1_1" # might need separate re-run
-    "sort;3_1" # might need separate re-run
-    "sort_words_by_rhyming;3_3" # might need separate re-run
-    "words_no_vowels;6_3" # might need separate re-run
-    "merge_upper;2_1" # might need separate re-run
+    "verses_2om_3om_2instances;6_7" 
+    "bigrams;4_3"  
+    "count_vowel_seq;2_2" 
+    "count_words;1_1" 
+    "sort;3_1" 
+    "sort_words_by_rhyming;3_3" 
+    "words_no_vowels;6_3" 
+    "merge_upper;2_1" 
 )
 
 mkdir -p "outputs"
