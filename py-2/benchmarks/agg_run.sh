@@ -8,7 +8,7 @@ SPLIT_SIZE=2    # change split size for different sizes the files should be spli
 SCRIPT=$1 
 INPUT_FILE=$2
 FILE_TYPE=".txt"
-
+SPLIT_TOP="inputs-s-"$3
 OUTPUT_DIR="outputs-temp/agg/"
 mkdir -p "${OUTPUT_DIR%/}"
 
@@ -68,7 +68,7 @@ parse_simple() {
 mkdir_get_split() {
     local FILE=$1
     WITHOUTTXT=$(basename "${FILE}" .txt)
-    SPLIT_DIR="inputs-s/${WITHOUTTXT}/"
+    SPLIT_DIR="${SPLIT_TOP}/${WITHOUTTXT}/"
     mkdir -p "${SPLIT_DIR%/}"  
     split -dl $(($(wc -l < "$FILE") / SPLIT_SIZE)) -a 2 --additional-suffix=${FILE_TYPE} "$FILE" "${SPLIT_DIR}${WITHOUTTXT}"-
     split_files=("${SPLIT_DIR}${WITHOUTTXT}-"*)    
@@ -135,7 +135,7 @@ run() {
             else 
                 local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT") 
                 # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files
-                par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "inputs-s"
+                par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "${SPLIT_TOP}"
                 # run agg script with files ran with cmd 
                 eval "$P_OUTPUT"
                 if [ $? -eq 1 ]; then

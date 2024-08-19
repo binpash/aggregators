@@ -42,6 +42,8 @@ covid-mts_bash() {
     done
 }
 
+ID=1 # track agg run
+
 covid-mts_agg() {
     AGG_FILE="../agg_run.sh"
     chmod +x $AGG_FILE
@@ -59,7 +61,7 @@ covid-mts_agg() {
         output_file="./outputs/agg/$script.out"
         time_file="./outputs/agg/$script.time"
         log_file="./outputs/agg/$script.log"
-        { time ../agg_run.sh $script_file $input_file oneliners > $output_file; } 2> $time_file #run file with input and direct to output
+        { time ../agg_run.sh $script_file $input_file $ID oneliners > $output_file; } 2> $time_file #run file with input and direct to output
         
         cat "${time_file}" >> $all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file

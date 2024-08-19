@@ -53,9 +53,7 @@ mkdir -p "outputs"
 all_res_file="./outputs/nlp.res"
 > $all_res_file
 
-# time_file stores the time taken for each script
-# mode_res_file stores the time taken and the script name for every script in a mode (e.g. bash, pash, dish, fish)
-# all_res_file stores the time taken for each script for every script run, making it easy to copy and paste into the spreadsheet
+ID=1 # track agg run
 nlp() {
     mkdir -p "outputs/$1"
     mode_res_file="./outputs/$1/nlp.res"
@@ -70,7 +68,6 @@ nlp() {
         script="${name_script_parsed[1]}"
         script_file="./scripts/$script.sh"
         output_dir="./outputs/$1/$script/"
-        # output_file="./outputs/$1/$script.out"
         time_file="./outputs/$1/$script.time"
         log_file="./outputs/$1/$script.log"
         # output_file contains "done" when run successfully. The real outputs are under output_dir/
@@ -94,8 +91,9 @@ nlp() {
             for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
             do
                 output_file=$OUT/${input}.out
-                (time ../agg_run.sh $script_file $IN/$input nlp > $output_file) 2> $time_file
+                (time ../agg_run.sh $script_file $IN/$input $ID nlp > $output_file) 2> $time_file
             done
+            ((ID++))
         fi
 
         cat "${time_file}" >> $all_res_file
