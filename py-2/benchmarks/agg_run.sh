@@ -88,14 +88,15 @@ find_agg() {
     FLAG="$(echo "${FULL}" | cut -d ' ' -f2)"
 
     # see if we use flags, build agg file path
+    AGG_FILE_NO_FLAG="s_$CMD.py"
     if [ "${FLAG:0:1}" = "-" ]; then
         AGG_FILE="s_$CMD.py $FLAG"
     else
-        AGG_FILE="s_$CMD.py"
+        AGG_FILE=$AGG_FILE_NO_FLAG
     fi
 
     # check if the agg exist
-    if [ -f "../filename" ]; then
+    if [ -f "../../${AGG_FILE_NO_FLAG}" ]; then
         echo "${AGG_FILE}"
     else
         echo ""
