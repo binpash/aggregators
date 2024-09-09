@@ -86,7 +86,10 @@ find_agg() {
 
     # Parse CMD out from Flags
     CMD="$(echo "${FULL}" | cut -d ' ' -f1)"
-    FLAG="$(echo "${FULL}" | cut -d ' ' -f2)"
+    FLAG="$(echo "${FULL}" | cut -d ' ' -f2-)"
+    # FLAG="$(echo "${FULL}" | cut -d ' ' -f2)"
+    # "${FLAG:0:1}" = "-"
+    # echo $FLAG >&2
 
     # see if we use flags, build agg file path
     AGG_FILE_NO_FLAG="s_$CMD.py"
