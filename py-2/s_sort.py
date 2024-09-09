@@ -37,9 +37,8 @@ def compare_num(a,b):
     b.strip()
     try: 
         res = sorted(res, key=natural_keys) # cmp using correct locale, by float 
-        print(args.c)
-        if args.c > 0: 
-            res = sorted(res, key=operator.itemgetter(args.c)) # cmp using correct locale, by float 
+        if args.k > 0: 
+            res = sorted(res, key=operator.itemgetter(args.k)) # cmp using correct locale, by float 
         if res[0].split()[0] == res[1].split()[0]: 
             res = sorted(res, key=locale.strxfrm) # ensure rest of string is sorted normally if num is same
     except:
