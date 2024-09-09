@@ -1,4 +1,5 @@
 import sys, subprocess, os, re, locale, io 
+from subprocess import check_output
 
 EOF_IS_NL = True
 def read_file(fname):
@@ -89,6 +90,11 @@ def execute(command, data):
 
 def findPadLength(s): 
   return len(s) - len(s.lstrip(' '))
+
+def getExactLocale(): 
+  all_locale_setting = check_output(["locale"]).decode(sys.stdout.encoding)
+  sys_locale = all_locale_setting.split('\n')[0].split("=")[1]
+  return sys_locale
 
 def match_file(full_file, par_file):
     match = full_file.split(".txt")[0]
