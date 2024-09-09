@@ -43,7 +43,7 @@ if [[ "$@" == *"--small"* ]]; then
         "35;11_1M"
         "36;11_1M"
     )
-elif [[ "$@" == *"--reg"* ]]; then 
+elif [[ "$@" == *"--reg"* ]]; then
     scripts_inputs=(
         "1;1"
         "2;1"
@@ -82,12 +82,12 @@ elif [[ "$@" == *"--reg"* ]]; then
         "35;11"
         "36;11"
     )
-elif [[ "$@" == *"--single"* ]]; then 
-     scripts_inputs=(
-        "13;5"
-     )
+elif [[ "$@" == *"--single"* ]]; then
+    scripts_inputs=(
+        "4;1"
+    )
 else
-        scripts_inputs=(
+    scripts_inputs=(
         "1;1_3G"
         "2;1_3G"
         "3;1_3G"
@@ -129,7 +129,7 @@ fi
 
 mkdir -p "outputs"
 all_res_file="./outputs/unix50.res"
-> $all_res_file
+>$all_res_file
 
 # time_file stores the time taken for each script
 # mode_res_file stores the time taken and the script name for every script in a mode (e.g. bash, pash, dish, fish)
@@ -137,50 +137,48 @@ all_res_file="./outputs/unix50.res"
 unix50_bash() {
     mkdir -p "outputs/bash"
     mode_res_file="./outputs/bash/unix50.res"
-    > $mode_res_file
+    >$mode_res_file
 
     echo executing unix50 bash $(date) | tee -a $mode_res_file $all_res_file
 
-    for script_input in ${scripts_inputs[@]}
-    do
-        IFS=";" read -r -a parsed <<< "${script_input}"
+    for script_input in ${scripts_inputs[@]}; do
+        IFS=";" read -r -a parsed <<<"${script_input}"
         script_file="./scripts/${parsed[0]}.sh"
         input_file="./inputs/${parsed[1]}.txt"
         output_file="./outputs/bash/${parsed[0]}.out"
         time_file="./outputs/bash/${parsed[0]}.time"
         log_file="./outputs/bash/${parsed[0]}.log"
 
-        { time $script_file $input_file > $output_file; } 2> $time_file
-        
-        cat "${time_file}" >> $all_res_file
+        { time $script_file $input_file >$output_file; } 2>$time_file
+
+        cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file
     done
 }
 
 ID=1 # track agg run
 
-# run the unix50 suite using aggregators 
+# run the unix50 suite using aggregators
 unix50_agg() {
     AGG_FILE="../agg_run.sh"
     chmod +x $AGG_FILE
     mkdir -p "outputs/agg"
     # mode_res_file="./outputs/agg/oneliners.res"
     # > $mode_res_file
-    
+
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
-    for script_input in ${scripts_inputs[@]}
-        do
-            IFS=";" read -r -a parsed <<< "${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
-            script_file="./scripts/${parsed[0]}.sh" 
-            input_file="./inputs/${parsed[1]}.txt"
-            output_file="./outputs/agg/${parsed[0]}.out"
-            time_file="./outputs/agg/${parsed[0]}.time"
-            log_file="./outputs/agg/${parsed[0]}.log"
-            { time ../agg_run.sh $script_file $input_file $ID unix50 > $output_file; } 2> $time_file #run file with input and direct to output
-            
-            cat "${time_file}" >> $all_res_file
-            echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file
-            ((ID++))
+    for script_input in ${scripts_inputs[@]}; do
+        IFS=";" read -r -a parsed <<<"${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
+        script_file="./scripts/${parsed[0]}.sh"
+        input_file="./inputs/${parsed[1]}.txt"
+        output_file="./outputs/agg/${parsed[0]}.out"
+        time_file="./outputs/agg/${parsed[0]}.time"
+        log_file="./outputs/agg/${parsed[0]}.log"
+        { time ../agg_run.sh $script_file $input_file $ID unix50 >$output_file; } 2>$time_file #run file with input and direct to output
+
+        cat "${time_file}" >>$all_res_file
+        echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file
+        ((ID++))
     done
 }
 
