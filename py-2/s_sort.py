@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
 import argparse, functools, utils, re, locale, sys
+import operator
 
 ## SORT FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for sort")
 parser.add_argument('-n', action='store_true', help="numeric sort")
+parser.add_argument('-k', action='store_true', default=0, help="with key")
 parser.add_argument('-r', action='store_true', help="reverse sort; larger values goes in front")
 parser.add_argument('-u', action='store_true', help="uniq sort")
 parser.add_argument('-f', action='store_true', help="ignore case sort")
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")
 args, unknown = parser.parse_known_args()
 
-locale.setlocale(locale.LC_ALL, "") # ensure locale is correct 
+locale.setlocale(locale.LC_ALL, "en_US.UTF-8") # ensure locale is correct 
 
 ## SORT UTILS FUNCTIONS ## 
 def atof(str):
@@ -34,6 +36,9 @@ def compare_num(a,b):
     b.strip()
     try: 
         res = sorted(res, key=natural_keys) # cmp using correct locale, by float 
+        if args.c > 0: 
+            print(args.c)
+            res = sorted(res, key=operator.itemgetter(args.c)) # cmp using correct locale, by float 
         if res[0].split()[0] == res[1].split()[0]: 
             res = sorted(res, key=locale.strxfrm) # ensure rest of string is sorted normally if num is same
     except:

@@ -16,7 +16,8 @@ mkdir -p "${OUTPUT_DIR%/}"
 
 # RUN THIS FILE TO EXECUTE ENTIRE SCRIPT WHEN AGG PRESENT
 EXECFILE="./execution.sh"
-echo "## Run this file to execute entire script considering aggregators! " >$EXECFILE
+echo "#!/bin/bash" >>$EXECFILE
+echo "## Run this file to execute entire script considering aggregators!" >$EXECFILE
 
 # LOG FILE FOR DEBUGGING
 LOG_FILE="log.txt"

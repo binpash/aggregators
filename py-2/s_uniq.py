@@ -9,21 +9,20 @@ args, unknown = parser.parse_known_args()
 
 ## UTILS FOR UNIQ ## 
 def combinePair(a, b):
-  # print(a, b)
   if (a == b):
     return [a]
   else:
     return [a, b] # already strings, no need to emit
 
-def combineBlackbox(a, b):
-  return [utils.execute(utils.cmd(), a + b)]
+# def combineBlackbox(a, b):
+#   return [utils.execute(utils.cmd(), a + b)]
 
 ## UTILS FOR UNIQ -c ## 
-PAD_LEN = None  
+def findPadLen(s): 
+  # count leading spaces
+  return len(s) - len(s.lstrip())
 
 def parseLine(s):
-  global PAD_LEN
-  if PAD_LEN == None : PAD_LEN = 7
   res = s.split(None, 1)
   try: 
     return (int(res[0]), res[1])
@@ -32,15 +31,19 @@ def parseLine(s):
     res.append(" ")
     return (int(res[0]), res[1])
 
-def emitLine(t):
-  return " ".join([str(t[0]).rjust(PAD_LEN, ' '), t[1]])
+def emitLine(t, PAD_LEN):
+  # pad with " " x PAD_LEN  
+  return " " * PAD_LEN + str(t[0]) + " " + t[1]
 
 def combinePair_c(a, b):
-  # print(a, b)
   az = parseLine(a)
-  bz = parseLine(b)
-  if (az[1] == bz[1]):
-    return [emitLine([az[0] + bz[0], az[1]])]
+  bz = parseLine(b) 
+  if (az[1:] == bz[1:]):
+    # set PAD_LEN to be min, in case we have " 23 f" + "  1 f", we take PAD_LEN for str1
+    pad_len = min(findPadLen(a), findPadLen(b))
+    adj = len(str(az[0] + bz[0])) - max(len(str(az[0])), len(str(bz[0])))
+    pad_len -= adj
+    return [emitLine([az[0] + bz[0], az[1]], pad_len)]
   else:
     return [a, b] # already strings, no need to emit
 
@@ -48,13 +51,13 @@ def agg(a, b):
   if args.c: 
     if not a:
       return b
-    return a[:-1]  + combinePair_c(a[-1], b[0]) + b[1:]
+    pair = combinePair_c(a[-1], b[0])
+    return a[:-1]  + pair + b[1:]
   else: 
     if not a:
       return b
+    # take last + first, combine if equal and add
     pair = combinePair(a[-1], b[0])
-    # pair = combineBlackbox(a[-1], b[0])
-    # print pair
     return a[:-1]  + pair + b[1:]
 try: 
   res = functools.reduce(agg, utils.read_all(), [])
