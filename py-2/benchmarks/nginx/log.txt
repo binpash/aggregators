@@ -1,0 +1,2 @@
+Running aggregators for script: ./scripts/1.sh and input file: 1
+Running aggregators for script: ./scripts/1.sh and input file: 1
