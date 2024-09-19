@@ -26,6 +26,7 @@ if [[ "$@" == *"--c_only"* ]]; then
     RUN=1
 fi
 
+# EDIT: edit here for benchmark suites to run
 if [[ "$@" == *"--small"* ]]; then
     scripts_inputs=(
         "oneliners;small"

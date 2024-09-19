@@ -11,7 +11,7 @@
 SPLIT_SIZE=2 # change split size for different sizes the files should be split into
 SCRIPT=$1
 INPUT_FILE=$2
-FILE_TYPE=""
+FILE_TYPE="" # default text file
 SPLIT_TOP="inputs-s-"$3
 OUTPUT_DIR="outputs-temp/agg/"
 mkdir -p "${OUTPUT_DIR%/}"
@@ -24,26 +24,6 @@ echo "## Run this file to execute entire script considering aggregators!" >$EXEC
 # LOG FILE FOR DEBUGGING
 LOG_FILE="log.txt"
 echo "Running aggregators for script: $SCRIPT and input file: $INPUT_FILE" >>$LOG_FILE
-
-# ## AGG MAP (aggregators we have)
-# declare -A CMDMAP=(
-#     ["wc"]="s_wc.py" ## for all wc and flags
-#     ["grep"]="s_grep.py"
-#     ["grep -c"]="s_grep.py -c"
-#     ["uniq"]="s_uniq.py"
-#     ["uniq -c"]="s_uniq.py -c"
-#     ["head"]="s_head.py"
-#     ["tail"]="s_tail.py"
-#     ["tail -n"]="NA"
-#     ["sort"]="s_sort.py"
-#     ["sort -nr"]="s_sort.py -rn"
-#     ["sort -rn"]="s_sort.py -rn"
-#     ["sort -n"]="s_sort.py -n"
-#     ["sort -r"]="s_sort.py -r"
-#     ["sort -u"]="s_sort.py -u"
-#     ["sort -f"]="s_sort.py -f"
-#     ["sort -k 1 -n"]="NA"
-# )
 
 seq() {
     S_OUTPUT=$(../test-seq-driver.sh "$1" "$2" "$3" "$4" "$5")
@@ -89,9 +69,6 @@ find_agg() {
     # Parse CMD out from Flags
     CMD="$(echo "${FULL}" | cut -d ' ' -f1)"
     FLAG="$(echo "${FULL}" | cut -d ' ' -f2-)"
-    # FLAG="$(echo "${FULL}" | cut -d ' ' -f2)"
-    # "${FLAG:0:1}" = "-"
-    # echo $FLAG >&2
 
     # see if we use flags, build agg file path
     AGG_FILE_NO_FLAG="s_$CMD.py"
@@ -107,28 +84,6 @@ find_agg() {
     else
         echo ""
     fi
-
-    # # see if we use flags
-    # if [ "${FLAG:0:1}" = "-" ]; then
-    #     PARSE="$CMD $FLAG"
-
-    #     # CMD has a flag specific agg
-    #     #   EX: grep -c => grep_c
-    #     RESULT="${CMDMAP["$PARSE"]}"
-
-    #     # # if the agg doesn't have a flag version, return agg without flags
-    #     # #   wc -l => wc & wc -lm => wc (share same agg)
-    #     if [ -z "${RESULT}" ]; then
-    #         RESULT=${CMDMAP[${CMD}]}
-    #     fi
-
-    # else
-    #     # Don't use flags
-    #     PARSE=$CMD
-    #     if [[ -n "$CMD" ]]; then
-    #         RESULT=${CMDMAP[${CMD}]}
-    #     fi
-    # fi
 }
 
 run() {
@@ -150,7 +105,7 @@ run() {
             # parse out the output file to use as next input
             CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
         else
-            ## has agg for cmd + flag
+            ## agg for cmd + flag found
             echo "IMPLEMENTED: $CMD" >>$LOG_FILE
             # split input according to split size; don't split if the file is empty
             if ! grep -q . "$CURR_INPUT"; then
@@ -178,7 +133,7 @@ run() {
     done
 
     # print final result to output file
-    cat $CURR_INPUT
+    cat "$CURR_INPUT"
 }
 
 run

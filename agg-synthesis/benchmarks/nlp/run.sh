@@ -56,9 +56,8 @@ ID=1 # track agg run
 nlp() {
     mkdir -p "outputs/$1"
     mode_res_file="./outputs/$1/nlp.res"
-    >$mode_res_file
 
-    echo executing nlp $1 $(date) | tee -a $mode_res_file $all_res_file
+    echo executing nlp $1 $(date) | tee -a "$mode_res_file" $all_res_file
 
     for name_script in "${names_scripts[@]}"; do
         IFS=";" read -r -a name_script_parsed <<<"${name_script}"
@@ -74,7 +73,7 @@ nlp() {
             mkdir -p "$OUT"
             for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
                 output_file=$OUT/${input}.out
-                (time bash $script_file $IN/$input >$output_file) 2>$time_file
+                (time bash "$script_file" "$IN/$input" >"$output_file") 2>"$time_file"
             done
         fi
 
