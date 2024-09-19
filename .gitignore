@@ -35,7 +35,7 @@ python_pkgs
 # local directory w/ related work
 bib.to
 pldi/draft.synctex.gz
-pldi/draft.synctex.gz(busy)
+# pldi/draft.synctex.gz(busy)
 
 *.class
 
@@ -57,11 +57,12 @@ runtime/dgsh-tee
 .idea/*
 .vs/*
 
-# data files 
-py-2/outputs/*
-py-2/inputs/*
-py-2/data/*
-py-2/simple_combiners/*
-py-2/utilities.py
-py-2/test-old/* 
-py-2/s_sort_2.py 
+# data files
+agg-synthesis/outputs/*
+agg-synthesis/inputs/*
+agg-synthesis/data/*
+agg-synthesis/simple_combiners/*
+agg-synthesis/utilities.py
+agg-synthesis/test-old/*
+agg-synthesis/s_sort_2.py
+agg-synthesis/missing-agg

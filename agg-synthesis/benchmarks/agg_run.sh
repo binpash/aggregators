@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Given a script and a input file
-#   1. Parse out the commands from the entire pipeline -- (test each commands one by one) ··
-#   2. With each command, find the right aggregator to use
-#   3. Run this
+# Given a benchmark script and an input file
+#   1. Parse out each command from the entire pipeline -- (test each commands one by one) ··
+#   2. With each command, check if agg exist to combine parallel result
+#   3. If agg exists, run in parallel
+#   4. If agg don't exists or err with agg, run sequentially
+#   5. Use aggregated output as input to next cmd run
 
 ## SET UP GLOBAL VARs
 SPLIT_SIZE=2 # change split size for different sizes the files should be split into
