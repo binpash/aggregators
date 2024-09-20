@@ -99,6 +99,11 @@ Note: after completing these steps the aggregator will automatically be built by
 - `./find-missing.sh [log.txt]`: output cmd that doesn't have a `agg` implemented; `log.txt` is produced with each run of an entire benchmark suite
 - `run-all.sh`: Run all current benchmark suites through one script (check script for flags)
 
+### Platforms
+
+- Linux Distributions: Ubuntu, Debian
+- BSD Utils: MacOS
+
 ## [DRAFT] Multiple File Argument Aggregators
 
 - Commands when ran on single file input vs. multiple file input often produce different results as file name often gets appended to the result
