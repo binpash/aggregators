@@ -26,7 +26,7 @@ Let's assume that the aggregator being implemented is for a command called `cmd`
 
 Note: after completing these steps the aggregator will automatically be built by the `Makefile` with no changes to it required.
 
-# Automated Synthesis of Scalable Aggregators Project
+# Automated Synthesis of Scalable Aggregators
 
 ## Overview
 
