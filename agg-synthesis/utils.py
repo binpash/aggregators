@@ -1,6 +1,7 @@
-import sys, subprocess, os, re, locale, io 
+import sys, re, io 
 from subprocess import check_output
 
+## MORE PRECISE READ (used by curr agg))
 EOF_IS_NL = True
 def read_file(fname):
   try: 
@@ -24,6 +25,28 @@ def read_all(append_NL_end=False):
       continue
   return all_contents
 
+## MORE PRECISE WRITE (used by curr agg)
+def out(s):
+  # print(s)
+  global EOF_IS_NL
+  if (not s): 
+    sys.stdout.write("")
+    return
+  if not s.endswith('\n') and EOF_IS_NL:
+    sys.stdout.write(s + '\n')
+  else:
+    sys.stdout.write(s)
+  sys.stdout.flush()
+
+def findPadLength(s): 
+  return len(s) - len(s.lstrip(' '))
+
+def getExactLocale(): 
+  all_locale_setting = check_output(["locale"]).decode(sys.stdout.encoding)
+  sys_locale = all_locale_setting.split('\n')[0].split("=")[1]
+  return sys_locale
+
+### MULT. INPUT UTILS (used by multiple input agg [draft]) ###
 def read_file_2(file_path):
     file = open(file_path, "r", encoding='utf-8-sig')
     if file == None: raise FileNotFoundError
@@ -32,8 +55,6 @@ def read_file_2(file_path):
 def file_content_to_str_arr(file_path):
     try: 
         content = read_file(file_path)
-        # remove final '\n' at the end of the file
-        # if len(content) > 0 and content[-1].endswith('\n'): content = content[:-1]
         return str(content)
     except (FileNotFoundError, IOError) as e : 
         sys.stderr.write("err: " + e.strerror + " from " + file_path + "\n")
@@ -62,39 +83,6 @@ def read_all_w_original_files():
 def write_file(content:str):
     sys.stdout.write(content + "\n")
     sys.stdout.flush()
-
-def out(s):
-  # print(s)
-  global EOF_IS_NL
-  if (not s): 
-    sys.stdout.write("")
-    return
-  if not s.endswith('\n') and EOF_IS_NL:
-    sys.stdout.write(s + '\n')
-  else:
-    sys.stdout.write(s)
-  sys.stdout.flush()
-
-def cmd():
-  c = sys.argv[0].replace(".py", "").replace("./", "")
-  if 'MAP_CMD' in os.environ:
-    c = os.environ['MAP_CMD']
-  return c
-
-def execute(command, data):
-    p = subprocess.Popen([command], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    return p.communicate(data)[0]
-    # Python 3 equivalent:
-    # p = subprocess.run([cmd], stdout=subprocess.PIPE, input=data, encoding='ascii', check=True)
-    # return p.stdout
-
-def findPadLength(s): 
-  return len(s) - len(s.lstrip(' '))
-
-def getExactLocale(): 
-  all_locale_setting = check_output(["locale"]).decode(sys.stdout.encoding)
-  sys_locale = all_locale_setting.split('\n')[0].split("=")[1]
-  return sys_locale
 
 def match_file(full_file, par_file):
     match = full_file.split(".txt")[0]

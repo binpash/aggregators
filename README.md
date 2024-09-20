@@ -1,4 +1,4 @@
-# Aggregators
+# Aggregators For PaSh
 
 Currently aggregators are WIP. The new ones are in `cpp/bin`. They are automatically built during `setup_pash.sh` and the unit tests in `cpp/tests` are run during `run_tests.sh`. The interface is like the following:
 
@@ -26,74 +26,80 @@ Let's assume that the aggregator being implemented is for a command called `cmd`
 
 Note: after completing these steps the aggregator will automatically be built by the `Makefile` with no changes to it required.
 
-# Aggregators in ./py-2
+# Automated Synthesis of Scalable Aggregators Project
 
 ## Overview
 
-- After running terminal commands on file inputs using parallelization with PaSh, we must find a way to combine those parallel outputs correctly so the parallel execution of command produced matches the sequential execution
-- This directory contains:
-  - several aggregators in python and bash scripts that reads parallel ouput results and combines them
-  - util functions to assist with
-    - reading + writing from/to files
-    - parsing read input into string arrays for the aggregator functions
-    - (for combining results of commands applied to multiple input files) matching command ran on split files in output by parsing out original full file name to ensure final combined result utilizes the original file name
-  - benchmarks to test correctness, performance, and identify implemented/not implemented aggregators 
+- Command-specific aggregators for POSIX commands
+- `/agg-synthesis`:
+  - **Aggregators**:
+    - `grep` , `wc`, `sort` , `uniq`
+    - `/tail_head`: `tail`, `head` (under development)
+    - `/grep-n`: under development -- not used by any current benchmark scripts
+  - **Util Functions**: read, write, settings (locale and padding length)
+  - **`/Benchmarks`**: test correctness and identify implemented/not implemented aggregators
+    - covid-mts
+    - nlp
+    - oneliners
+    - unix50
+- `/agg-mult-input`:
+  - draft for agg combinging results when a single cmd takes in multiple inputs
+- [Development Journal](https://docs.google.com/document/d/12ebNS5_1kkoFkpU3S3NS9DIrPAuxr-mCZgHv_gskQag/edit#heading=h.d7q5gi7oemm1)
 
 ## Single File Argument Aggregators
 
 ### Overview
 
-- Aggregates parallel results when commands are applied to single file input.
-- Single input to a command looks like: `wc hi.txt`
-- directly takes input argument from system argument; for example `./s_wc.py [parallel output file 1] [parallel output file 2]`
+- Aggregates parallel results when commands are applied to single file input (i.e. `wc hi.txt`)
+- How to run: `./s_wc.py -c [parallel output result 1] [parallel output result 2] ...`
 
-| Script          | Additional info. needed | Description                                                                                                                                                                   | Notes                        |
-| --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| `./s_wc.py`     | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li>                                    |                              |
-| `./s_grep.sh`   | No                      | <li> Combines `grep` results (directly concat) <li>`.sh` for more accurate result compared to going through utilities file                                              |
-| `./s_grep_c.py` | No                      | <li> Combines `grep -c` results from adding found line count</li>                                                                                                             |
-| `./s_grep_n.py` | Yes                     | <li> Combines `grep -n` results by first making line corrections and then concat results</li> <li>Requires info on entire file before splitting to for line number correction | Needs to be refactored still |
-| `./s_head.py` | No                     | <li> Combines `head` results by always returning former split document when given multiple split documents </li> | Test working on files with ~10 lines |
-| `./s_tail.py` | No                     | <li> Combines `tail` results by always returning later split document when given multiple split documents </li> | Test working on files with ~10 lines |
-| `./s_uniq.py` | No                     | <li> Combines `uniq` , merge same lines at end of files/beginning of files </li> | |
-| `./s_uniq_c.py` | No                     | <li> Combines `uniq -c`, merge count </li> | |
+| Script        | Additional info. needed | Description                                                                                                                                | Notes             |
+| ------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| `./s_wc.py`   | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li> |                   |
+| `./s_grep.py` | No                      | <li>Combines `grep` results <li>Supports flags `-c`, flags that don't change concat nature (`-i`, `-e` ... )                               |
+| `./s_uniq.py` | No                      | <li> Combines `uniq` , merge same lines at end of files/beginning of files </li><li> Support flags `-c`                                    |                   |
+| `./s_sort.py` | No                      | <li> Combines `sort` results </li><li> Support flags `-n`, `-k`, `-r`, `-u`, `-f`                                                          |                   |
+| `./s_head.py` | No                      | <li> Combines `head` results by always returning former split document when given multiple split documents </li>                           | Under development |
+| `./s_tail.py` | No                      | <li> Combines `tail` results by always returning later split document when given multiple split documents </li>                            | Under development |
 
+### Benchmarks
 
-### Benchmarks 
+#### Structure of each benchmark suite:
 
-- `./inputs.sh`: retrieve all required inputs 
+- `./inputs.sh`: retrieve all required inputs
 - `./run.sh` : run benchmark scripts with `bash` and `agg`
-- `./verify.sh --generate`: generate hashes for all outputs to verify correctness 
-- `./cleanup.sh`: removes all output + intermediate files generated by current run 
+- `./verify.sh --generate`: generate hashes for all outputs to verify correctness
+- `./cleanup.sh`: removes all output + intermediate files generated by current run
 
-| Directory          | Description | Notes  
-| --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| unix50      | Collection of oneline scripts to run on input `txt` files |  use `--reg` flag for current available inputs retrieved by input script |                                    
-| oneliners   | Collection of oneline scripts to run on input `txt` files  | some scripts involving `mkfifo` cannot be tested currently due to current parsing simplicity | 
-| covid-mts   | Script to process data on covid mass-transports     |      |
+| Directory | Description                                               | Notes                                                                                        |
+| --------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| unix50    | Collection of oneline scripts to run on input `txt` files | use `--reg` flag for current available inputs retrieved by input script                      |
+| oneliners | Collection of oneline scripts to run on input `txt` files | some scripts involving `mkfifo` cannot be tested currently due to current parsing simplicity |
+| covid-mts | Script to process data on covid mass-transports           |                                                                                              |
+| nlp       | Collection of oneline scripts to run on input `txt` files |                                                                                              |
 
-#### Aggregators in benchmarks: 
-- `./agg_run.sh [script] [input]` : applies available `agg` on scripts with `cmd` separated by `|` 
-   -  `CMDMAP`: includes all current available `agg` for cmds + flags  
-   - parse script into `CMDLIST`, running below with each cmd: 
-      - if current cmd has implemented `agg`, split file into `SIZE=2` and apply `./test-par-driver.sh` to run each split file with cmd and apply `agg`
-        ```
-        Parallel:
-        cat file-0 | $CMD > file-0-par
-        cat file-1 | $CMD > file-1-par
-        agg file-0-par file-1-par > file-par.txt
-        ```
-      - if current cmd doesn't have implemented `agg`, run script through this command sequentially with `./test-seq-driver.sh`
-        ```
-        Sequential:
-        cat file | $CMD > file-seq.txt
-        ```
-      - output becomes the new input to next iteration 
-   - records script + input ran and whether each cmd has a `agg` to `log.txt`
-- `./find-missing.sh [log.txt]`: outputs only cmd that doesn't have a `agg` implemented
-   - `py-2/missing-agg`: contains comprehensive list of cmds from benchmarks scripts above that doens't have a `agg` yet
+#### Automation of using aggregators in benchmarks:
 
-## Multiple File Argument Aggregators
+- `./agg_run.sh [script] [input]` : applies available `agg` on individual commands parsed out with `|` as delimiter
+  - parse script into `CMDLIST`, running below with each cmd:
+    - if current cmd has implemented `agg`, split file into `SIZE=2` and apply `./test-par-driver.sh` to run each split file with cmd and apply `agg`
+      ```
+      Parallel:
+      cat file-0 | $CMD > file-0-par
+      cat file-1 | $CMD > file-1-par
+      agg file-0-par file-1-par > file-par.txt
+      ```
+    - if current cmd doesn't have implemented `agg`, run script through this command sequentially with `./test-seq-driver.sh`
+      ```
+      Sequential:
+      cat file | $CMD > file-seq.txt
+      ```
+    - output becomes the new input to next iteration (next command in in `CMDLIST`)
+  - records script + input ran and whether each cmd has a `agg` to `log.txt`
+- `./find-missing.sh [log.txt]`: output cmd that doesn't have a `agg` implemented; `log.txt` is produced with each run of an entire benchmark suite
+- `run-all.sh`: Run all current benchmark suites through one script (check script for flags)
+
+## [DRAFT] Multiple File Argument Aggregators
 
 - Commands when ran on single file input vs. multiple file input often produce different results as file name often gets appended to the result
 - Multiple inputs to a command looks like: `wc hi.txt bye.txt` and would produce outputs that looks like
