@@ -56,7 +56,7 @@ Note: after completing these steps the aggregator will automatically be built by
 | Script        | Additional info. needed | Description                                                                                                                                | Notes             |
 | ------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
 | `./s_wc.py`   | No                      | <li>Combines count results by adding relative values and add paddings to match result format </li><li>Supports flags `-l, -c, -w, -m`</li> |                   |
-| `./s_grep.py` | No                      | <li>Combines `grep` results <li>Supports flags `-c`, flags that don't change concat nature (`-i`, `-e` ... )                               |
+| `./s_grep.py` | No                      | <li>Combines `grep` results <li>Supports flags `-c`, flags that don't change concat nature (`-i`, `-e`...)                               |
 | `./s_uniq.py` | No                      | <li> Combines `uniq` , merge same lines at end of files/beginning of files </li><li> Support flags `-c`                                    |                   |
 | `./s_sort.py` | No                      | <li> Combines `sort` results </li><li> Support flags `-n`, `-k`, `-r`, `-u`, `-f`                                                          |                   |
 | `./s_head.py` | No                      | <li> Combines `head` results by always returning former split document when given multiple split documents </li>                           | Under development |
