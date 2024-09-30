@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// this is an example of a code snippet}
+\PYG{k}{import}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{createServer}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}node:http\PYGZsq{}}\PYG{p}{;}
+\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{server}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{createServer}\PYG{p}{((}\PYG{n+nx}{req}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{res}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{writeHead}\PYG{p}{(}\PYG{l+m+mf}{200}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Content\PYGZhy{}Type\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}text/plain\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{  }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{end}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Hello World!\PYGZbs{}n\PYGZsq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{});}
+\PYG{c+c1}{// starts a simple http server locally on port 3000}
+\PYG{n+nx}{server}\PYG{p}{.}\PYG{n+nx}{listen}\PYG{p}{(}\PYG{l+m+mf}{3000}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}127.0.0.1\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Listening on 127.0.0.1:3000\PYGZsq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{});}
+\end{Verbatim}
