@@ -66,3 +66,7 @@ agg-synthesis/utilities.py
 agg-synthesis/test-old/*
 agg-synthesis/s_sort_2.py
 agg-synthesis/missing-agg
+
+# Rust
+target/
+Cargo.lock
