@@ -1,0 +1,18 @@
+name = "Lean4"
+
+[[lean_exe]]
+name = "Lean4"
+root = "Main"
+
+[leanOptions]
+autoImplicit = false
+linter.unusedVariables = false 
+
+[moreServerOptions]
+linter.unusedTactic = false
+linter.unreachableTactic = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "a719ba5c3115d47b68bf0497a9dd1bcbb21ea663"
