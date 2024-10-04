@@ -1,5 +1,6 @@
+import Mathlib
+import Mathlib.Data.List.Sort 
 import Lean
-import Mathlib.Data.List.Sort
 open Lean Elab Meta
 
 /- 
@@ -56,32 +57,67 @@ wc (xs ++ ys) = wc_agg (wc xs) (wc ys) :=
   The sort_agg function is a simple aggregation function that merges the two sorted lists.
 -/
 
-def sort_agg {α : Type} (r : α → α → Bool) (xs ys : List α) := 
-  List.merge r xs ys
+-- REFERENCE: 
+-- https://github.com/leanprover-community/mathlib4/blob/8666bd82efec40b8b3a5abca02dc9b24bbdf2652/Mathlib/Data/List/Sort.lean
 
-def sort_correctness {α : Type} (sort : (α → α → Bool) → List α → List α) 
-  (r : α → α → Bool) (xs ys : List α) :
-  sort r (xs ++ ys) = sort_agg r (sort r xs) (sort r ys) :=
-  by
-    rw [sort_agg]
-    sorry
+def length : List α → Nat := List.length
 
-/-
-def sort {α : Type} (r : α → α → Prop) [DecidableRel r] := List.mergeSort r
+@[simp]
+def split : List α → List α × List α
+  | [] => ([], [])
+  | a :: l =>
+    let (l₁, l₂) := split l
+    (a :: l₂, l₁)
 
-theorem sort_sort {α : Type} (r : α → α → Prop) (xs : List α) [DecidableRel r] : 
-  sort r (sort r xs) = sort r xs :=
-  by
-    rw [sort]
-    sorry
+theorem split_cons_of_eq (a : α) {l l₁ l₂ : List α} (h : split l = (l₁, l₂)) :
+    split (a :: l) = (a :: l₂, l₁) := by rw [split, h]
 
-theorem sort_correctness (xs ys : List String) (r : String → String → Prop) [DecidableRel r] :
-  sort r (xs ++ ys) = sort_agg r (sort r xs) (sort r ys) := 
-  by
-    rw [sort_agg]
-    repeat rw [sort]
-    sorry
--/
+theorem length_split_le :
+    ∀ {l l₁ l₂ : List α}, split l = (l₁, l₂) → length l₁ ≤ length l ∧ length l₂ ≤ length l
+  | [], _, _, rfl => ⟨Nat.le_refl 0, Nat.le_refl 0⟩
+  | a :: l, l₁', l₂', h => by
+    cases' e : split l with l₁ l₂
+    injection (split_cons_of_eq _ e).symm.trans h; substs l₁' l₂'
+    cases' length_split_le e with h₁ h₂
+    exact ⟨Nat.succ_le_succ h₂, Nat.le_succ_of_le h₁⟩
+
+theorem length_split_lt {a b} {l l₁ l₂ : List α} (h : split (a :: b :: l) = (l₁, l₂)) :
+    length l₁ < length (a :: b :: l) ∧ length l₂ < length (a :: b :: l) := by
+  cases' e : split l with l₁' l₂'
+  injection (split_cons_of_eq _ (split_cons_of_eq _ e)).symm.trans h; substs l₁ l₂
+  cases' length_split_le e with h₁ h₂
+  exact ⟨Nat.succ_le_succ (Nat.succ_le_succ h₁), Nat.succ_le_succ (Nat.succ_le_succ h₂)⟩
+
+def merge {α : Type} (r : α → α → Prop) [DecidableRel r] 
+  : List α → List α → List α
+  | [], l' => l'
+  | l, [] => l
+  | a :: l, b :: l' => if (r a b) then a :: merge r l (b :: l') else b :: merge r (a :: l) l'
+
+def mergeSort (r : α → α → Prop) [DecidableRel r] : List α → List α
+  | [] => []
+  | [a] => [a]
+  | a :: b :: l => by
+    -- Porting note: rewrote to make `mergeSort_cons_cons` proof easier
+    let ls := (split (a :: b :: l))
+    have e : split (a :: b :: l) = ⟨ls.1, ls.2⟩ := rfl
+    have h := length_split_lt e
+    have := h.1
+    have := h.2
+    exact merge r (mergeSort r ls.1) (mergeSort r ls.2)
+  termination_by l => length l
+
+-- This is mergeSort_cons_cons from the mathlib library
+
+alias sort := mergeSort 
+alias sort_agg := merge
+
+theorem sort_correctness {a b} {c xs ys : List α} 
+    (r : α → α → Prop) [DecidableRel r] (h : split (a :: b :: c) = (xs, ys)) :
+    sort r (a :: b :: c) = sort_agg r (sort r xs) (sort r ys) := by
+
+  rw [sort, sort_agg]
+  simp only [mergeSort, h]
 
 /-
   The grep command searches for a pattern in a file.
