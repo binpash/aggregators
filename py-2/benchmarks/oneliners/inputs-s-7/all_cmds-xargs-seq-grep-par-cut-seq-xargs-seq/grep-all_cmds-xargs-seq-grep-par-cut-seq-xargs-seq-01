@@ -1,0 +1,16 @@
+385 /usr/bin/cvs-debrelease
+326 /usr/bin/dcmd
+218 /usr/bin/debclean
+145 /usr/bin/debconf-updatepo
+341 /usr/bin/debrelease
+293 /usr/bin/debrepro
+231 /usr/bin/deb-reversion
+273 /usr/bin/debrsign
+869 /usr/bin/debsign
+61 /usr/bin/dehtmldiff
+93 /usr/bin/diff2patches
+81 /usr/bin/discover-config
+511 /usr/bin/dlocate
+106 /usr/bin/dotty
+41 /usr/bin/dpkg-genbuilddeps
+667 /usr/bin/dpkg-maintscript-helper

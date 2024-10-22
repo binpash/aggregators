@@ -1,0 +1,18 @@
+/usr/bin/cvs-debi:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/cvs-debrelease:                     Bourne-Again shell script, ASCII text executable
+/usr/bin/dcmd:                               POSIX shell script, ASCII text executable
+/usr/bin/debclean:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/debconf-updatepo:                   POSIX shell script, ASCII text executable
+/usr/bin/debrelease:                         Bourne-Again shell script, ASCII text executable
+/usr/bin/debrepro:                           POSIX shell script, Unicode text, UTF-8 text executable
+/usr/bin/deb-reversion:                      Bourne-Again shell script, Unicode text, UTF-8 text executable
+/usr/bin/debrsign:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/debsign:                            POSIX shell script, ASCII text executable
+/usr/bin/dehtmldiff:                         POSIX shell script, ASCII text executable
+/usr/bin/diff2patches:                       Bourne-Again shell script, ASCII text executable
+/usr/bin/discover-config:                    POSIX shell script, ASCII text executable, with very long lines (933)
+/usr/bin/dlocate:                            Bourne-Again shell script, ASCII text executable
+/usr/bin/dotty:                              POSIX shell script, ASCII text executable
+/usr/bin/dpkg-genbuilddeps:                  Bourne-Again shell script, ASCII text executable
+/usr/bin/dpkg-maintscript-helper:            POSIX shell script, Unicode text, UTF-8 text executable
+/usr/bin/dscextract:                         POSIX shell script, ASCII text executable
