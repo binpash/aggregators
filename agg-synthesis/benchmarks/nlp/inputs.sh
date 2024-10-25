@@ -6,7 +6,7 @@ cd inputs
 
 if [ ! -f ./book_links.txt ]; then
     # wget -O book_links.txt "https://atlas-group.cs.brown.edu/data/gutenberg/books.txt"
-    curl "https://atlas-group.cs.brown.edu/data/gutenberg/books.txt" >book_links.txt
+    curl -k "https://atlas-group.cs.brown.edu/data/gutenberg/books.txt" >book_links.txt
     if [ ! -f book_links.txt ]; then
         echo "Failed to download book_links.txt"
         exit 1
@@ -14,11 +14,11 @@ if [ ! -f ./book_links.txt ]; then
 fi
 
 if [ ! -f ./genesis ]; then
-    curl -sf https://atlas-group.cs.brown.edu/data/gutenberg/8/0/0/8001/8001.txt >genesis
+    curl -sf -k https://atlas-group.cs.brown.edu/data/gutenberg/8/0/0/8001/8001.txt >genesis
 fi
 
 if [ ! -f ./exodus ]; then
-    curl -sf https://atlas-group.cs.brown.edu/data/gutenberg/3/3/4/2/33420/33420-0.txt >exodus
+    curl -sf -k https://atlas-group.cs.brown.edu/data/gutenberg/3/3/4/2/33420/33420-0.txt >exodus
 fi
 
 if [ ! -e ./pg ]; then
@@ -31,7 +31,7 @@ if [ ! -e ./pg ]; then
         echo "Downloading $full_url"
         # wget -q "$full_url"
         FILE=$(echo "$line" | awk -F/ '{print $NF}') # get last item in path
-        curl https://atlas-group.cs.brown.edu/data/gutenberg/${line} >"$FILE"
+        curl -k https://atlas-group.cs.brown.edu/data/gutenberg/${line} >"$FILE"
     done
 
     cd ..
@@ -49,7 +49,7 @@ if [ ! -e ./pg-small ]; then
         echo "Downloading $full_url"
         # wget -q "$full_url"
         FILE=$(echo "$line" | awk -F/ '{print $NF}') # get last item in path
-        curl https://atlas-group.cs.brown.edu/data/gutenberg/${line} >"$FILE"
+        curl -k https://atlas-group.cs.brown.edu/data/gutenberg/${line} >"$FILE"
     done
 
     cd ..

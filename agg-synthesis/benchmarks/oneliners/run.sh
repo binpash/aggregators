@@ -30,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then
     scripts_inputs=(
-        "grep;1M"
+        "sort;1M"
     ) # for debugging
 else
     scripts_inputs=(

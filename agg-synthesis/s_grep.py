@@ -5,7 +5,7 @@ import utils, argparse, functools, sys
 ## GREP FLAGS ##
 parser = argparse.ArgumentParser(description="Check which flags we use for grep")
 parser.add_argument('-c', action='store_true', help="grep count")
-parser.add_argument('-i', action='store_true', help="grep ignore case")
+parser.add_argument('-i', type=str, default="", help="grepmatch regex")
 parser.add_argument('-e', action='store_true', help="grep regex pattern")
 parser.add_argument('-v', type=str, default="", help="grepmatch regex")
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")

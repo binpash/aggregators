@@ -22,7 +22,7 @@ mkdir -p "${OUTPUT_DIR%/}"
 # We can see if each command is ran in parallel or in sequential 
 # This script is executable to re-run the entire aggregator application pipeline
 printf "#!/bin/bash\n \n" >$EXECFILE
-printf "## EXEC: execution   \n" >>$EXECFILE
+printf "## EXEC: this script records each evaluation (seq or par) to reach the final output \n" >>$EXECFILE
 
 # This log file is to record down a general 
 printf "LOG: Running aggregators for script: $SCRIPT and input file: $INPUT_FILE\n" >"$DEBUG_LOG"
@@ -78,7 +78,7 @@ find_agg() {
     # see if we use flags, build agg file path
     AGG_FILE_NO_FLAG="s_$CMD.py"
     if [ "${FLAG:0:1}" = "-" ]; then
-        AGG_FILE="s_$CMD.py $FLAG"
+        AGG_FILE="s_$CMD.py $FLAG" # CHANGE AGG 
     else
         AGG_FILE=$AGG_FILE_NO_FLAG
     fi
