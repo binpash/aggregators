@@ -30,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then
     scripts_inputs=(
-        "bi-grams;1M"
+        "grep;1M"
     ) # for debugging
 else
     scripts_inputs=(
@@ -47,7 +47,7 @@ else
     )
 fi
 
-dos2unix inputs/1M.txt
+dos2unix inputs/1M.txt # TODO: Check if this should match up with the target system 
 
 mkdir -p "outputs"
 all_res_file="./outputs/oneliners.res"
@@ -85,6 +85,7 @@ oneliners_agg() {
     AGG_FILE="../agg_run.sh"
     chmod +x $AGG_FILE
     mkdir -p "outputs/agg"
+    mkdir -p "agg-steps"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
     for script_input in "${scripts_inputs[@]}"; do
@@ -94,7 +95,8 @@ oneliners_agg() {
         output_file="./outputs/agg/${parsed[0]}.out"
         time_file="./outputs/agg/${parsed[0]}.time"
         log_file="./outputs/agg/${parsed[0]}.log"
-        { time ../agg_run.sh "$script_file" "$input_file" $ID oneliners >"$output_file"; } 2>"$time_file" #run file with input and direct to output
+        agg_exec_file="./agg-steps/agg-${parsed[0]}.sh"
+        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
 
         cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file

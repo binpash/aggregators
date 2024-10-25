@@ -46,7 +46,7 @@ for FILE in "${split_filelist[@]}"; do
     # S_WITHOUTTXT="${S_FILENAME%.*}"
     S_WITHOUTTXT=$S_FILENAME                                                                           # get filename without ext. (hi)
     eval "cat ${FILE} | ${CMD} > ${CMD_SPLIT_FILE_DIR}/${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}" # apply command to all split file
-    filelist+=("${CMD_SPLIT_FILE_DIR}/${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT}")                 # extra space to separate file paths
+    filelist+="${CMD_SPLIT_FILE_DIR}/${WITHOUTTXT}/${CMD_FILE_NAME}-${S_WITHOUTTXT} "                   # extra space to separate file paths
 done
 echo "${AGG} ${filelist} > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}"
 echo "${AGG} ${filelist} > ${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}-par${FILE_TYPE}" >>"${P}" # print to accumulating  file

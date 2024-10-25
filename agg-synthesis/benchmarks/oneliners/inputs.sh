@@ -7,7 +7,7 @@ cd inputs
 input_files=("1M.txt" "1G.txt" "3G.txt" "all_cmds.txt" "all_cmdsx100.txt" "dict.txt")
 
 if [ ! -f ./1M.txt ]; then
-    curl -f https://atlas-group.cs.brown.edu/data/dummy/1M.txt >1M.txt
+    curl -k https://atlas-group.cs.brown.edu/data/dummy/1M.txt >1M.txt
     # TODO: Add newline to the original file
     echo -e "\n" >>filename.txt
     # echo > 1M.txt
@@ -38,7 +38,7 @@ fi
 # fi
 
 if [ ! -f ./dict.txt ]; then
-    curl -o - https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort >dict.txt
+    curl -k - https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort >dict.txt
 fi
 
 if [ ! -f ./all_cmds.txt ]; then
