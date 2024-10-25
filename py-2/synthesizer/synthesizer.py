@@ -20,15 +20,16 @@ class Function:
         for prop in self.function_properties:
             if prop in annotations and annotations[prop] != self.function_properties[prop]:
                 return False
+        for prop in self.output_properties:
+            if prop in annotations and annotations[prop] != self.output_properties[prop]:
+                return False
         return True
 
-# Database of functions
+
 function_database = [
     Function(
-        name='sort',
-        func=lambda lst: sorted(lst),
+        name='merge_sort',
         function_properties={
-            "is_associative": False,
             "is_idempotent": True
         },
         output_properties={
@@ -39,14 +40,10 @@ function_database = [
     ),
     Function(
         name='unique',
-        func=lambda lst: list(dict.fromkeys(lst)),  # Maintains order
         function_properties={
-            "is_associative": False,
-            "is_commutative": False,
             "is_idempotent": True
         },
         output_properties={
-            "is_sorted": False,
             "reduces": True
         },
         input_type='list',
@@ -54,9 +51,7 @@ function_database = [
     ),
     Function(
         name='cat',
-        func=lambda lst1, lst2: lst1 + lst2,
         function_properties={
-            "is_associative": True,
             "is_commutative": False,
         },
         output_properties={},
@@ -65,81 +60,62 @@ function_database = [
     ),
     Function(
         name='sum',
-        func=lambda num1, num2: num1 + num2,
         function_properties={
-            "is_associative": True,
             "is_commutative": True,
-            "is_idempotent": False
         },
         output_properties={
-            "is_sorted": False,
-            "reduces": False
         },
         input_type='num',
         output_type='num'
     ),
 ]
 
-# Function to synthesize an aggregator based on annotations and real partial outputs
-def synthesize_aggregator(annotations: Dict[str, Any], correct_output: Any, partial_outputs: List[Any]) -> Union[Callable, str]:
-    applicable_functions = [f for f in function_database if f.applies_to(annotations)]
 
-    # Ensure we have at least one 'add' or 'cat' function
-    essential_function = next((f for f in applicable_functions if f.name in ['cat', 'sum']), None)
-    if not essential_function:
-        return "Cannot synthesize aggregator: no applicable 'add' or 'cat' function found."
-
-    # Iterate over all permutations of applicable functions
-    for function_permutation in permutations(applicable_functions):
-        def aggregator(*partial_outputs):
-            # Start by applying the essential function
-            if essential_function.func.__code__.co_argcount == 2:
-                result = essential_function.func(partial_outputs[0], partial_outputs[1])
-            else:
-                result = essential_function.func(partial_outputs[0])
-
-            # Apply the remaining functions in the specified order
-            for func in function_permutation:
-                if func != essential_function:
-                    result = func.func(result)
-
-            return result
-
-        # Test the aggregator with actual partial outputs passed to the function
-        test_output = aggregator(*partial_outputs)
-
-        # Check if the generated output matches the expected output
-        if test_output == correct_output:
-            return aggregator
-
-    return "No combination of functions produced the correct output."
-
-# Example usage
-if __name__ == "__main__":
-    expected_output = [1, 2, 3, 4, 5]
+def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str = "a.key <= b.key") -> Union[str, str]:    
+    essential_functions = [f for f in function_database if f.applies_to(annotations) and f.name in ['merge_sort', 'cat', 'sum']]
+    if not essential_functions:
+        return "Cannot synthesize aggregator: no applicable 'merge_sort', 'cat', or 'sum' function found."
     
+    primary_function = essential_functions[0]
+    lean_expression = ""
+
+    if primary_function.name == 'merge_sort':
+        lean_expression = f"merge (fun a b => {comparator})"
+
+    elif primary_function.name == 'cat':
+        lean_expression = "cat"
+
+    elif primary_function.name == 'sum':
+        lean_expression = "sum"
+
+    applicable_functions =  [f for f in function_database if f.applies_to(annotations) and f.name not in ['merge_sort', 'cat', 'sum']]
+    for function_permutation in permutations(applicable_functions):
+        if primary_function not in function_permutation:
+            function_permutation = (primary_function,) + function_permutation
+        
+        for func in function_permutation:
+            if func != primary_function:
+                if func.name == 'unique':
+                    lean_expression += " ∘ unique" 
+                elif func.name == 'merge_sort':
+                    lean_expression += f" ∘ merge (fun a b => {comparator})"
+
+    return lean_expression
+
+def example_2():    
     annotations = {
         "input_type": "list",
         "output_type": "list",
-        "is_commutative": False,
-        "is_associative": False,
         "is_idempotent": True,
-        "reduces": True,
-        "preserves_order": False,
+        "reduces": False,
         "is_sorted": True
     }
-
-    # Assume these are the partial outputs produced by parallel processes
-    partial_outputs = [
-        [1, 3, 5],
-        [2, 3, 4]
-    ]
-
-    # Now we pass the partial_outputs to synthesize_aggregator
-    aggregator = synthesize_aggregator(annotations, correct_output=expected_output, partial_outputs=partial_outputs)
     
     if isinstance(aggregator, str):
         print(aggregator)
     else:
-        result = aggregator(*partial_outputs)
-        print("Aggregator Result:", result)
+        print("Lean Aggregator:",synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
+
+if __name__ == "__main__":
+    print("\nRunning Example 2:")
+    example_2()
