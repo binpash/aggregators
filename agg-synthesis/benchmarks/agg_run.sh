@@ -18,13 +18,13 @@ DEBUG_LOG=$4
 EXECFILE=$5
 mkdir -p "${OUTPUT_DIR%/}"
 
-# This script is to trace each command instance 
-# We can see if each command is ran in parallel or in sequential 
+# This script is to trace each command instance
+# We can see if each command is ran in parallel or in sequential
 # This script is executable to re-run the entire aggregator application pipeline
 printf "#!/bin/bash\n \n" >$EXECFILE
 printf "## EXEC: this script records each evaluation (seq or par) to reach the final output \n" >>$EXECFILE
 
-# This log file is to record down a general 
+# This log file is to record down a general
 printf "LOG: Running aggregators for script: $SCRIPT and input file: $INPUT_FILE\n" >"$DEBUG_LOG"
 
 seq() {
@@ -36,7 +36,7 @@ par() {
 }
 
 parse_simple() {
-    echo "LOG: " "Parsing command pipeline from $SCRIPT" >"$DEBUG_LOG" 
+    echo "LOG: " "Parsing command pipeline from $SCRIPT" >"$DEBUG_LOG"
     while IFS= read -r line; do
         # Skip comments and empty lines
         if [[ "$line" == \#* ]] || [[ -z "$line" ]]; then
@@ -54,7 +54,7 @@ parse_simple() {
 }
 
 mkdir_get_split() {
-    echo "$LOG_PREFIX" "Getting partials: trying to split input into $SPLIT_SIZE even partials" >>"$DEBUG_LOG" 
+    echo "$LOG_PREFIX" "Getting partials: trying to split input into $SPLIT_SIZE even partials" >>"$DEBUG_LOG"
     local FILE=$1
     WITHOUTTXT=$(basename "${FILE}" .txt)
     SPLIT_DIR="${SPLIT_TOP}/${WITHOUTTXT}/"
@@ -78,10 +78,15 @@ find_agg() {
     # see if we use flags, build agg file path
     AGG_FILE_NO_FLAG="s_$CMD.py"
     if [ "${FLAG:0:1}" = "-" ]; then
-        AGG_FILE="s_$CMD.py $FLAG" # CHANGE AGG 
+        AGG_FILE="s_$CMD.py $FLAG" # CHANGE AGG
     else
         AGG_FILE=$AGG_FILE_NO_FLAG
     fi
+
+    ## COMMENT OUT FOR lean
+    # AGG_FILE_NO_FLAG="aggregators"
+
+    #AGG_FILE=$AGG_FILE_NO_FLAG
 
     # check if the agg exist
     if [ -f "../../${AGG_FILE_NO_FLAG}" ]; then
@@ -93,7 +98,7 @@ find_agg() {
 
 run() {
     parse_simple # get CMDLIST, an array holding all single commands
-    echo "LOG: " "Parsing command pipeline finished; we have ${#CMDLIST[@]} command instances" >>"$DEBUG_LOG" 
+    echo "LOG: " "Parsing command pipeline finished; we have ${#CMDLIST[@]} command instances" >>"$DEBUG_LOG"
 
     local CURR_CMD_COUNT=0
     for CMD in "${CMDLIST[@]}"; do
@@ -105,7 +110,7 @@ run() {
         AGG="$(find_agg "${CMD}")" # See if agg exist
         if [[ -z "$AGG" || "$AGG" == "NA" ]]; then
             ## agg not found, pass entire input through cmd as normal
-            echo "$LOG_PREFIX" "Running command sequentially: aggregator not found "  >>"$DEBUG_LOG"
+            echo "$LOG_PREFIX" "Running command sequentially: aggregator not found " >>"$DEBUG_LOG"
             echo "$LOG_PREFIX" "Aggregator Status: not implemented " >>"$DEBUG_LOG"
             # get sequential execution line
             seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
@@ -115,12 +120,12 @@ run() {
             CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
         else
             ## agg for cmd + flag found
-            echo "$LOG_PREFIX" "Running aggregators with parallel partial "  >>"$DEBUG_LOG"
+            echo "$LOG_PREFIX" "Running aggregators with parallel partial " >>"$DEBUG_LOG"
             echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG"
             # split input according to split size; don't split if the file is empty
             if ! grep -q . "$CURR_INPUT"; then
-                echo "$LOG_PREFIX" "Running command sequentially: input file is empty "  >>"$DEBUG_LOG"
-                echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG" 
+                echo "$LOG_PREFIX" "Running command sequentially: input file is empty " >>"$DEBUG_LOG"
+                echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG"
                 seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
                 eval "$S_OUTPUT"
                 CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
@@ -132,8 +137,8 @@ run() {
                 eval "$P_OUTPUT"
                 if [ $? -eq 1 ]; then
                     echo "$LOG_PREFIX" "ERROR: Aggregator failed (Cannot read in input file correctly)" >&2 >>"$DEBUG_LOG"
-                    echo "$LOG_PREFIX" "Running sequentially: aggregator error "  >>"$DEBUG_LOG"
-                    echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG" 
+                    echo "$LOG_PREFIX" "Running sequentially: aggregator error " >>"$DEBUG_LOG"
+                    echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG"
                     seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
                     eval "$S_OUTPUT"
                     CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')

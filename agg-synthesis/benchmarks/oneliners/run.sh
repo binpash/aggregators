@@ -30,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then
     scripts_inputs=(
-        "sort;1M"
+        "sort;test"
     ) # for debugging
 else
     scripts_inputs=(
@@ -47,7 +47,7 @@ else
     )
 fi
 
-dos2unix inputs/1M.txt # TODO: Check if this should match up with the target system 
+dos2unix inputs/1M.txt # TODO: Check if this should match up with the target system
 
 mkdir -p "outputs"
 all_res_file="./outputs/oneliners.res"

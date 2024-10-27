@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse, functools, utils, re, locale, sys
-import operator
+import operator, natsort 
 
 ## SORT FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for sort")
@@ -14,20 +14,30 @@ parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input 
 args, unknown = parser.parse_known_args()
 
 # set correct locale 
-locale.setlocale(locale.LC_ALL, utils.getExactLocale()) # ensure locale is correct 
+locale_str = utils.getExactLocale()
+locale.setlocale(locale.LC_COLLATE, f"{locale_str}") # ensure locale is correct 
 
 ## SORT UTILS FUNCTIONS ## 
 def atof(str):
     try:
-        retval = float(str)
+        retval = locale.atof(str)
         return retval
     except ValueError:
         retval = str
-        return str
+        return None 
 
 def natural_keys(str):
-    parts = re.split(r'([0-9]*\.?[0-9]*)', str.strip())
-    return [atof(c) for c in parts if c]
+    nat_key = 0
+    for i in range(len(str)): 
+        if atof(str[:i+1]) != None: 
+            nat_key = atof(str[:i+1])
+            continue 
+        else: 
+            break
+
+    return nat_key 
+        
+        
 
 ## COMPARE FUNC ## 
 # compare based on numerical values 
@@ -36,11 +46,15 @@ def compare_num(a,b):
     a.strip()
     b.strip()
     try: 
-        res = sorted(res, key=natural_keys) # cmp using correct locale, by float 
         if args.k > 0: 
             res = sorted(res, key=operator.itemgetter(args.k)) 
-        if res[0].split()[0] == res[1].split()[0]: 
-            res = sorted(res, key=locale.strxfrm) # ensure rest of string is sorted normally if num is same
+        a_nat_key = natural_keys(a)
+        b_nat_key = natural_keys(b)
+        if a_nat_key > b_nat_key: 
+            return 1
+        if b_nat_key > a_nat_key: 
+            return -1
+        res = sorted(res, key=locale.strxfrm) 
     except:
         res = sorted(res, key=locale.strxfrm) 
     return -1 if res[0] == a else 1 
@@ -62,6 +76,35 @@ def compare(a,b):
     
 ## MAIN SORT ## 
 def sort_basic(a_list, b_list):
+    res = []
+    # while both idx are in bound, 
+    #     1. cmp a and b using default sort 
+    #     2. add smaller to res,  
+    #     3. incr a | b ptr (smaller) 
+    
+    a_curr, b_curr = 0, 0 
+    while a_curr < len(a_list) and b_curr < len(b_list):
+        if args.u and a_list[a_curr] == b_list[b_curr]:
+            b_curr += 1 # skip over b to not consider the same value
+        else:  
+            comp_res = compare(a_list[a_curr], b_list[b_curr])
+            if args.r:
+                comp_res *= -1    
+            if (comp_res < 0):
+                res.append(a_list[a_curr]) # a is smaller (goes in front)
+                a_curr += 1 
+            else: 
+                res.append(b_list[b_curr])
+                b_curr += 1 
+        
+    # if a ended, add all b; else add all a
+    if a_curr < len(a_list): 
+        res = res + a_list[a_curr:]
+    if b_curr < len(b_list): 
+        res = res + b_list[b_curr:]
+    return res
+
+def sort_basic_n(a_list, b_list):
     res = []
     # while both idx are in bound, 
     #     1. cmp a and b using default sort 

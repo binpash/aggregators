@@ -1,7 +1,8 @@
 inputs/
 outputs/
-inputs-s/ 
+inputs-s/
 inputs-s-par/
-log.txt 
-execution.sh 
+log.txt
+execution.sh
 hashes/
+diff-res/

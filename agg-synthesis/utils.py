@@ -43,8 +43,12 @@ def findPadLength(s):
 
 def getExactLocale(): 
   all_locale_setting = check_output(["locale"]).decode(sys.stdout.encoding)
-  sys_locale = all_locale_setting.split('\n')[0].split("=")[1]
-  return sys_locale
+  sys_locale = all_locale_setting.split('\n')[1].split("=")[1]
+  assert(all_locale_setting.split('\n')[1].split("=")[0] == "LC_COLLATE") # find sorting weight
+  return sys_locale.split('"')[1] # return locale without quotation 
+
+def std_err_print(*args, **kwargs): 
+    print(*args, file=sys.stderr, **kwargs)
 
 ### MULT. INPUT UTILS (used by multiple input agg [draft]) ###
 def read_file_2(file_path):
