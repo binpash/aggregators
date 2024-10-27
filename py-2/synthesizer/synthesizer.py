@@ -2,12 +2,11 @@ from itertools import permutations
 from typing import List, Dict, Callable, Any, Union
 
 class Function:
-    def __init__(self, name: str, func: Callable, 
+    def __init__(self, name: str, 
                  function_properties: Dict[str, bool], 
                  output_properties: Dict[str, bool], 
                  input_type: str, output_type: str):
         self.name = name
-        self.func = func
         self.function_properties = function_properties
         self.output_properties = output_properties
         self.input_type = input_type
@@ -111,10 +110,7 @@ def example_2():
         "is_sorted": True
     }
     
-    if isinstance(aggregator, str):
-        print(aggregator)
-    else:
-        print("Lean Aggregator:",synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
+    print("Lean Aggregator:",synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
 
 if __name__ == "__main__":
     print("\nRunning Example 2:")
