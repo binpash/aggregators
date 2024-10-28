@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse, functools, utils, re, locale, sys
-import operator, natsort 
+import operator  
 
 ## SORT FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for sort")
