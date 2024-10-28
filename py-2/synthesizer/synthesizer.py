@@ -101,7 +101,34 @@ def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str =
 
     return lean_expression
 
-def example_2():    
+
+def generate_lean_file(annotations: Dict[str, Any], comparator: str = "a.key <= b.key"):
+    lean_code = synthesize_aggregator_to_lean(annotations, comparator=comparator)
+    lean_file_content = f"""
+    import Aggregators
+
+    def main (args : List String) : IO UInt32 := do
+    let args : List System.FilePath := List.map (fun arg ↦ ⟨arg⟩) args
+    let streams ← getAllStreams args
+
+    let output ← List.foldlM (fun acc stream => do
+        let lines ← readFile stream []
+        let inputs := parseInput lines
+        let acc := {lean_code} acc inputs
+        pure acc) 
+        [] streams
+    
+    output.forM (fun output => IO.print output)
+    return 0
+        """
+    with open("GeneratedAggregator.lean", "w") as lean_file:
+        lean_file.write(lean_file_content)
+    print("Lean file GeneratedAggregator.lean created with synthesized aggregator.")
+
+
+
+if __name__ == "__main__":
+    print("Running aggregator synthesis")
     annotations = {
         "input_type": "list",
         "output_type": "list",
@@ -111,7 +138,4 @@ def example_2():
     }
     
     print("Lean Aggregator:",synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
-
-if __name__ == "__main__":
-    print("\nRunning Example 2:")
-    example_2()
+    generate_lean_file(annotations, comparator="a.key <= b.key")
