@@ -1,3 +1,4 @@
+import json
 from itertools import permutations
 from typing import List, Dict, Callable, Any, Union
 
@@ -125,17 +126,24 @@ return 0
         lean_file.write(lean_file_content)
     print("Lean file GeneratedAggregator.lean created with synthesized aggregator.")
 
-
+def load_annotations(filename: str) -> Dict[str, Any]:
+    """Load annotations from a JSON file."""
+    try:
+        with open(filename, "r") as json_file:
+            annotations = json.load(json_file)
+            return annotations
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error: File '{filename}' is not a valid JSON file.")
+        return {}
 
 if __name__ == "__main__":
     print("Running aggregator synthesis")
-    annotations = {
-        "input_type": "list",
-        "output_type": "list",
-        "is_idempotent": True,
-        "reduces": False,
-        "is_sorted": True
-    }
     
-    print("Lean Aggregator:",synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
-    generate_lean_file(annotations, comparator="a.key <= b.key")
+    annotations = load_annotations("annotations.json")
+    
+    if annotations:
+        print("Lean Aggregator:", synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
+        generate_lean_file(annotations, comparator="a.key <= b.key")

@@ -1,0 +1,7 @@
+{
+    "input_type": "list",
+    "output_type": "list",
+    "is_idempotent": true,
+    "reduces": false,
+    "is_sorted": true
+}
