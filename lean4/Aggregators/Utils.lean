@@ -55,22 +55,3 @@ partial def readAll (streams : List IO.FS.Stream) (buf : List String) : IO (List
   | stream :: rest => 
     let buf ← readFile stream buf
     readAll rest buf
-
-structure Input where
-  key   : Nat
-  input : String
-  deriving Repr 
-
-instance : ToString Input where 
-  toString : Input → String
-  | ⟨_, input⟩ => input 
-
-def parseInput (lines : List String) : List Input :=
-  lines.map (fun line => 
-    let parts := line.splitOn " "
-    let key := parts.get! 0 |>.toNat?
-    match key with 
-    | none => ⟨0, line⟩
-    | some n => ⟨n, line⟩
-  )
-
