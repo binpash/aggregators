@@ -1,0 +1,16 @@
+E2E LOG: Running script scripts/sort_n.sh and input  with benchmark infrastructure
+TESTING LOG:  Parsing command pipeline from ./scripts/sort_n.sh
+TESTING LOG:  Parsing command pipeline finished; we have 1 command instances
+TESTING LOG:  sort -n |  Running command sequentially: aggregator not found 
+TESTING LOG:  sort -n |  Aggregator Status: not implemented 
+TESTING LOG:  sort -n |  Running sequentially: aggregator not implemented 
+E2E LOG: Verifying aggregator results to bash
+E2E LOG: Cleaning up benchmark directory intermediate files
+E2E LOG: Running script scripts/sort_n.sh and input  with benchmark infrastructure
+TESTING LOG:  Parsing command pipeline from ./scripts/sort_n.sh
+TESTING LOG:  Parsing command pipeline finished; we have 1 command instances
+TESTING LOG:  sort -n |  Running command sequentially: aggregator not found 
+TESTING LOG:  sort -n |  Aggregator Status: not implemented 
+TESTING LOG:  sort -n |  Running sequentially: aggregator not implemented 
+E2E LOG: Verifying aggregator results to bash
+E2E LOG: Cleaning up benchmark directory intermediate files
