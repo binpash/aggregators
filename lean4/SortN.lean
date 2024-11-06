@@ -1,5 +1,3 @@
-import Lean.Data.Json.Parser
-
 /- UTILITIES -/
 
 /- IO.FS.Stream represents a POSIX stream
@@ -78,43 +76,76 @@ def is_thousand_separator (c : Char) : Bool :=
 def is_decimal_point (c : Char) : Bool :=
   c = '.'
 
+-- Taken from Json
+-- mantissa * 10^-exponent
+structure JsonNumber where
+  mantissa : Int
+  exponent : Nat
+  deriving DecidableEq, Hashable
+
+def toFloat : JsonNumber → Float
+  | ⟨m, e⟩ => (if m >= 0 then 1.0 else -1.0) * OfScientific.ofScientific m.natAbs true e
+
 -- TODO: what is the right way to handle errors?
 -- Can use error monad
-def parseFloat (s : String) : Option Float :=
-  match Lean.Json.parse s with
-    | .ok (.num t) => some t.toFloat
-    | _ => none
+-- def parseFloat (s : String) : Option Float :=
+--   match Lean.Json.parse s with
+--     | .ok (.num t) => some t.toFloat
+--     | _ => none
 
 def get_first_number (s : String) : Option Float :=
   let chars := s.trim.toList
-  let rec preprocess (chars : List Char) (acc : String) (decimal_used : Bool) : Option String :=
+
+  let rec preprocess (chars : List Char) (acc : String) (exponent : Nat) (decimal_used : Bool) : Option Float :=
     match chars with
-    | [] => if acc.isEmpty then none else some acc
+    | [] => 
+      if acc.isEmpty then 
+        none 
+      else 
+        some (OfScientific.ofScientific (String.toNat! acc) true exponent)
+
     | c :: cs =>
       if is_digit c then
-        preprocess cs (acc.push c) decimal_used
-      else if is_thousand_separator c ∧ ¬acc.isEmpty then
-        preprocess cs acc decimal_used
+        if decimal_used then
+          preprocess cs (acc.push c) (exponent + 1) decimal_used
+        else
+          preprocess cs (acc.push c) exponent decimal_used
+
+      else if is_thousand_separator c ∧ ¬acc.isEmpty ∧ ¬decimal_used then
+        preprocess cs acc exponent decimal_used
+
       else if is_decimal_point c ∧ ¬decimal_used then
-        preprocess cs (acc.push c) true
-      else
-        if acc.isEmpty then none else some acc
+        preprocess cs acc exponent true
 
-  let parsed_string := 
-    match chars with
-    | [] => none
-    | c :: cs =>
-      if c = '-' then
-        preprocess cs "-" false
       else
-        preprocess chars "" false
+        if acc.isEmpty then 
+          none 
+        else 
+          some (OfScientific.ofScientific (String.toNat! acc) true exponent)
 
-  match parsed_string with
-  | none => none
-  | some parsed_string => 
-    match parseFloat parsed_string with
-      | none => none
-      | some parsed_float => some parsed_float
+  match chars with
+  | [] => none
+  | c :: cs =>
+    if c = '-' then
+      preprocess cs "-" 0 false
+    else
+      preprocess chars "" 0 false
+
+-- #eval get_first_number ""
+-- #eval get_first_number "1"
+-- #eval get_first_number "12"
+-- #eval get_first_number "12.3"
+-- #eval get_first_number "12.34"
+--
+-- #eval get_first_number "a"
+-- #eval get_first_number "a1"
+-- #eval get_first_number "1a"
+--
+-- #eval get_first_number "123.456"
+-- #eval get_first_number "123,456"
+-- #eval get_first_number "1,23,456"
+-- #eval get_first_number "1,23.456"
+-- #eval get_first_number "1.23,456"
 
 def parseInput (lines : List String) : List Input :=
   lines.map (fun line => 
