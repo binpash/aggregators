@@ -86,6 +86,7 @@ oneliners_agg() {
     chmod +x $AGG_FILE
     mkdir -p "outputs/agg"
     mkdir -p "agg-steps"
+    cmd_instance_counter="cmd_instance_counter.txt"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
     for script_input in "${scripts_inputs[@]}"; do
@@ -96,7 +97,7 @@ oneliners_agg() {
         time_file="./outputs/agg/${parsed[0]}.time"
         log_file="./outputs/agg/${parsed[0]}.log"
         agg_exec_file="./agg-steps/agg-${parsed[0]}.sh"
-        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
+        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" "$cmd_instance_counter" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
 
         cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file

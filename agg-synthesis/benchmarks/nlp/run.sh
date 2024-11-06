@@ -20,32 +20,32 @@ done
 
 names_scripts=(
     "1syllable_words;6_4"
-    # "2syllable_words;6_5"
-    # "find_anagrams;8.3_2"
-    # "4letter_words;6_2" # split into 2 scripts
-    # "4letter_words;6_2-2"
-    # "bigrams_appear_twice;8.2_2"
-    # "compare_exodus_genesis;8.3_3"
-    # "count_consonant_seq;7_2"
-    # "count_trigrams;4_3b"
-    # "sort_words_by_folding;3_2"
-    # "sort_words_by_num_of_syllables;8_1"
-    # "trigram_rec;6_1" # split into 2 scripts
-    # "trigram_rec;6_1-2"
-    # "uppercase_by_token;6_1_1"
-    # "uppercase_by_type;6_1_2"
-    # "verses_2om_3om_2instances;6_7-2"
-    # "verses_2om_3om_2instances;6_7-3"
-    # "vowel_sequencies_gr_1K;8.2_1"
-    # "verses_2om_3om_2instances;6_7"
-    # "bigrams;4_3"
-    # "count_words;1_1"
-    # "sort;3_1"
-    # "sort_words_by_rhyming;3_3"
-    # "merge_upper;2_1"
-    # "count_vowel_seq;2_2"
-    # "count_morphs;7_1"
-    # "words_no_vowels;6_3"
+    "2syllable_words;6_5"
+    "find_anagrams;8.3_2"
+    "4letter_words;6_2" # split into 2 scripts
+    "4letter_words;6_2-2"
+    "bigrams_appear_twice;8.2_2"
+    "compare_exodus_genesis;8.3_3"
+    "count_consonant_seq;7_2"
+    "count_trigrams;4_3b"
+    "sort_words_by_folding;3_2"
+    "sort_words_by_num_of_syllables;8_1"
+    "trigram_rec;6_1" # split into 2 scripts
+    "trigram_rec;6_1-2"
+    "uppercase_by_token;6_1_1"
+    "uppercase_by_type;6_1_2"
+    "verses_2om_3om_2instances;6_7-2"
+    "verses_2om_3om_2instances;6_7-3"
+    "vowel_sequencies_gr_1K;8.2_1"
+    "verses_2om_3om_2instances;6_7"
+    "bigrams;4_3"
+    "count_words;1_1"
+    "sort;3_1"
+    "sort_words_by_rhyming;3_3"
+    "merge_upper;2_1"
+    "count_vowel_seq;2_2"
+    "count_morphs;7_1"
+    "words_no_vowels;6_3"
 )
 
 mkdir -p "outputs"
@@ -86,9 +86,11 @@ nlp() {
             time_file="./outputs/agg/${input}-${script}.time"
             log_file="./outputs/agg/${input}-${script}.log"
             agg_exec_file="./agg-steps/agg-${input}-${script}.sh"
+            cmd_instance_counter="cmd_instance_num.txt"
+
             for input in $(find "${IN}" | head -n "${ENTRIES}" | xargs -I arg1 basename arg1); do
                 output_file=$OUT/${input}.out
-                (time ../agg_run.sh "$script_file" "$IN/$input" $ID "$log_file" "$agg_exec_file" >"$output_file") 2>"$time_file"
+                (time ../agg_run.sh "$script_file" "$IN/$input" $ID "$log_file" "$agg_exec_file" "$cmd_instance_counter" >"$output_file") 2>"$time_file"
             done
             ((ID++))
         fi

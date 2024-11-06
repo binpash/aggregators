@@ -27,12 +27,12 @@ if [[ "$@" == *"--small"* ]]; then
         "19;8_1M"
         "20;8_1M"
         "21;8_1M"
-        # "22;8_1M"
+        "22;8_1M"
         "23;9.1_1M"
         "24;9.2_1M"
         "25;9.3_1M"
         "26;9.4_1M"
-        # "27;9.5_1M"
+        "27;9.5_1M"
         "28;9.6_1M"
         "29;9.7_1M"
         "30;9.8_1M"
@@ -164,6 +164,7 @@ unix50_agg() {
     mkdir -p "agg-steps"
     # mode_res_file="./outputs/agg/oneliners.res"
     # > $mode_res_file
+    cmd_instance_counter="cmd_instance_counter.txt"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
     for script_input in "${scripts_inputs[@]}"; do
@@ -174,7 +175,7 @@ unix50_agg() {
         time_file="./outputs/agg/${parsed[0]}.time"
         log_file="./outputs/agg/${parsed[0]}.log"
         agg_exec_file="./agg-steps/agg-${parsed[0]}.sh"
-        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
+        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" "$cmd_instance_counter" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
 
         cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file

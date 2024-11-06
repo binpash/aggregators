@@ -16,6 +16,7 @@ SPLIT_TOP="inputs-s-"$3
 OUTPUT_DIR="outputs-temp/agg/"
 DEBUG_LOG=$4
 EXECFILE=$5
+cmd_instance_counter=$6
 mkdir -p "${OUTPUT_DIR%/}"
 
 # This script is to trace each command instance
@@ -98,6 +99,8 @@ find_agg() {
 
 run() {
     parse_simple # get CMDLIST, an array holding all single commands
+    cmd_count_with_cat=$((${#CMDLIST[@]} + 1))
+    echo $cmd_count_with_cat >>$cmd_instance_counter
     echo "LOG: " "Parsing command pipeline finished; we have ${#CMDLIST[@]} command instances" >>"$DEBUG_LOG"
 
     local CURR_CMD_COUNT=0
