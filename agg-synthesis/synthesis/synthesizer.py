@@ -1,4 +1,5 @@
 import json
+import sys
 from itertools import permutations
 from typing import List, Dict, Callable, Any, Union
 
@@ -25,53 +26,39 @@ class Function:
                 return False
         return True
 
-
+# Function database for possible aggregators
 function_database = [
     Function(
         name='merge_sort',
-        function_properties={
-            "is_idempotent": True
-        },
-        output_properties={
-            "is_sorted": True,
-        },
+        function_properties={"is_idempotent": True},
+        output_properties={"is_sorted": True},
         input_type='list',
         output_type='list'
     ),
     Function(
         name='unique',
-        function_properties={
-            "is_idempotent": True
-        },
-        output_properties={
-            "reduces": True
-        },
+        function_properties={"is_idempotent": True},
+        output_properties={"reduces": True},
         input_type='list',
         output_type='list'
     ),
     Function(
         name='cat',
-        function_properties={
-            "is_commutative": False,
-        },
+        function_properties={"is_commutative": False},
         output_properties={},
         input_type='list',
         output_type='list'
     ),
     Function(
         name='sum',
-        function_properties={
-            "is_commutative": True,
-        },
-        output_properties={
-        },
+        function_properties={"is_commutative": True},
+        output_properties={},
         input_type='num',
         output_type='num'
     ),
 ]
 
-
-def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str = "a.key <= b.key") -> Union[str, str]:    
+def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str = "a.key <= b.key") -> str:    
     essential_functions = [f for f in function_database if f.applies_to(annotations) and f.name in ['merge_sort', 'cat', 'sum']]
     if not essential_functions:
         return "Cannot synthesize aggregator: no applicable 'merge_sort', 'cat', or 'sum' function found."
@@ -81,13 +68,12 @@ def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str =
 
     if primary_function.name == 'merge_sort':
         lean_expression = f"merge (fun a b => {comparator})"
-
     elif primary_function.name == 'cat':
         lean_expression = "cat"
-
     elif primary_function.name == 'sum':
         lean_expression = "sum"
 
+    # Add any additional applicable functions
     applicable_functions =  [f for f in function_database if f.applies_to(annotations) and f.name not in ['merge_sort', 'cat', 'sum']]
     for function_permutation in permutations(applicable_functions):
         if primary_function not in function_permutation:
@@ -101,7 +87,6 @@ def synthesize_aggregator_to_lean(annotations: Dict[str, Any], comparator: str =
                     lean_expression += f" ∘ merge (fun a b => {comparator})"
 
     return lean_expression
-
 
 def generate_lean_file(annotations: Dict[str, Any], comparator: str = "a.key <= b.key"):
     lean_code = synthesize_aggregator_to_lean(annotations, comparator=comparator)
@@ -122,9 +107,10 @@ let output ← List.foldlM (fun acc stream => do
 output.forM (fun output => IO.print output)
 return 0
         """
-    with open("../../lean4/Main.lean", "w") as lean_file:
+    # Writing everything to a single file
+    with open("GeneratedAggregator.lean", "w") as lean_file:
         lean_file.write(lean_file_content)
-    print("Lean file GeneratedAggregator.lean created with synthesized aggregator.")
+    print("Lean file 'GeneratedAggregator.lean' created with synthesized aggregator.")
 
 def load_annotations(filename: str) -> Dict[str, Any]:
     """Load annotations from a JSON file."""
@@ -140,9 +126,12 @@ def load_annotations(filename: str) -> Dict[str, Any]:
         return {}
 
 if __name__ == "__main__":
-    print("Running aggregator synthesis")
-    
-    annotations = load_annotations("annotations.json")
+    if len(sys.argv) < 2:
+        print("Usage: python3 synthesizer.py <annotations.json>")
+        sys.exit(1)
+
+    annotations_file = sys.argv[1]
+    annotations = load_annotations(annotations_file)
     
     if annotations:
         print("Lean Aggregator:", synthesize_aggregator_to_lean(annotations, comparator="a.key <= b.key"))
