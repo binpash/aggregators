@@ -1,6 +1,9 @@
 def concat : (x y : String) → String :=
  String.append
 
+def sum : (x y : Nat) → Nat :=
+  Nat.add
+
 def merge (le : α → α → Bool) (xs ys : List α) : List α :=
   match xs, ys with
   | [], ys => ys

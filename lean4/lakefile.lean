@@ -15,10 +15,13 @@ lean_exe "aggregators" where
   root := `Main
 
 lean_exe "sortn" where
-  root := `sortn
+  root := `Aggregators.sortn
 
 lean_exe "concat" where
-  root := `concat
+  root := `Aggregators.concat
+
+lean_exe "sum" where
+  root := `Aggregators.sum
 
 require mathlib from git "https://github.com/leanprover-community/mathlib4"
 -- require aesop from git "https://github.com/leanprover-community/aesop"
