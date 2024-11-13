@@ -1,6 +1,6 @@
 import Synthesis
 
-/- Aggregator for sort -n -/
+/- Aggregator for head -n 1 -/
 
 abbrev Input := String
 

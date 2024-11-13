@@ -14,6 +14,9 @@ lean_lib «Verification» where
 lean_exe "aggregators" where
   root := `Main
 
+lean_exe "sort" where
+  root := `Aggregators.sort
+
 lean_exe "sortn" where
   root := `Aggregators.sortn
 
