@@ -7,8 +7,6 @@ abbrev Input := Nat
 def parseInput (lines : List String) : Input :=
   lines.foldl (fun acc line => acc + line.trim.toNat!) 0
 
-#eval parseInput ["1", "2", "3", "4", "5"]
-
 def main (args : List String) : IO UInt32 := do
   let args : List System.FilePath := List.map (fun arg ↦ ⟨arg⟩) args
   let streams ← getAllStreams args
