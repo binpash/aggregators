@@ -26,6 +26,9 @@ lean_exe "sortr" where
 lean_exe "sortnr" where
   root := `Aggregators.sortnr
 
+lean_exe "sortk1n" where
+  root := `Aggregators.sortk1n
+
 lean_exe "uniq" where
   root := `Aggregators.uniq
 
