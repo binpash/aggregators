@@ -35,5 +35,8 @@ lean_exe "sum" where
 lean_exe "headn1" where
   root := `Aggregators.headn1
 
+lean_exe "tailn1" where
+  root := `Aggregators.tailn1
+
 require mathlib from git "https://github.com/leanprover-community/mathlib4"
 -- require aesop from git "https://github.com/leanprover-community/aesop"
