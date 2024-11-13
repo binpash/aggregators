@@ -20,6 +20,9 @@ lean_exe "sort" where
 lean_exe "sortn" where
   root := `Aggregators.sortn
 
+lean_exe "sortr" where
+  root := `Aggregators.sortr
+
 lean_exe "concat" where
   root := `Aggregators.concat
 
