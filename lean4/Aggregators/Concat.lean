@@ -4,19 +4,16 @@ import Synthesis
 
 abbrev Input := String
 
-def parseInput (lines : List String) : Input :=
-  lines.foldl (fun acc line => acc.append line) ""
-
 def main (args : List String) : IO UInt32 := do
   let args : List System.FilePath := List.map (fun arg ↦ ⟨arg⟩) args
   let streams ← getAllStreams args
 
   let output ← List.foldlM (fun acc stream => do
-      let lines ← readFile stream []
-      let input := parseInput lines
-      let acc := concat acc input
+      let bytes ← readString stream ByteArray.empty
+      let acc := acc.append bytes
       pure acc) 
-      "" streams
+      ByteArray.empty streams
 
-  IO.print output
+  let stdout ← IO.getStdout
+  stdout.write output
   return 0

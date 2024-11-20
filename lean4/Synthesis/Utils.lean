@@ -39,6 +39,15 @@ partial def dump (stream : IO.FS.Stream) : IO Unit := do
     stdout.write buf
     dump stream
 
+/-- Reads from the stream and returns a bytearray. -/
+partial def readString (stream : IO.FS.Stream) (buf : ByteArray) : IO ByteArray := do
+  let str ← stream.read bufsize
+  if str.isEmpty then
+    pure buf
+  else
+    let buf := buf ++ str
+    readString stream buf
+
 /-- Reads from the stream and returns a list of lines. -/
 partial def readFile (stream : IO.FS.Stream) (buf : List String) : IO (List String) := do
   let line ← stream.getLine
