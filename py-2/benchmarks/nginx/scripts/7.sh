@@ -1,0 +1,1 @@
+cat $1 | awk -F\" '{print $2}' ${INPUT}  | awk '{print $2}' | sort | uniq -c | sort -r
