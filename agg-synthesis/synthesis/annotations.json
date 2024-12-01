@@ -1,7 +1,5 @@
 {
-    "input_type": "list",
-    "output_type": "list",
-    "is_idempotent": true,
-    "reduces": false,
-    "is_sorted": true
+    "operation_type": "concat",
+    "input_type": "list<string>",
+    "output_type": "string"
 }
