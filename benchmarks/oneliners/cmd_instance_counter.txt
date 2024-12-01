@@ -1,0 +1,167 @@
+grep "and"
+tr A-Z a-z
+grep "\(.\).*\1\(.\).*\2\(.\).*\3\(.\).*\4"
+sort
+tr -c 'A-Za-z' '[\n*]'
+grep -v "^\s*$"
+tr A-Z a-z
+sort
+uniq -c
+sort -rn
+sed 100q
+tr -c 'A-Za-z' '[\n*]'
+grep -v "^\s*$"
+tr A-Z a-z
+sort
+uniq -c
+sort -rn
+tr A-Z a-z
+sort
+sort -r
+xargs file
+grep "shell script"
+cut -d: -f1
+xargs -L 1 wc -l
+grep -v '^0$'
+sort -n
+iconv -f utf-8 -t ascii//translit
+col -bx
+tr -cs A-Za-z '\n'
+tr A-Z a-z
+tr -d '[:punct:]'
+sort
+uniq
+comm -23 - inputs/dict.txt
+tr [:lower:] [:upper:]
+sort
+tr -c 'A-Za-z' '[\n*]'
+grep -v "^\s*$"
+tee
+tail -n +2
+sed '$d'
+tr A-Z a-z
+sort
+uniq
+cut -d ' ' -f 1
+tr [:lower:] [:upper:]
+sort
+cut -d ' ' -f 1
+sort
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+2
+3
+2
+2
+2
+2
+2
+2
+3
+2
+3
+2
+8
+7
+4
+7
+9
+3
+9
+4
+3
+7
+7
+7
+7
+2
+3
+2
+8
+7
+4
+7
+9
+3
+9
+4
+3
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+2
+8
+7
+4
+4
+4
+4
+4
+4
+4
+2
+3
+2
+8
+7
+7
+7
+9
+3
+9
+4
+3
+7
+7

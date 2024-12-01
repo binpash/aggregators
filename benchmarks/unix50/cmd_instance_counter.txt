@@ -1,0 +1,160 @@
+cut -d ' ' -f 2
+cut -d ' ' -f 2
+sort
+head -n 2
+cut -d ' ' -f 2
+cut -d ' ' -f 1
+sort
+uniq -c
+sort -r
+cut -d ' ' -f 4
+tr -d ','
+cut -d ' ' -f 2
+cut -c 1-1
+tr -d '\n'
+tr '[A-Z]' '[a-z]'
+tr ' ' '\n'
+grep '\.'
+wc -l
+tr ' ' '\n'
+grep 'x'
+grep '\.'
+wc -l
+tr ' ' '\n'
+grep 'x'
+grep '\.'
+cut -d '.' -f 2
+grep -v '[KQRBN]'
+wc -l
+tr ' ' '\n'
+grep 'x'
+grep '\.'
+cut -d '.' -f 2
+grep '[KQRBN]'
+cut -c 1-1
+sort
+uniq -c
+sort -nr
+tr ' ' '\n'
+grep 'x'
+grep '\.'
+cut -d '.' -f 2
+cut -c 1-1
+tr '[a-z]' 'P'
+sort
+uniq -c
+sort -nr
+tr ' ' '\n'
+grep '\.'
+cut -d '.' -f 2
+cut -c 1-1
+tr '[a-z]' 'P'
+sort -r
+uniq
+head -n 3
+tail -n 1
+grep 'print'
+cut -d "\"" -f 2
+cut -c 1-12
+awk "{print \$2, \$0}"
+sort -nr
+cut -d ' ' -f 2
+cut -f 1
+grep 'AT&T'
+wc -l
+cut -f 2
+sort -n
+uniq -c
+sort -nr
+head -n 1
+tr -s ' ' '\n'
+tail -n 1
+cut -f 4
+sort -n
+cut -c 3-3
+uniq
+sed s/\$/'0s'/
+tr ' ' '\n'
+grep 1969
+wc -l
+grep 'Bell'
+awk 'length <= 45'
+cut -d ',' -f 2
+awk "{\$1=\$1};1"
+grep '('
+cut -d '(' -f 2
+cut -d ')' -f 1
+head -n 1
+tr -c "[a-z][A-Z]" '\n'
+sort
+awk "length >= 16"
+tr ' ' '\n'
+grep '[A-Z]'
+tr '[a-z]' '\n'
+grep '[A-Z]'
+tr -d '\n'
+cut -c 1-4
+cut -c 1-1
+tr -d '\n'
+cut -c 1-2
+tr -d '\n'
+tr ' ' '\n'
+grep "\""
+sed 4d
+cut -d "\"" -f 2
+tr -d '\n'
+tr ' ' '\n'
+grep '[A-Z]'
+sed 1d
+sed 3d
+sed 3d
+tr '[a-z]' '\n'
+grep '[A-Z]'
+sed 3d
+tr -c '[A-Z]' '\n'
+tr -d '\n'
+sed 2d
+sed 2d
+tr -c '[A-Z]' '\n'
+tr -d '\n'
+tr -c '[a-z][A-Z]' '\n'
+grep '[A-Z]'
+sed 1d
+sed 2d
+sed 3d
+sed 4d
+tr -c '[A-Z]' '\n'
+tr -d '\n'
+tr -c '[a-z][A-Z]' '\n'
+grep '[A-Z]'
+sed 1d
+sed 1d
+sed 2d
+sed 3d
+sed 5d
+tr -c '[A-Z]' '\n'
+tr -d '\n'
+sed 1d
+grep 'Bell'
+cut -f 2
+wc -l
+sed 1d
+grep 'Bell'
+cut -f 2
+grep 'Bell'
+cut -f 2
+head -n 1
+fmt -w1
+cut -c 1-1
+tr -d '\n'
+tr '[A-Z]' '[a-z]'
+grep 'UNIX'
+cut -f 1
+cut -f 2
+cut -d ' ' -f 1
+sort
+uniq -c
+sort -nr
+head -n 1
+fmt -w1
+sed 1d

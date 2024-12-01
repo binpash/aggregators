@@ -50,7 +50,7 @@ covid-mts_agg() {
     mkdir -p "agg-steps"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
-    cmd_instance_counter="cmd_instance_num.txt"
+    cmd_instance_counter="./outputs/agg/time.csv"
 
     for number in $(seq 4); do
         script="${number}"

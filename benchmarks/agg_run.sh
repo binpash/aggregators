@@ -16,7 +16,7 @@ SPLIT_TOP="inputs-s-"$3
 OUTPUT_DIR="outputs-temp/agg/"
 DEBUG_LOG=$4
 EXECFILE=$5
-cmd_instance_counter=$6
+TIME_LOG=$6
 mkdir -p "${OUTPUT_DIR%/}"
 
 # This script is to trace each command instance
@@ -26,7 +26,8 @@ printf "#!/bin/bash\n \n" >$EXECFILE
 printf "## EXEC: this script records each evaluation (seq or par) to reach the final output \n" >>$EXECFILE
 
 # This log file is to record down a general
-printf "LOG: Running aggregators for script: $SCRIPT and input file: $INPUT_FILE\n" >"$DEBUG_LOG"
+printf "LOG: Running aggregators for script: $SCRIPT and input file: $INPUT_FILE\n" >>"$DEBUG_LOG"
+printf "LOG: Script ID: $3 \n" >>"$DEBUG_LOG"
 
 seq() {
     S_OUTPUT=$(../test-seq-driver.sh "$1" "$2" "$3" "$4" "$5")
@@ -37,7 +38,7 @@ par() {
 }
 
 parse_simple() {
-    echo "LOG: " "Parsing command pipeline from $SCRIPT" >"$DEBUG_LOG"
+    echo "LOG: " "Parsing command pipeline from $SCRIPT" >>"$DEBUG_LOG"
     while IFS= read -r line; do
         # Skip comments and empty lines
         if [[ "$line" == \#* ]] || [[ -z "$line" ]]; then
@@ -47,9 +48,9 @@ parse_simple() {
         # Parse out simple one-line commands separated by "|"
         # Leave out the first 'cat $1' for reading in input file
         IFS='|' read -ra CMDLIST <<<"$line"
-        if [[ "${CMDLIST[0]}" == cat* ]]; then
-            CMDLIST=("${CMDLIST[@]:1}")
-        fi
+        # if [[ "${CMDLIST[0]}" == cat* ]]; then
+        #     CMDLIST=("${CMDLIST[@]:1}")
+        # fi
     done <"$SCRIPT"
 
 }
@@ -77,22 +78,25 @@ find_agg() {
     FLAG="$(echo "${FULL}" | cut -d ' ' -f2-)"
 
     # see if we use flags, build agg file path
-    AGG_FILE_NO_FLAG="s_$CMD.py"
-    if [ "${FLAG:0:1}" = "-" ]; then
-        AGG_FILE="s_$CMD.py $FLAG" # CHANGE AGG
-    else
-        AGG_FILE=$AGG_FILE_NO_FLAG
-    fi
+    # AGG_FILE_NO_FLAG="s_$CMD.py"
+    # if [ "${FLAG:0:1}" = "-" ]; then
+    #     AGG_FILE="hw-py/s_$CMD.py $FLAG" # CHANGE AGG
+    # else
+    #     AGG_FILE="hw-py/$AGG_FILE_NO_FLAG"
+    # fi
 
-    ## COMMENT OUT FOR lean
-    # AGG_FILE_NO_FLAG="aggregators"
-
-    #AGG_FILE=$AGG_FILE_NO_FLAG
+    ### LEAN
+    # Python wrapper to find aggregator script
+    echo "command" $FULL >&2
+    COMBINE=$(python3 ../../find-agg.py $CMD $FLAG)
+    echo combine found: $COMBINE >&2
+    AGG_FILE="lean4/.lake/build/bin/$COMBINE"
 
     # check if the agg exist
-    if [ -f "../../${AGG_FILE_NO_FLAG}" ]; then
+    if [ -f "../../$AGG_FILE" ]; then
         echo "${AGG_FILE}"
     else
+        echo "NOT FOUND $AGG_FILE" >&2
         echo ""
     fi
 }
@@ -100,7 +104,7 @@ find_agg() {
 run() {
     parse_simple # get CMDLIST, an array holding all single commands
     cmd_count_with_cat=$((${#CMDLIST[@]} + 1))
-    echo $cmd_count_with_cat >>$cmd_instance_counter
+    # echo $cmd_count_with_cat >>$cmd_instance_counter
     echo "LOG: " "Parsing command pipeline finished; we have ${#CMDLIST[@]} command instances" >>"$DEBUG_LOG"
 
     local CURR_CMD_COUNT=0
@@ -110,7 +114,13 @@ run() {
         if [[ $CURR_CMD_COUNT == 0 ]]; then
             CURR_INPUT=$INPUT_FILE
         fi
+        echo $CMD >&2
+        eval "cat "$CURR_INPUT" | $CMD" >3.txt
         AGG="$(find_agg "${CMD}")" # See if agg exist
+        time_log_s1=""
+        time_log_s2=""
+        CMD_PRINT=$(echo "$CMD" | awk '{$1=$1};1')
+
         if [[ -z "$AGG" || "$AGG" == "NA" ]]; then
             ## agg not found, pass entire input through cmd as normal
             echo "$LOG_PREFIX" "Running command sequentially: aggregator not found " >>"$DEBUG_LOG"
@@ -119,6 +129,7 @@ run() {
             seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
             # execute sequentially
             eval "$S_OUTPUT"
+            time_log_s1="$CMD_PRINT, seq, NA"
             # parse out the output file to use as next input
             CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
         else
@@ -131,19 +142,24 @@ run() {
                 echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG"
                 seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
                 eval "$S_OUTPUT"
+                time_log_s1="$CMD_PRINT, seq, NA"
                 CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
             else
+                echo "$LOG_PREFIX" "Using aggregator: $AGG" >>"$DEBUG_LOG"
                 local SPLIT_FILELIST=$(mkdir_get_split "$CURR_INPUT")
                 # run each split file through par driver; which runs split files under cmd and return cmd line to run correct agg on those files
                 par "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${AGG}" "${EXECFILE}" "${SPLIT_FILELIST[@]}" "${SPLIT_TOP}"
                 # run agg script with files ran with cmd
-                eval "$P_OUTPUT"
+                time_output=$({ time eval "$P_OUTPUT"; } 2>&1 >/dev/null)
+                echo "$LOG_PREFIX" "$AGG partial combine time:" "$time_output" >>"$DEBUG_LOG" #run file with input and direct to output
+                time_log_s1="$CMD_PRINT, $AGG, $time_output"
                 if [ $? -eq 1 ]; then
-                    echo "$LOG_PREFIX" "ERROR: Aggregator failed (Cannot read in input file correctly)" >&2 >>"$DEBUG_LOG"
+                    echo "$LOG_PREFIX" "ERROR: Aggregator failed Cannot read in input file correctly" >>"$DEBUG_LOG"
                     echo "$LOG_PREFIX" "Running sequentially: aggregator error " >>"$DEBUG_LOG"
                     echo "$LOG_PREFIX" "Aggregator Status: implemented " >>"$DEBUG_LOG"
                     seq "${CURR_INPUT}" "${OUTPUT_DIR}" "${FILE_TYPE}" "${CMD}" "${EXECFILE}"
                     eval "$S_OUTPUT"
+                    time_log_s1="$CMD_PRINT| seq, NA"
                     CURR_INPUT=$(echo "$S_OUTPUT" | awk -F '> ' '{print $2}')
                 else
                     # parse out the output file to use as next input
@@ -152,6 +168,21 @@ run() {
                 fi
             fi
         fi
+
+        if ! diff -q $CURR_INPUT 3.txt >/dev/null; then
+            echo "$LOG_PREFIX" $CURR_INPUT 3.txt are different >>"$DEBUG_LOG"
+            echo "$LOG_PREFIX" using sequential output as next input >>"$DEBUG_LOG"
+            cat 3.txt >$CURR_INPUT
+            echo we are using sequential when failed >&2
+            diff -q $CURR_INPUT 3.txt >&2
+            time_log_s2="| diff"
+            echo $SCRIPT | $time_log_s1 $time_log_s2 >>$TIME_LOG
+        else
+            echo "$LOG_PREFIX" $CURR_INPUT 3.txt are the same >>"$DEBUG_LOG"
+            time_log_s2="| same"
+            echo $SCRIPT | $time_log_s1 $time_log_s2 >>$TIME_LOG
+        fi
+
         ((CURR_CMD_COUNT++))
     done
 
