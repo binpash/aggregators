@@ -1,5 +1,8 @@
 {
-    "operation_type": "concat",
+    "operation_type": "sort",
     "input_type": "list<string>",
-    "output_type": "string"
+    "output_type": "list<string>",
+    "is_numeric": false,
+    "is_reverse": true
 }
+

@@ -16,7 +16,7 @@ fi
 echo "Running synthesizer..."
 python3 synthesizer.py annotations.json
 
-cd ../../lean4/
+cd ../lean4/
 
 # Ensure the generated Lean file exists
 if [ ! -f "Main.lean" ]; then

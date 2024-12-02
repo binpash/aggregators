@@ -250,7 +250,7 @@ def generate_lean_file(annotations: Dict[str, Any]):
         return
 
     # Define the target directory and file
-    target_dir = "../../lean4"
+    target_dir = "../lean4"
     filename = "Main.lean"
     full_path = os.path.join(target_dir, filename)
 
