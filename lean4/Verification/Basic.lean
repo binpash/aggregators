@@ -206,26 +206,47 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
   The grep_agg function is a simple aggregation function that concatenates the results of two greps.
 -/
 
-def grep_agg : String → String → String :=
+def concat : String → String → String :=
   λ x y ↦ x ++ y
-
-theorem grep_correctness 
-  (grep : String → String → String) 
-  (xs ys : String) 
-  (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern) : 
-  grep (xs ++ ys) pattern = grep_agg (grep xs pattern) (grep ys pattern) :=
-  by
-    rw [grep_agg]
-    rw [h]
 
 theorem concat_correctness 
   (f : String → String) 
   (xs ys : String) 
   (h : ∀ xs ys, f (xs ++ ys) = f xs ++ f ys) : 
-  f (xs ++ ys) = grep_agg (f xs) (f ys) :=
+  f (xs ++ ys) = concat (f xs) (f ys) :=
   by
-    rw [grep_agg]
+    rw [concat]
     rw [h]
+
+-- Cat is just a function that concatenates two strings
+theorem cat_size
+  (cat : String → String)
+  (h : ∀ s xs ys, s = xs ++ ys → cat s = cat xs ++ cat ys) : 
+  ∀ s xs ys a b c d, 
+    s = xs ++ ys → 
+    xs = a ++ b →
+    ys = c ++ d →
+    concat (cat xs) (cat ys) = concat (cat a) (cat b) ++ concat (cat c) (cat d) := 
+  by
+    intro s xs ys a b c d a_1 a_2 a_3
+    subst a_3 a_1 a_2
+    simp_all only
+    rfl
+
+-- The only difference between concat and grep is that grep has a pattern argument
+theorem grep_correctness 
+  (grep : String → String → String) 
+  (xs ys : String) 
+  (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern) : 
+  grep (xs ++ ys) pattern = concat (grep xs pattern) (grep ys pattern) :=
+  by
+    rw [concat]
+    rw [h]
+
+-- Other properties:
+-- 1. grep str pattern <= str
+-- 2. ∀ s ∈ grep str pattern, s ∈ str
+-- However, these are properties of the grep function itself, not the aggregator
 
 /-
   The uniq command removes duplicates from a list of strings.
