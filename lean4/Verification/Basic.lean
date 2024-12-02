@@ -8,28 +8,71 @@ open Lean Elab Meta
   The wc_agg function is a simple aggregation function that sums the number of characters in two files.
 -/
 
-def wc_agg : Nat → Nat → Nat :=
+def sum : Nat → Nat → Nat :=
   λ x y ↦ x + y
 
 theorem wc_correctness 
   (wc : String → Nat)
   (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
-  wc (xs ++ ys) = wc_agg (wc xs) (wc ys) :=
+  wc (xs ++ ys) = sum (wc xs) (wc ys) :=
   by 
-    rw [wc_agg]
+    rw [sum]
     rw [h]
 
-def pairwise_add : Nat × Nat → Nat × Nat → Nat × Nat
+def pairwise_sum : Nat × Nat → Nat × Nat → Nat × Nat
   := λ (x1, y1) (x2, y2) => (x1 + x2, y1 + y2)
 
-def wc_agg' := pairwise_add
-
 theorem wc_correctness' (wc : String → Nat × Nat)
-  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_add (wc xs) (wc ys)) : 
-  wc (xs ++ ys) = wc_agg' (wc xs) (wc ys) :=
+  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
+  wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
   by
-    rw [wc_agg']
     rw [h]
+
+def triple_sum : Nat × Nat × Nat → Nat × Nat × Nat → Nat × Nat × Nat
+  := λ (x1, y1, z1) (x2, y2, z2) => (x1 + x2, y1 + y2, z1 + z2)
+
+def is_substring (substr str : String) : Prop :=
+  ∃ xs ys : String, str = xs ++ substr ++ ys
+
+theorem wc_ordering (wc : String → Nat × Nat × Nat) 
+  (h: ∀ s₁ s₂, is_substring s₂ s₁ → wc s₁ >= wc s₂) : 
+  ∀ s₁ s₂ a b c d, 
+    is_substring s₂ s₁ → 
+    s₁ = a ++ b → 
+    s₂ = c ++ d → 
+    triple_sum (wc a) (wc b) >= triple_sum (wc c) (wc d) := 
+  by
+    intro s₁ s₂ a b c d hsubstr hsplit1 hsplit2
+    -- have hwc : wc s₁ ≥ wc s₂ := h s₁ s₂ hsubstr
+    -- rw [hsplit1, hsplit2] at hwc
+    -- obtain ⟨xs, ys, hconcat⟩ := hsubstr
+    -- rw [hconcat] at hsplit1
+
+    -- Is this necessarily true?
+    have hwc2 : wc a + wc b ≥ wc c + wc d := 
+      by
+        sorry
+    
+    rw [triple_sum]
+    rw [triple_sum]
+    apply hwc2
+
+theorem wc_ordering2 (wc : String → Nat × Nat × Nat) 
+  (h : ∀ s s₁ s₂, s = s₁ ++ s₂ → wc s = wc s₁ + wc s₂) :
+  ∀ s s₁ s₂ a b c d, 
+    s = s₁ ++ s₂ →
+    s₁ = a ++ b → 
+    s₂ = c ++ d → 
+    triple_sum (wc s₁) (wc s₂) = triple_sum (wc (a ++ b)) (wc (c ++ d)) := 
+  by 
+    intro s s₁ s₂ a b c d hsplit hsplit1 hsplit2
+    -- have h_s₁ : wc s₁ = wc a + wc b := h s₁ a b hsplit1
+    -- have h_s₂ : wc s₂ = wc c + wc d := h s₂ c d hsplit2
+    -- rw [triple_sum]
+    -- rw [h_s₁, h_s₂]
+    -- rw [triple_sum]
+    -- subst hsplit hsplit2 hsplit1
+    simp_all only
 
 /-
 def wc : String → Nat :=
@@ -145,12 +188,11 @@ theorem merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ +
               simp 
               rw [add_assoc]
 
-theorem sort_equal_length {α : Type} (l₁ l₂ : List α)
-  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
   (h : ∀ l, (sort r l).length = l.length) :
-  ∀ l, l₁ ++ l₂ = l → (merge r (sort r l₁) (sort r l₂)).length = l.length := 
+  ∀ l l₁ l₂, l₁ ++ l₂ = l → (merge r (sort r l₁) (sort r l₂)).length = l.length := 
   by
-    intro l hl
+    intro l l₁ l₂ hl
     rw [←hl]
     rw [List.length_append]
     rw [merge_equal_length]
@@ -158,7 +200,6 @@ theorem sort_equal_length {α : Type} (l₁ l₂ : List α)
     have h₂ : (sort r l₂).length = l₂.length := h l₂
     rw [←h₁, ←h₂]
     rw [List.length_append]
-
 
 /-
   The grep command searches for a pattern in a file.
