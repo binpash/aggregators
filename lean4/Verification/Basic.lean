@@ -233,20 +233,59 @@ theorem cat_size
     simp_all only
     rfl
 
+def concat_list : List String → List String → List String :=
+  λ xs ys ↦ xs ++ ys
+
 -- The only difference between concat and grep is that grep has a pattern argument
+-- And the input is a list of strings instead of a single string
 theorem grep_correctness 
-  (grep : String → String → String) 
-  (xs ys : String) 
+  (grep : List String → String → List String) 
+  (xs ys : List String) 
   (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern) : 
-  grep (xs ++ ys) pattern = concat (grep xs pattern) (grep ys pattern) :=
+  grep (xs ++ ys) pattern = concat_list (grep xs pattern) (grep ys pattern) :=
   by
-    rw [concat]
+    rw [concat_list]
     rw [h]
 
--- Other properties:
--- 1. grep str pattern <= str
--- 2. ∀ s ∈ grep str pattern, s ∈ str
--- However, these are properties of the grep function itself, not the aggregator
+-- The output is smaller than the input
+theorem grep_size
+  (grep: List String → String → List String)
+  (h: ∀ str pattern, (grep str pattern).length <= str.length) :
+  ∀ str pattern, 
+    ∀ a b, str = a ++ b → 
+    (concat_list (grep a pattern) (grep b pattern)).length <= str.length := 
+  by
+    intro s pattern a b hsplit
+    rw [concat_list]
+    rw [hsplit]
+    have h₁ := h a pattern
+    have h₂ := h b pattern
+    simp [String.length_append]
+    exact Nat.add_le_add h₁ h₂
+
+-- Membership is preserved
+theorem grep_contains
+  (grep: List String → String → List String)
+  (h: ∀ lines pattern, ∀ line ∈ (grep lines pattern), line ∈ lines) :
+  ∀ lines pattern, 
+    ∀ a b, lines = a ++ b → 
+      ∀ line ∈ (concat_list (grep a pattern) (grep b pattern)), line ∈ lines := 
+  by
+    intro lines pattern a b hsplit line
+    rw [concat_list]
+    rw [hsplit]
+    intro hin
+    subst hsplit
+    simp_all only [List.mem_append]
+    cases hin with
+    | inl h1 =>
+      apply Or.inl
+      apply h
+      exact h1
+    | inr h2 =>
+      apply Or.inr
+      apply h
+      exact h2
 
 /-
   The uniq command removes duplicates from a list of strings.
