@@ -11,8 +11,6 @@ open Lean Elab Meta
 def wc_agg : Nat → Nat → Nat :=
   λ x y ↦ x + y
 
--- wc xs + wc ys = wc ys + wc xs
-
 theorem wc_correctness 
   (wc : String → Nat)
   (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
@@ -91,13 +89,13 @@ theorem length_split_lt {a b} {l l₁ l₂ : List α} (h : split (a :: b :: l) =
     cases' length_split_le e with h₁ h₂
     exact ⟨Nat.succ_le_succ (Nat.succ_le_succ h₁), Nat.succ_le_succ (Nat.succ_le_succ h₂)⟩
 
-def merge {α : Type} (r : α → α → Prop) [DecidableRel r] 
+def merge {α : Type} (r : α → α → Bool)
   : List α → List α → List α
   | [], l' => l'
   | l, [] => l
   | a :: l, b :: l' => if (r a b) then a :: merge r l (b :: l') else b :: merge r (a :: l) l'
 
-def mergeSort (r : α → α → Prop) [DecidableRel r] : List α → List α
+def mergeSort (r : α → α → Bool) : List α → List α
   | [] => []
   | [a] => [a]
   | a :: b :: l => by
@@ -112,15 +110,55 @@ def mergeSort (r : α → α → Prop) [DecidableRel r] : List α → List α
 
 -- This is mergeSort_cons_cons from the mathlib library
 
-alias sort := mergeSort 
-alias sort_agg := merge
-
-theorem sort_correctness {a b} {c xs ys : List α} 
-    (r : α → α → Prop) [DecidableRel r] (h : split (a :: b :: c) = (xs, ys)) :
-    sort r (a :: b :: c) = sort_agg r (sort r xs) (sort r ys) := by
-
-  rw [sort, sort_agg]
+theorem sort_correctness {a b} {c xs ys : List α} (r : α → α → Bool)
+    (h : split (a :: b :: c) = (xs, ys)) :
+    mergeSort r (a :: b :: c) = merge r (mergeSort r xs) (mergeSort r ys) := 
+  by
   simp only [mergeSort, h]
+
+
+/- In sort, length is the same as the length of the sorted input -/
+
+theorem merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
+  by
+    intro l₁ l₂
+    induction l₁ generalizing l₂ with 
+      | nil => 
+        rw [merge]
+        rw [List.nil_append]
+      | cons x l₁ ih => 
+        induction l₂ with
+          | nil =>
+            rw [merge]
+            simp [List.length_cons] 
+            simp [List.append_nil]
+          | cons y l₂ ih₂ => 
+            rw [merge]
+            split_ifs
+            case pos => 
+              simp [List.length_cons]
+              rw [ih]
+              simp [List.length_append]
+            case neg =>
+              simp [List.length_cons]
+              rw [ih₂]
+              simp 
+              rw [add_assoc]
+
+theorem sort_equal_length {α : Type} (l₁ l₂ : List α)
+  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+  (h : ∀ l, (sort r l).length = l.length) :
+  ∀ l, l₁ ++ l₂ = l → (merge r (sort r l₁) (sort r l₂)).length = l.length := 
+  by
+    intro l hl
+    rw [←hl]
+    rw [List.length_append]
+    rw [merge_equal_length]
+    have h₁ : (sort r l₁).length = l₁.length := h l₁
+    have h₂ : (sort r l₂).length = l₂.length := h l₂
+    rw [←h₁, ←h₂]
+    rw [List.length_append]
+
 
 /-
   The grep command searches for a pattern in a file.
@@ -130,10 +168,20 @@ theorem sort_correctness {a b} {c xs ys : List α}
 def grep_agg : String → String → String :=
   λ x y ↦ x ++ y
 
-theorem grep_correctness (grep : String → Strinig → String) 
-  (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern)
-  (xs ys : String) : 
+theorem grep_correctness 
+  (grep : String → String → String) 
+  (xs ys : String) 
+  (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern) : 
   grep (xs ++ ys) pattern = grep_agg (grep xs pattern) (grep ys pattern) :=
+  by
+    rw [grep_agg]
+    rw [h]
+
+theorem concat_correctness 
+  (f : String → String) 
+  (xs ys : String) 
+  (h : ∀ xs ys, f (xs ++ ys) = f xs ++ f ys) : 
+  f (xs ++ ys) = grep_agg (f xs) (f ys) :=
   by
     rw [grep_agg]
     rw [h]
