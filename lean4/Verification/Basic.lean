@@ -314,6 +314,123 @@ def uniq_uniq {α : Type} [DecidableEq α] (xs ys: List α) :
         -- rw [ih]
         -- simp
 
--- TODO: Specify the optimized uniq_agg function 
--- def uniq_agg {α : Type} [DecidableEq α] : List α → List α → List α :=
---   sorry
+def uniq_aggregator (xs ys : List String)  : List String :=
+  match xs, ys with 
+  | [], ys => ys
+  | xs, [] => xs
+  | x :: xs, y :: ys =>
+    if x == y then x :: uniq_aggregator xs ys
+    else x :: uniq_aggregator xs (y :: ys)
+
+theorem uniq_agg_size : ∀ a b, (uniq_aggregator a b).length <= a.length + b.length := 
+  by
+    intro a b
+    induction a generalizing b with
+      | nil => 
+        simp [uniq_aggregator]
+      | cons x xs ih =>
+        induction b with
+          | nil =>
+            simp [uniq_aggregator]
+          | cons y ys ih2 =>
+            simp [uniq_aggregator]
+            split_ifs
+            case pos =>
+              simp [List.length_cons]
+              have h := ih ys
+              linarith
+            case neg =>
+              simp only [List.length_cons] at ih
+              simp [List.length_cons]
+              have h := ih (y :: ys)
+              simp [List.length_cons] at h
+              linarith
+
+theorem uniq_size (uniq: List String → List String)
+  (h: ∀ lines, (uniq lines).length <= lines.length) :
+  ∀ lines, 
+    ∀ a b, lines = a ++ b → 
+    (uniq_aggregator (uniq a) (uniq b)).length <= lines.length := 
+  by
+    intro lines a b hsplit 
+    have h₁ := h a
+    have h₂ := h b
+    have h₃ := uniq_agg_size (uniq a) (uniq b)
+    rw [hsplit]
+    simp [List.length_append]
+    calc
+      (uniq_aggregator (uniq a) (uniq b)).length
+          ≤ (uniq a).length + (uniq b).length := h₃
+      _ ≤ a.length + b.length := by
+        apply add_le_add
+        exact h₁
+        exact h₂
+      _ = lines.length := by rw [hsplit, List.length_append]
+
+    subst hsplit
+    simp_all only [List.length_append, le_refl]
+
+theorem uniq_aggregator_contains : ∀ a b, ∀ line ∈ uniq_aggregator a b, line ∈ a ++ b := 
+  by
+    intro a b line hin
+    induction a generalizing b with
+      | nil => 
+        simp [uniq_aggregator] at hin
+        exact hin
+      | cons x xs ih =>
+        induction b with
+          | nil =>
+            simp [uniq_aggregator] at hin
+            simp [hin]
+          | cons y ys ih2 =>
+            simp [uniq_aggregator] at hin
+            simp [List.cons_append]
+            split_ifs at hin with h_eq
+            case pos =>
+              subst h_eq
+              simp_all only [List.mem_append, List.cons_append, List.mem_cons]
+              cases hin with
+              | inl h_1 =>
+                subst h_1
+                simp_all only [true_or, implies_true, or_true, or_self]
+              | inr h_1 =>
+                simp_all only [or_true, implies_true]
+                apply Or.inr
+                have g := ih ys h_1
+                cases g with 
+                | inr h_2 => 
+                  apply Or.inr
+                  apply Or.inr
+                  exact h_2
+                | inl h_2 =>
+                  simp [h_2]
+            case neg =>
+              simp [List.mem_append] at hin
+              cases hin with
+              | inl h =>
+                  simp [h]
+              | inr h =>
+                  apply Or.inr
+                  have g := ih (y :: ys) h
+                  simp_all only [List.mem_append, List.cons_append, List.mem_cons]
+
+-- Membership is preserved
+theorem uniq_contains
+  (uniq: List String → List String)
+  (h: ∀ lines, ∀ line ∈ (uniq lines), line ∈ lines) :
+  ∀ lines, 
+    ∀ a b, lines = a ++ b → 
+      ∀ line ∈ (uniq_aggregator (uniq a) (uniq b)), line ∈ lines := 
+  by
+    intro lines a b hsplit line hin
+    rw [hsplit]
+    have hcontains := uniq_aggregator_contains (uniq a) (uniq b) line hin
+    cases List.mem_append.1 hcontains with
+    | inl huniqa =>
+      have ha := h a line huniqa
+      simp [List.mem_append]
+      apply Or.inl ha
+    | inr huniqb =>
+      have hb := h b line huniqb
+      simp [List.mem_append]
+      apply Or.inr hb
