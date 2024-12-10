@@ -20,11 +20,4 @@ def find(cmd: str, agg_dir_path: str):
         else: 
             return "" 
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="File splitter")
-    parser.add_argument("--cmd", "-i", type=str)
-    parser.add_argument("--dir", "-d", type=str)
-    
-    args = parser.parse_args()
-    print(find(args.cmd, args.dir))
+

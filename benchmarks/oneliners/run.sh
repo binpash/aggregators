@@ -30,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then
     scripts_inputs=(
-        "sort;test"
+        "sort;1M"
     ) # for debugging
 else
     scripts_inputs=(
@@ -91,15 +91,17 @@ oneliners_agg() {
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
     for script_input in "${scripts_inputs[@]}"; do
         IFS=";" read -r -a parsed <<<"${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
-        script_file="./scripts/${parsed[0]}.sh"
-        input_file="./inputs/${parsed[1]}.txt"
+        script_file="scripts/${parsed[0]}.sh"
+        input_file="inputs/${parsed[1]}.txt"
         output_file="./outputs/agg/${parsed[0]}.out"
         time_file="./outputs/agg/${parsed[0]}.time"
         log_file="./outputs/agg/${parsed[0]}.log"
         agg_exec_file="./agg-steps/agg-${parsed[0]}.sh"
-        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" "$cmd_instance_counter" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
-
+        final_output=""
+        chmod +x ../simple_infra/infra_run.py
+        { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg python -o $output_file; } 2>"$time_file" #run file with input and direct to output
         cat "${time_file}" >>$all_res_file
+
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file
         ((ID++))
     done

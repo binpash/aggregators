@@ -13,6 +13,8 @@ def parse_sh_file_line(line: str) -> list[str]:
         if token == "|":
             commands.append(" ".join(cur_command))
             cur_command = []
+        elif "$" in token: 
+            continue 
         else:
             cur_command.append(token)
     
@@ -26,13 +28,3 @@ def parse_pipeline(pipeline_file_path: str) -> list[str]:
             pipeline.extend(parse_sh_file_line(line))
     
     return pipeline
-
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input_file", "-i", type=str)
-    args = parser.parse_args()
-
-    parsed_commands = parse_pipeline(args.input_file)
-    for i, command in enumerate(parsed_commands):
-        print(f'Command {i}: "{command}"')

@@ -8,7 +8,6 @@ def find_lean(cmd: str, flag: str, args):
     elif cmd == "wc": 
         return "sum"
     elif cmd == "sort" and "r" in flag and "n" in flag: 
-        print("hit rn case")
         return "sortnr"
     elif cmd == "sort" and "u" in flag: 
         return ""
@@ -33,7 +32,6 @@ def find_lean(cmd: str, flag: str, args):
     elif cmd == "xargs": 
         return ""
     else: 
-        print(cmd, flag)
         return "concat"
     
 def find(cmd: str, agg_dir_path: str):
@@ -51,14 +49,5 @@ def find(cmd: str, agg_dir_path: str):
     else: 
         return ""
     
-
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="File splitter")
-    parser.add_argument("--cmd", "-i", type=str)
-    parser.add_argument("--dir", "-d", type=str)
-    
-    args = parser.parse_args()
-    print(find(args.cmd, args.dir))
 
  
