@@ -22,6 +22,6 @@ if [ ! -f $FILE ]; then
     echo $FILE " don't exists"
 fi
 
-time_output=$({ time cat $FILE | $CMD >$OUTPUT_FILE; } 2>&1 >/dev/null)
 executed="cat ${FILE} | $CMD > $OUTPUT_FILE"
+time_output=$({ time eval "$executed"; } 2>&1 >/dev/null)
 echo "$executed,$OUTPUT_FILE,$time_output"

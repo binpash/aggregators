@@ -30,7 +30,7 @@ elif [[ "$@" == *"--test"* ]]; then
     )
 elif [[ "$@" == *"--single"* ]]; then
     scripts_inputs=(
-        "sort;1M"
+        "wf;1M"
     ) # for debugging
 else
     scripts_inputs=(
@@ -81,11 +81,19 @@ oneliners_bash() {
 ID=1 # track agg run
 
 # run the onliner suite using aggregators
+if [[ "$@" == *"--all"* ]]; then
+    agg_set=all
+elif [[ "$@" == *"--lean"* ]]; then
+    agg_set=lean
+else
+    agg_set=python
+fi
+
 oneliners_agg() {
     mkdir -p "outputs/agg"
-    mkdir -p "agg-steps"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
+
     for script_input in "${scripts_inputs[@]}"; do
         IFS=";" read -r -a parsed <<<"${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
         script_file="scripts/${parsed[0]}.sh"
@@ -93,7 +101,7 @@ oneliners_agg() {
         output_file="./outputs/agg/${parsed[0]}.out"
         time_file="./outputs/agg/${parsed[0]}.time"
         chmod +x ../simple_infra/infra_run.py
-        { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg python -o $output_file; } 2>"$time_file" #run file with input and direct to output
+        { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file; } 2>"$time_file" #run file with input and direct to output
         cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file
         ((ID++))

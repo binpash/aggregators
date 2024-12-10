@@ -27,6 +27,6 @@ for entry in "$CMD_SPLIT_FILE_DIR"*; do
 done
 
 output_file=${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}
-time_output=$({ time ${AGG} ${filelist} >$output_file; } 2>&1 >/dev/null)
 executed="${AGG} ${filelist} > $output_file"
+time_output=$({ time eval "$executed"; } 2>&1 >/dev/null)
 echo "$executed,$output_file,$time_output"
