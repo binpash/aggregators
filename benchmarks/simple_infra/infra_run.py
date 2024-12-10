@@ -2,8 +2,9 @@
 
 import argparse
 import utils.simple_parse as simple_parse
-from execute import execute_par_or_seq
+from execute import Execution
 from global_data import GlobalData 
+from utils.print import debug_log
 
 ## PARSE ARGS 
 parser = argparse.ArgumentParser(description="")
@@ -15,17 +16,16 @@ parser.add_argument('-id', type=int)
 parser.add_argument('--agg_set', '-agg', type=str)
 args, cmds = parser.parse_known_args() 
 
-def run_cmd_loop(global_data: GlobalData) -> str: 
+def run_cmd_loop(globals: GlobalData) -> str: 
     cmds = simple_parse.parse_pipeline(args.script)   
-    print(cmds)
+    debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}', globals)
     output_path = ""
     for cmd in cmds:
-        global_data.set_cmd(cmd) 
-        output_path = execute_par_or_seq(global_data.input, global_data.seq_path, global_data.par_path,
-                                                 global_data.split, global_data.split_file_dir, global_data.check_par_output_dir_path, 
-                                                 global_data.output_dir_path, global_data.cmd, global_data.agg_set, global_data.debug_log_path) 
-        print(output_path)
-        global_data.change_input(output_path)
+        globals.set_cmd(cmd) 
+        debug_log(f'run {cmd} with input {globals.input}', globals)
+        curr_execution = Execution(globals)
+        output_path = curr_execution.execute_par_or_seq()
+        globals.change_input(output_path)
      
     return output_path
     

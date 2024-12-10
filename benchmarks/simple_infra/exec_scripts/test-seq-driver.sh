@@ -11,8 +11,6 @@ shift
 CMD=$1
 shift
 
-P=$1
-
 FILE_TYPE=".txt"
 FILENAME=$(basename "${FILE}") # get filename (hi.txt)
 WITHOUTTXT="${FILENAME%.*}"    # get filename without ext. (hi)
@@ -25,5 +23,5 @@ if [ ! -f $FILE ]; then
 fi
 
 time_output=$({ time cat $FILE | $CMD >$OUTPUT_FILE; } 2>&1 >/dev/null)
-echo "$OUTPUT_FILE, $time_output"
-echo "cat ${FILE} | $CMD > $OUTPUT_FILE" >>"${P}" # print seq to accumulating file
+executed="cat ${FILE} | $CMD > $OUTPUT_FILE"
+echo "$executed,$OUTPUT_FILE,$time_output"

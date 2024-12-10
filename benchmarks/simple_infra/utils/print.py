@@ -1,9 +1,12 @@
-from os import write
-import infra_run as globals
+from global_data import GlobalData
 
-def debug_log(log: str): 
-    prefix = f'{globals.cmd}: '  
-    with open(globals.debug_log_path, 'w') as debug_log:
-        write(debug_log, f'{prefix}{log}') 
-        
+def debug_log(log: str, globals: GlobalData): 
+    prefix = f'{globals.script_name}: '  
+    with open(globals.debug_log_path, 'a') as debug_log:
+        debug_log.write(f'{prefix}{log}\n') 
+
+def debug_log_e(e: str, o:str, t:str, globals: GlobalData): 
+    prefix = f'{globals.script_name}: '  
+    with open(globals.debug_log_path, 'a') as debug_log:
+        debug_log.write(f'{prefix}{e}, {t}\n')         
         

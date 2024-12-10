@@ -15,10 +15,6 @@ shift
 CMD_SPLIT_FILE_DIR="$1"
 shift
 
-P=$1
-chmod +x $P
-shift
-
 FILE_TYPE=".txt"
 FILENAME=$(basename "${FULLFILE}") # get filename (hi.txt)
 WITHOUTTXT="${FILENAME%.*}"        # get filename without ext. (hi)
@@ -32,5 +28,5 @@ done
 
 output_file=${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}
 time_output=$({ time ${AGG} ${filelist} >$output_file; } 2>&1 >/dev/null)
-echo "$output_file, $time_output"
-echo "${AGG} ${filelist} > $output_file" >>"${P}" # print to accumulating  file
+executed="${AGG} ${filelist} > $output_file"
+echo "$executed,$output_file,$time_output"
