@@ -98,7 +98,7 @@ oneliners_agg() {
         if [[ "$input_file" == *"all_cmds"* ]]; then
             { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file; } 2>"$time_file" #run file with input and direct to output
         else
-            { time ../simple_infra/infra_run.py -n 2 -i 1 -s $script_file -id $ID -agg $agg_set -o $output_file -inflate; } 2>"$time_file" #run file with input and direct to output
+            { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file -inflate; } 2>"$time_file" #run file with input and direct to output
         fi
 
         cat "${time_file}" >>$all_res_file
