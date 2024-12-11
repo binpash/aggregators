@@ -4,7 +4,7 @@ import argparse
 import utils.simple_parse as simple_parse
 from execute import Execution
 from global_data import GlobalData 
-from utils.print import debug_log, metrics_csv_header
+from utils.print import debug_log, metrics_csv_header, metrics_csv_row
 
 ## PARSE ARGS 
 parser = argparse.ArgumentParser(description="")
@@ -19,13 +19,13 @@ args, cmds = parser.parse_known_args()
 def run_cmd_loop(globals: GlobalData) -> str: 
     cmds = simple_parse.parse_pipeline(args.script)   
     debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}', globals)
-    metrics_csv_header(globals)
     output_path = ""
     for cmd in cmds:
         globals.set_cmd(cmd) 
         debug_log(f'run {cmd} with input {globals.input}', globals)
         curr_execution = Execution(globals)
         output_path = curr_execution.execute_par_or_seq()
+        metrics_csv_row(globals.metadata_to_header() + "," + curr_execution.metric_row, globals) 
         globals.change_input(output_path)
     return output_path
     

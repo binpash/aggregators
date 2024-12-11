@@ -29,4 +29,5 @@ done
 output_file=${OUTPUT_DIR}${WITHOUTTXT}-${CMD_FILE_NAME}${FILE_TYPE}
 executed="${AGG} ${filelist} > $output_file"
 time_output=$({ time eval "$executed"; } 2>&1 >/dev/null)
-echo "$executed,$output_file,$time_output"
+printf '%s\n%s\n%s\n' "$executed" "$output_file" "$time_output"
+# echo "$executed,$output_file,$time_output"

@@ -13,7 +13,7 @@ def parse_sh_file_line(line: str) -> list[str]:
         if token == "|":
             commands.append(" ".join(cur_command))
             cur_command = []
-        elif token[0] == "$": 
+        elif token.replace('"', '')[0] == "$": 
             continue 
         else:
             cur_command.append(token)

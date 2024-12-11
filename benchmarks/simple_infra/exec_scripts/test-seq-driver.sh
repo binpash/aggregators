@@ -3,13 +3,10 @@
 # Global variables -- grab from passed-in arguments
 
 FILE=$1
-shift
 
-OUTPUT_DIR=$1
-shift
+OUTPUT_DIR=$2
 
-CMD=$1
-shift
+CMD=$3
 
 FILE_TYPE=".txt"
 FILENAME=$(basename "${FILE}") # get filename (hi.txt)
@@ -24,4 +21,4 @@ fi
 
 executed="cat ${FILE} | $CMD > $OUTPUT_FILE"
 time_output=$({ time eval "$executed"; } 2>&1 >/dev/null)
-echo "$executed,$OUTPUT_FILE,$time_output"
+printf '%s\n%s\n%s\n' "$executed" "$OUTPUT_FILE" "$time_output"

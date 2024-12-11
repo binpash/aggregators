@@ -28,6 +28,7 @@ class GlobalData:
         self.metrics_path = "infra_metrics.csv"
         
         self.cmd = None
+        self.metri_row = ""
         self.split_file_dir = None 
         
         self.setup_dir()
@@ -47,7 +48,12 @@ class GlobalData:
     def set_cmd(self, new_cmd: str): 
         self.cmd = new_cmd
         self.split_file_dir = f'{self.inter_dir_path}{self.input_name}/'
-        
+    
+    def metadata_to_header(self):
+        "script,input,input size,adj input size,cmd" 
+        input_size = path.getsize(self.input)
+        adjusted_size = input_size
+        return f'{self.script_name}|{self.input}|{input_size}|{adjusted_size}|{self.cmd}'
 
     def setup_dir(self): 
         if not path.exists(self.output_dir_path): 
@@ -79,6 +85,6 @@ class GlobalData:
                 lean = find_agg_lean.find(self.cmd, self.lean_agg_path)
                 agg_found.append(lean)
         if len(agg_found) == 0: agg_found.append(find_agg_py.find(self.g.cmd, self.g.py_agg_path))
-        return agg_found 
+        return agg_found
     
 

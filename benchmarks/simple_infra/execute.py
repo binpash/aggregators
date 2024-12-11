@@ -5,27 +5,27 @@ from os.path import isfile, join
 class Execution: 
     def __init__(self, globals_: GlobalData): 
         self.g = globals_
+        self.metric_row = ""
 
     def get_executed_output_and_time(self, byte_str: str): 
-        parse_output = byte_str.decode('utf-8').split(",")
+        parse_output = byte_str.decode('utf-8').split('\n')
         executed = parse_output[0]
         output = parse_output[1]
         time = parse_output[2].strip()
         return (executed, output, time)
     
     def generate_seq_expected(self): 
-        seq_out = f'{self.g.check_par_output_dir_path}{self.g.input_name}-{self.g.cmd}.txt'
-        if not os.path.exists(seq_out): 
-            seq_execute = subprocess.check_output([self.g.seq_path, self.g.input, 
-                                                self.g.check_par_output_dir_path, 
-                                                self.g.cmd])
-            seq_e, seq_out, seq_time = self.get_executed_output_and_time(seq_execute)  
-            debug_log_exec(seq_e, seq_out, seq_time, self.g)
-        return seq_out 
+        seq_execute = subprocess.check_output([self.g.seq_path, self.g.input, 
+                                            self.g.check_par_output_dir_path, 
+                                            self.g.cmd])
+        seq_e, seq_out, seq_time = self.get_executed_output_and_time(seq_execute)  
+        debug_log_exec(seq_e, seq_out, seq_time, self.g)
+        return seq_out, seq_time
         
 
     def check_aggregator_correctness(self, par_result: str, seq_expectd: str) -> bool: 
         rv = subprocess.run(['diff', '-q', par_result, seq_expectd], capture_output=True).returncode
+        debug_log(f'execute {self.g.cmd}: check par with seq {par_result} {seq_expectd}', self.g)
         return rv == 0
         
 
@@ -59,10 +59,10 @@ class Execution:
         par_execute = subprocess.check_output([self.g.par_path, self.g.input, 
                                                output_dir_path_with_idx, 
                                                self.g.cmd, agg, split_file_dir_cmd])
-        # debug_log(f'execute {self.g.cmd}: applied {agg} to combine {len(split_files)} partials, {split_files}', self.g)
+        debug_log(f'execute {self.g.cmd}: applied {agg} to combine {len(split_files)} partials, {split_files}', self.g)
         par_e, par_out, par_time = self.get_executed_output_and_time(par_execute)
         debug_log_exec(par_e, par_out, par_time, self.g)
-        return par_out 
+        return par_out, par_time 
         
         
     def execute_par(self, agg_set: int, agg: str) -> str: 
@@ -70,15 +70,17 @@ class Execution:
         split_files, split_file_dir_cmd = self.generate_partials()
         
         # Apply aggregator to combine partials. 
-        par_out = self.combine_partials_with_aggregator(agg, agg_set, split_file_dir_cmd, split_files)
+        par_out, par_time = self.combine_partials_with_aggregator(agg, agg_set, split_file_dir_cmd, split_files)
         
         # Check if aggregator is correct against seq expected. 
-        seq_out = self.generate_seq_expected()
+        seq_out, seq_time = self.generate_seq_expected()
         if (self.check_aggregator_correctness(par_out, seq_out)): 
             debug_log(f'execute {self.g.cmd}: {agg} correct, return par: {par_out}', self.g)
+            self.metric_row += f'{agg}|{par_time}|correct|{seq_time}'
             return par_out
         else: 
             debug_log(f'execute {self.g.cmd}: {agg} incorrect, return seq: {seq_out}', self.g)
+            self.metric_row += f'{agg}|{par_time}|incorrect|{seq_time}'
             return seq_out
         
     def execute_seq(self) -> str: 
@@ -87,6 +89,7 @@ class Execution:
                                                self.g.cmd]) 
         e, out, time = self.get_executed_output_and_time(seq_execute)
         debug_log_exec(e, out, time, self.g)
+        self.metric_row += f'NA|NA|NA|{time}'
         return out 
 
     def execute_par_or_seq(self) -> str: 
@@ -99,6 +102,8 @@ class Execution:
             if has_valid_agg != "": 
                 curr_output_path = self.execute_par(self.g.agg_set[idx], agg)
                 output_path = curr_output_path
+                if idx < len(has_valid_agg)-1: 
+                    self.metric_row += "|"
         
         if output_path is not None: return output_path
             

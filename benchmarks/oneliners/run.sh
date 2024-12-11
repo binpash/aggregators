@@ -21,14 +21,10 @@ if [[ "$@" == *"--small"* ]]; then
     )
 elif [[ "$@" == *"--test"* ]]; then
     scripts_inputs=(
-        "grep;test"
-        "nfa-regex;test"
-        "top-n;test"
-        "sort;test"
-        "wf;test"
-        "sort-sort;test"
+        "grep;1M"
+        "diff;1M"
     )
-elif [[ "$@" == *"--single"* ]]; then
+elif [[ "$@" == *"--stack_abort"* ]]; then
     scripts_inputs=(
         "wf;1M"
     ) # for debugging
@@ -79,8 +75,6 @@ oneliners_bash() {
 }
 
 ID=1 # track agg run
-
-# run the onliner suite using aggregators
 if [[ "$@" == *"--all"* ]]; then
     agg_set=all
 elif [[ "$@" == *"--lean"* ]]; then
@@ -88,7 +82,6 @@ elif [[ "$@" == *"--lean"* ]]; then
 else
     agg_set=python
 fi
-
 oneliners_agg() {
     mkdir -p "outputs/agg"
 
