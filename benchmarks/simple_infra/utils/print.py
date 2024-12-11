@@ -1,14 +1,15 @@
 from global_data import GlobalData
 
+
 def debug_log(log: str, globals: GlobalData): 
-    prefix = f'{globals.script_name}: '  
+    prefix = globals.debug_prefix
     with open(globals.debug_log_path, 'a') as debug_log:
         debug_log.write(f'{prefix}{log}\n') 
 
 def debug_log_exec(e: str, o:str, t:str, globals: GlobalData): 
-    prefix = f'{globals.script_name}: '  
+    prefix = globals.debug_prefix
     with open(globals.debug_log_path, 'a') as debug_log:
-        debug_log.write(f'{prefix}{e}, {t}\n')         
+        debug_log.write(f'{prefix}{'script ran: '}{e}, {t}\n')         
         
 def metrics_csv_row(row: str, globals:GlobalData): 
     with open(globals.metrics_path, 'a') as m_log:

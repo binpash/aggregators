@@ -8,10 +8,17 @@ import utils.find_agg_lean as find_agg_lean
 class GlobalData: 
     def __init__(self, input_: str, script_: str, split_: str, 
                     id_: int, agg_set_: str, inflate_: bool):
+        if not path.exists(input_): 
+            print(f'{input_} does not exist; check input to infra_run\n')
+            exit(-1)
+        if not path.exists(script_): 
+            print(f'{script_} does not exist; check input to infra_run\n')
+            exit(-1)
+        
         self.input = input_ 
         self.input_name = path.splitext(path.basename(self.input))[0] 
         self.org_input_size=path.getsize(self.input)
-        self.inf_input_size="NA"
+        self.inf_input_size=path.getsize(self.input)
         self.script = script_
         self.script_name = path.splitext(path.basename(self.script))[0]
         self.split = split_
@@ -29,6 +36,7 @@ class GlobalData:
         self.py_agg_path = "../../py-2/"
         self.lean_agg_path = "../../lean4/.lake/build/bin/"
         self.debug_log_path = "infra_debug.log"
+        self.debug_prefix = "" # f'{globals.script_name}: '  
         self.metrics_path = "infra_metrics.csv"
         self.d = "|"
         
@@ -40,15 +48,18 @@ class GlobalData:
         self.create_agg_set()
         
     def change_input(self, new_input: str): 
+        if not path.exists(new_input): 
+            FileExistsError(f'{new_input} does not exist; check output of last produced run\n')
+       
         self.input = new_input  
         self.input_name = path.splitext(path.basename(self.input))[0]
         self.org_input_size = path.getsize(self.input)
         if self.inflate_input: 
             self.inf_input_size = self.generate_inflated_input(self.input, self.size_to_inflate_to)
-            print(self.org_input_size, " original size", self.inf_input_size, " inflated size", self.input)
+        else: 
+            self.inf_input_size = self.org_input_size
         
     def generate_inflated_input(self, input:str, inflate_to_size: str) -> int: 
-        print('inflating input to size ', inflate_to_size)
         current_size = path.getsize(input)
         bytes_still_needed = inflate_to_size - current_size
         if bytes_still_needed <= 0: 

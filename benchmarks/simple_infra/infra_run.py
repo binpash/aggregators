@@ -29,11 +29,13 @@ except:
 
 def run_cmd_loop(globals: GlobalData) -> str: 
     cmds = simple_parse.parse_pipeline(args.script)   
-    debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}', globals)
+    debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}; script: {globals.script}', globals)
     output_path = ""
-    for cmd in cmds:
+    for idx, cmd in enumerate(cmds):
+        debug_log("\n", globals)
         globals.set_cmd(cmd) 
-        debug_log(f'run {cmd} with input {globals.input}', globals)
+        debug_log(f'CMD INSTANCE {idx + 1}: {cmd}', globals)
+        debug_log(f'Input: {globals.input}; Org input size: {globals.org_input_size}; Inf input size: {globals.inf_input_size}', globals)
         curr_execution = Execution(globals)
         output_path = curr_execution.execute_par_or_seq()
         metrics_csv_row(f'{globals.metadata_to_header()}{globals.d}{curr_execution.metric_row}', globals)
@@ -41,16 +43,13 @@ def run_cmd_loop(globals: GlobalData) -> str:
     return output_path
     
 def run(): 
-    try: 
-        globals = GlobalData(args.input, args.script, args.split, args.id, args.agg_set, args.input_inflation)
-    except: 
-        RuntimeError("cannot set up global variables, please check all arguments passed in are correcet")
-        sys.exit(2)
+    globals = GlobalData(args.input, args.script, args.split, args.id, args.agg_set, args.input_inflation)
     final_output = run_cmd_loop(globals)
     with open(args.output, 'w', newline='\n') as outfile:
         with open(final_output, 'r', encoding='UTF-8-sig', newline='\n') as infile:
             for line in infile:
                 outfile.write(line)
+    debug_log(f"DONE\n \n", globals)
 
 run()
 
