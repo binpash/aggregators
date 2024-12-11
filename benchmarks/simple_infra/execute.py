@@ -1,6 +1,7 @@
 from global_data import GlobalData
 from os import listdir
 from os.path import isfile, join 
+import functools
 
 class Execution: 
     def __init__(self, globals_: GlobalData): 
@@ -64,7 +65,6 @@ class Execution:
         debug_log_exec(par_e, par_out, par_time, self.g)
         return par_out, par_time 
         
-        
     def execute_par(self, agg_set: int, agg: str) -> str: 
         # Split files, set-up intermediate directory paths, and apply cmd to each partials.
         split_files, split_file_dir_cmd = self.generate_partials()
@@ -76,11 +76,11 @@ class Execution:
         seq_out, seq_time = self.generate_seq_expected()
         if (self.check_aggregator_correctness(par_out, seq_out)): 
             debug_log(f'execute {self.g.cmd}: {agg} correct, return par: {par_out}', self.g)
-            self.metric_row += f'{agg}|{par_time}|correct|{seq_time}'
+            self.metric_row += f'{agg}{self.g.d}{par_time}{self.g.d}correct{self.g.d}{seq_time}'
             return par_out
         else: 
             debug_log(f'execute {self.g.cmd}: {agg} incorrect, return seq: {seq_out}', self.g)
-            self.metric_row += f'{agg}|{par_time}|incorrect|{seq_time}'
+            self.metric_row += f'{agg}{self.g.d}{par_time}{self.g.d}incorrect{self.g.d}{seq_time}'
             return seq_out
         
     def execute_seq(self) -> str: 
@@ -89,7 +89,7 @@ class Execution:
                                                self.g.cmd]) 
         e, out, time = self.get_executed_output_and_time(seq_execute)
         debug_log_exec(e, out, time, self.g)
-        self.metric_row += f'NA|NA|NA|{time}'
+        self.metric_row += f'NA{self.g.d}NA{self.g.d}NA{self.g.d}{time}'
         return out 
 
     def execute_par_or_seq(self) -> str: 
@@ -103,7 +103,7 @@ class Execution:
                 curr_output_path = self.execute_par(self.g.agg_set[idx], agg)
                 output_path = curr_output_path
                 if idx < len(has_valid_agg)-1: 
-                    self.metric_row += "|"
+                    self.metric_row += "{self.g.d}"
         
         if output_path is not None: return output_path
             
