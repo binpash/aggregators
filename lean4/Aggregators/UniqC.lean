@@ -26,8 +26,8 @@ def uniqCAggregator (xs ys : List Input) : List Input :=
   | _, [] => xs
   | x :: xs, y :: ys => 
     if x.value == y.value then
-      ⟨x.key + y.key, x.value⟩ :: uniqCAggregator xs ys
-    else if x.value <= y.value then
+      uniqCAggregator (⟨x.key + y.key, x.value⟩ :: xs) ys
+    else if x.value < y.value then
       x :: uniqCAggregator xs (y :: ys)
     else
       y :: uniqCAggregator (x :: xs) ys
@@ -45,4 +45,3 @@ def main (args : List String) : IO UInt32 := do
 
   output.forM (fun output => IO.print output)
   return 0
-

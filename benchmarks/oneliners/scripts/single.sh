@@ -1,1 +1,1 @@
-cat $1 | uniq -c
+cat $1 | grep "and" | sort

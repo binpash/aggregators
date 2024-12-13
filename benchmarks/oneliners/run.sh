@@ -21,16 +21,12 @@ if [[ "$@" == *"--small"* ]]; then
     )
 elif [[ "$@" == *"--test"* ]]; then
     scripts_inputs=(
-        "grep;test"
-        "nfa-regex;test"
-        "top-n;test"
-        "sort;test"
-        "wf;test"
-        "sort-sort;test"
+        "single;1M"
+        # "shortest-scripts;all_cmdsx100"
     )
-elif [[ "$@" == *"--single"* ]]; then
+elif [[ "$@" == *"--stack_abort"* ]]; then
     scripts_inputs=(
-        "sort;test"
+        "wf;1M"
     ) # for debugging
 else
     scripts_inputs=(
@@ -79,25 +75,31 @@ oneliners_bash() {
 }
 
 ID=1 # track agg run
-
-# run the onliner suite using aggregators
+if [[ "$@" == *"--all"* ]]; then
+    agg_set=all
+elif [[ "$@" == *"--lean"* ]]; then
+    agg_set=lean
+else
+    agg_set=python
+fi
 oneliners_agg() {
-    AGG_FILE="../agg_run.sh"
-    chmod +x $AGG_FILE
     mkdir -p "outputs/agg"
-    mkdir -p "agg-steps"
-    cmd_instance_counter="cmd_instance_counter.txt"
 
     echo executing oneliners agg $(date) | tee -a $mode_res_file $all_res_file
+
     for script_input in "${scripts_inputs[@]}"; do
         IFS=";" read -r -a parsed <<<"${script_input}" # for every item in scripts_input; 0 = script and 1 = input files
-        script_file="./scripts/${parsed[0]}.sh"
-        input_file="./inputs/${parsed[1]}.txt"
+        script_file="scripts/${parsed[0]}.sh"
+        input_file="inputs/${parsed[1]}.txt"
         output_file="./outputs/agg/${parsed[0]}.out"
         time_file="./outputs/agg/${parsed[0]}.time"
-        log_file="./outputs/agg/${parsed[0]}.log"
-        agg_exec_file="./agg-steps/agg-${parsed[0]}.sh"
-        { time ../agg_run.sh "$script_file" "$input_file" $ID "$log_file" "$agg_exec_file" "$cmd_instance_counter" >"$output_file"; } 2>"$time_file" #run file with input and direct to output
+        chmod +x ../simple_infra/infra_run.py
+
+        if [[ "$input_file" == *"all_cmds"* ]]; then
+            { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file; } 2>"$time_file" #run file with input and direct to output
+        else
+            { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file -inflate; } 2>"$time_file" #run file with input and direct to output
+        fi
 
         cat "${time_file}" >>$all_res_file
         echo "$script_file $(cat "$time_file")" | tee -a $mode_res_file

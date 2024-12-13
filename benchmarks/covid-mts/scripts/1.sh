@@ -20,4 +20,4 @@
 
 # # diff out{1,}
 
-cat "$1" | sed 's/T..:..:..//' | cut -d ',' -f 1,3 | sort -u | cut -d ',' -f 1 | sort -u | cut -d ',' -f 1 | sort | uniq -c | awk "{print \$2,\$1}"                   
+cat "$1" | sed 's/T..:..:..//' | cut -d ',' -f 1,3 | sort -u | cut -d ',' -f 1 | sort -u | cut -d ',' -f 1 | sort | uniq -c | awk "{print \$2,\$1}"

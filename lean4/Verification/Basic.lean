@@ -233,20 +233,59 @@ theorem cat_size
     simp_all only
     rfl
 
+def concat_list : List String → List String → List String :=
+  λ xs ys ↦ xs ++ ys
+
 -- The only difference between concat and grep is that grep has a pattern argument
+-- And the input is a list of strings instead of a single string
 theorem grep_correctness 
-  (grep : String → String → String) 
-  (xs ys : String) 
+  (grep : List String → String → List String) 
+  (xs ys : List String) 
   (h : ∀ xs ys pattern, grep (xs ++ ys) pattern = grep xs pattern ++ grep ys pattern) : 
-  grep (xs ++ ys) pattern = concat (grep xs pattern) (grep ys pattern) :=
+  grep (xs ++ ys) pattern = concat_list (grep xs pattern) (grep ys pattern) :=
   by
-    rw [concat]
+    rw [concat_list]
     rw [h]
 
--- Other properties:
--- 1. grep str pattern <= str
--- 2. ∀ s ∈ grep str pattern, s ∈ str
--- However, these are properties of the grep function itself, not the aggregator
+-- The output is smaller than the input
+theorem grep_size
+  (grep: List String → String → List String)
+  (h: ∀ str pattern, (grep str pattern).length <= str.length) :
+  ∀ str pattern, 
+    ∀ a b, str = a ++ b → 
+    (concat_list (grep a pattern) (grep b pattern)).length <= str.length := 
+  by
+    intro s pattern a b hsplit
+    rw [concat_list]
+    rw [hsplit]
+    have h₁ := h a pattern
+    have h₂ := h b pattern
+    simp [String.length_append]
+    exact Nat.add_le_add h₁ h₂
+
+-- Membership is preserved
+theorem grep_contains
+  (grep: List String → String → List String)
+  (h: ∀ lines pattern, ∀ line ∈ (grep lines pattern), line ∈ lines) :
+  ∀ lines pattern, 
+    ∀ a b, lines = a ++ b → 
+      ∀ line ∈ (concat_list (grep a pattern) (grep b pattern)), line ∈ lines := 
+  by
+    intro lines pattern a b hsplit line
+    rw [concat_list]
+    rw [hsplit]
+    intro hin
+    subst hsplit
+    simp_all only [List.mem_append]
+    cases hin with
+    | inl h1 =>
+      apply Or.inl
+      apply h
+      exact h1
+    | inr h2 =>
+      apply Or.inr
+      apply h
+      exact h2
 
 /-
   The uniq command removes duplicates from a list of strings.
@@ -275,6 +314,123 @@ def uniq_uniq {α : Type} [DecidableEq α] (xs ys: List α) :
         -- rw [ih]
         -- simp
 
--- TODO: Specify the optimized uniq_agg function 
--- def uniq_agg {α : Type} [DecidableEq α] : List α → List α → List α :=
---   sorry
+def uniq_aggregator (xs ys : List String)  : List String :=
+  match xs, ys with 
+  | [], ys => ys
+  | xs, [] => xs
+  | x :: xs, y :: ys =>
+    if x == y then x :: uniq_aggregator xs ys
+    else x :: uniq_aggregator xs (y :: ys)
+
+theorem uniq_agg_size : ∀ a b, (uniq_aggregator a b).length <= a.length + b.length := 
+  by
+    intro a b
+    induction a generalizing b with
+      | nil => 
+        simp [uniq_aggregator]
+      | cons x xs ih =>
+        induction b with
+          | nil =>
+            simp [uniq_aggregator]
+          | cons y ys ih2 =>
+            simp [uniq_aggregator]
+            split_ifs
+            case pos =>
+              simp [List.length_cons]
+              have h := ih ys
+              linarith
+            case neg =>
+              simp only [List.length_cons] at ih
+              simp [List.length_cons]
+              have h := ih (y :: ys)
+              simp [List.length_cons] at h
+              linarith
+
+theorem uniq_size (uniq: List String → List String)
+  (h: ∀ lines, (uniq lines).length <= lines.length) :
+  ∀ lines, 
+    ∀ a b, lines = a ++ b → 
+    (uniq_aggregator (uniq a) (uniq b)).length <= lines.length := 
+  by
+    intro lines a b hsplit 
+    have h₁ := h a
+    have h₂ := h b
+    have h₃ := uniq_agg_size (uniq a) (uniq b)
+    rw [hsplit]
+    simp [List.length_append]
+    calc
+      (uniq_aggregator (uniq a) (uniq b)).length
+          ≤ (uniq a).length + (uniq b).length := h₃
+      _ ≤ a.length + b.length := by
+        apply add_le_add
+        exact h₁
+        exact h₂
+      _ = lines.length := by rw [hsplit, List.length_append]
+
+    subst hsplit
+    simp_all only [List.length_append, le_refl]
+
+theorem uniq_aggregator_contains : ∀ a b, ∀ line ∈ uniq_aggregator a b, line ∈ a ++ b := 
+  by
+    intro a b line hin
+    induction a generalizing b with
+      | nil => 
+        simp [uniq_aggregator] at hin
+        exact hin
+      | cons x xs ih =>
+        induction b with
+          | nil =>
+            simp [uniq_aggregator] at hin
+            simp [hin]
+          | cons y ys ih2 =>
+            simp [uniq_aggregator] at hin
+            simp [List.cons_append]
+            split_ifs at hin with h_eq
+            case pos =>
+              subst h_eq
+              simp_all only [List.mem_append, List.cons_append, List.mem_cons]
+              cases hin with
+              | inl h_1 =>
+                subst h_1
+                simp_all only [true_or, implies_true, or_true, or_self]
+              | inr h_1 =>
+                simp_all only [or_true, implies_true]
+                apply Or.inr
+                have g := ih ys h_1
+                cases g with 
+                | inr h_2 => 
+                  apply Or.inr
+                  apply Or.inr
+                  exact h_2
+                | inl h_2 =>
+                  simp [h_2]
+            case neg =>
+              simp [List.mem_append] at hin
+              cases hin with
+              | inl h =>
+                  simp [h]
+              | inr h =>
+                  apply Or.inr
+                  have g := ih (y :: ys) h
+                  simp_all only [List.mem_append, List.cons_append, List.mem_cons]
+
+-- Membership is preserved
+theorem uniq_contains
+  (uniq: List String → List String)
+  (h: ∀ lines, ∀ line ∈ (uniq lines), line ∈ lines) :
+  ∀ lines, 
+    ∀ a b, lines = a ++ b → 
+      ∀ line ∈ (uniq_aggregator (uniq a) (uniq b)), line ∈ lines := 
+  by
+    intro lines a b hsplit line hin
+    rw [hsplit]
+    have hcontains := uniq_aggregator_contains (uniq a) (uniq b) line hin
+    cases List.mem_append.1 hcontains with
+    | inl huniqa =>
+      have ha := h a line huniqa
+      simp [List.mem_append]
+      apply Or.inl ha
+    | inr huniqb =>
+      have hb := h b line huniqb
+      simp [List.mem_append]
+      apply Or.inr hb
