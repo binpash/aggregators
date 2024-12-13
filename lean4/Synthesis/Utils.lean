@@ -26,16 +26,8 @@ def getFileStream (filename : System.FilePath) : IO IO.FS.Stream := do
     let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
     pure (IO.FS.Stream.ofHandle handle)
 
-def getAllStreams (filenames : List System.FilePath) : IO (List IO.FS.Stream) :=
-match filenames with
-| [] => return []
-| h::t => do
-  let h' ← getFileStream h
-  let t' ← getAllStreams t
-  return h'::t'
-
--- do
---   filenames.mapM getFileStream
+def getAllStreams (filenames : List System.FilePath) : IO (List IO.FS.Stream) := do
+  filenames.mapM getFileStream
 
 /-- Reads from the stream and writes to stdout until the stream is empty. -/
 partial def dump (stream : IO.FS.Stream) : IO Unit := do
