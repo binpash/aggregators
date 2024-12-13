@@ -1,0 +1,261 @@
+/usr/bin/cut:                                ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3f2badf9c70583dc86ccf38d135e9cf1fbb9daaa, for GNU/Linux 3.2.0, stripped
+/usr/bin/cvs-debc:                           symbolic link to cvs-debi
+/usr/bin/cvs-debi:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/cvs-debrelease:                     Bourne-Again shell script, ASCII text executable
+/usr/bin/cvs-debuild:                        Perl script text executable
+/usr/bin/cvtsudoers:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=514afa5b9c849c9495c68bc2ea64e45c6b0bb951, for GNU/Linux 3.2.0, stripped
+/usr/bin/cweave:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dd543b25af03e97cab19985579705576a8db8b9e, for GNU/Linux 3.2.0, stripped
+/usr/bin/cws-11d.x:                          cannot open `/usr/bin/cws-11d.x' (No such file or directory)
+/usr/bin/cws-4d.x:                           cannot open `/usr/bin/cws-4d.x' (No such file or directory)
+/usr/bin/cws-5d.x:                           cannot open `/usr/bin/cws-5d.x' (No such file or directory)
+/usr/bin/cws-6d.x:                           cannot open `/usr/bin/cws-6d.x' (No such file or directory)
+/usr/bin/cws.x:                              cannot open `/usr/bin/cws.x' (No such file or directory)
+/usr/bin/cygdb:                              cannot open `/usr/bin/cygdb' (No such file or directory)
+/usr/bin/cysignals-CSI:                      cannot open `/usr/bin/cysignals-CSI' (No such file or directory)
+/usr/bin/cython:                             cannot open `/usr/bin/cython' (No such file or directory)
+/usr/bin/daemon:                             cannot open `/usr/bin/daemon' (No such file or directory)
+/usr/bin/danetool:                           cannot open `/usr/bin/danetool' (No such file or directory)
+/usr/bin/darcs:                              ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=b08e9b0ad8b0e7a9d6c93ffce8e6e99f261722b7, stripped
+/usr/bin/db5.3_archive:                      cannot open `/usr/bin/db5.3_archive' (No such file or directory)
+/usr/bin/db5.3_checkpoint:                   cannot open `/usr/bin/db5.3_checkpoint' (No such file or directory)
+/usr/bin/db5.3_deadlock:                     cannot open `/usr/bin/db5.3_deadlock' (No such file or directory)
+/usr/bin/db5.3_dump:                         cannot open `/usr/bin/db5.3_dump' (No such file or directory)
+/usr/bin/db5.3_hotbackup:                    cannot open `/usr/bin/db5.3_hotbackup' (No such file or directory)
+/usr/bin/db5.3_load:                         cannot open `/usr/bin/db5.3_load' (No such file or directory)
+/usr/bin/db5.3_log_verify:                   cannot open `/usr/bin/db5.3_log_verify' (No such file or directory)
+/usr/bin/db5.3_printlog:                     cannot open `/usr/bin/db5.3_printlog' (No such file or directory)
+/usr/bin/db5.3_recover:                      cannot open `/usr/bin/db5.3_recover' (No such file or directory)
+/usr/bin/db5.3_replicate:                    cannot open `/usr/bin/db5.3_replicate' (No such file or directory)
+/usr/bin/db5.3_stat:                         cannot open `/usr/bin/db5.3_stat' (No such file or directory)
+/usr/bin/db5.3_upgrade:                      cannot open `/usr/bin/db5.3_upgrade' (No such file or directory)
+/usr/bin/db5.3_verify:                       cannot open `/usr/bin/db5.3_verify' (No such file or directory)
+/usr/bin/db_archive:                         cannot open `/usr/bin/db_archive' (No such file or directory)
+/usr/bin/db_checkpoint:                      cannot open `/usr/bin/db_checkpoint' (No such file or directory)
+/usr/bin/db_deadlock:                        cannot open `/usr/bin/db_deadlock' (No such file or directory)
+/usr/bin/db_dump:                            cannot open `/usr/bin/db_dump' (No such file or directory)
+/usr/bin/db_hotbackup:                       cannot open `/usr/bin/db_hotbackup' (No such file or directory)
+/usr/bin/dbilogstrip:                        Perl script text executable
+/usr/bin/dbiprof:                            Perl script text executable
+/usr/bin/dbiproxy:                           Perl script text executable
+/usr/bin/db_load:                            cannot open `/usr/bin/db_load' (No such file or directory)
+/usr/bin/db_log_verify:                      cannot open `/usr/bin/db_log_verify' (No such file or directory)
+/usr/bin/db_printlog:                        cannot open `/usr/bin/db_printlog' (No such file or directory)
+/usr/bin/db_recover:                         cannot open `/usr/bin/db_recover' (No such file or directory)
+/usr/bin/db_replicate:                       cannot open `/usr/bin/db_replicate' (No such file or directory)
+/usr/bin/db_sql:                             cannot open `/usr/bin/db_sql' (No such file or directory)
+/usr/bin/db_stat:                            cannot open `/usr/bin/db_stat' (No such file or directory)
+/usr/bin/db_upgrade:                         cannot open `/usr/bin/db_upgrade' (No such file or directory)
+/usr/bin/dbus-cleanup-sockets:               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d8e7cab32733f444407d8ca1e39f7be7453bda66, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-daemon:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=207d8fc9131bbe390a049166365e5ad5b564c422, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-launch:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=bd5f41dd6ac80c3da1ed94b0d532a7dc40d4a0f0, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-monitor:                       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=434126941ad19213a442089161a98aa02271b67b, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-run-session:                   ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6663bec527d4089f7771e72e51871ca6662da337, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-send:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0b2a2e0b6ccd1e88b05df44acf42cf37b953f9ff, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-update-activation-environment: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=8bd0ee87be9312a6f93c9b74b697ab2a0f91eaf5, for GNU/Linux 3.2.0, stripped
+/usr/bin/dbus-uuidgen:                       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0032a747fcaae5f61bc820c600da6aa0fef18ba7, for GNU/Linux 3.2.0, stripped
+/usr/bin/db_verify:                          cannot open `/usr/bin/db_verify' (No such file or directory)
+/usr/bin/dc:                                 ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=19856c2d7f0a61f3bba2136ec3ce9a567745ed61, for GNU/Linux 3.2.0, stripped
+/usr/bin/dch:                                symbolic link to debchange
+/usr/bin/dcmd:                               POSIX shell script, ASCII text executable
+/usr/bin/dcontrol:                           cannot open `/usr/bin/dcontrol' (No such file or directory)
+/usr/bin/dcut:                               cannot open `/usr/bin/dcut' (No such file or directory)
+/usr/bin/dd-list:                            Perl script text executable
+/usr/bin/deallocvt:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5cd6765967b29151653841281b61ccddf4b30d7c, for GNU/Linux 3.2.0, stripped
+/usr/bin/deb3:                               cannot open `/usr/bin/deb3' (No such file or directory)
+/usr/bin/debc:                               symbolic link to debi
+/usr/bin/debchange:                          Perl script text executable
+/usr/bin/debcheckout:                        Perl script text executable
+/usr/bin/debclean:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/debcommit:                          Perl script text executable
+/usr/bin/debconf:                            Perl script text executable
+/usr/bin/debconf-apt-progress:               Perl script text executable
+/usr/bin/debconf-communicate:                Perl script text executable
+/usr/bin/debconf-copydb:                     Perl script text executable
+/usr/bin/debconf-escape:                     Perl script text executable
+/usr/bin/debconf-gettextize:                 Perl script text executable
+/usr/bin/debconf-set-selections:             Perl script text executable
+/usr/bin/debconf-show:                       Perl script text executable
+/usr/bin/debconf-updatepo:                   POSIX shell script, ASCII text executable
+/usr/bin/debdiff:                            Perl script text executable
+/usr/bin/debdiff-apply:                      Python script, ASCII text executable
+/usr/bin/debi:                               Perl script text executable
+/usr/bin/debianbts:                          Python script, ASCII text executable
+/usr/bin/debpkg:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6652d6d12ea36de807ef957ec2a305a9eea68bc5, for GNU/Linux 3.2.0, stripped
+/usr/bin/debrelease:                         Bourne-Again shell script, ASCII text executable
+/usr/bin/debrepro:                           POSIX shell script, Unicode text, UTF-8 text executable
+/usr/bin/deb-reversion:                      Bourne-Again shell script, Unicode text, UTF-8 text executable
+/usr/bin/debrsign:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/debsign:                            POSIX shell script, ASCII text executable
+/usr/bin/debsnap:                            Perl script text executable
+/usr/bin/debsums:                            Perl script text executable
+/usr/bin/deb-systemd-helper:                 Perl script text executable
+/usr/bin/deb-systemd-invoke:                 Perl script text executable
+/usr/bin/debugedit:                          ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=31a47b14cdea37b390a672e296d3300cacdaa4f8, for GNU/Linux 3.2.0, stripped
+/usr/bin/debuild:                            Perl script text executable
+/usr/bin/defmt-c:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5465ae0afe4f9c1b79d67ff0b1a1cfe6c042fc69, for GNU/Linux 3.2.0, stripped
+/usr/bin/defmt-sh:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=739acd62c4b7460368dcf6f558892feec2226fd5, for GNU/Linux 3.2.0, stripped
+/usr/bin/dehtmldiff:                         POSIX shell script, ASCII text executable
+/usr/bin/delaunay:                           cannot open `/usr/bin/delaunay' (No such file or directory)
+/usr/bin/delpart:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dd4c072b00e4599ca5ed3aad9fc331ada0ca6ff4, for GNU/Linux 3.2.0, stripped
+/usr/bin/delv:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d70f1225ecf1f032f72cdcb563a35e22f62f0317, for GNU/Linux 3.2.0, stripped
+/usr/bin/de-macro:                           symbolic link to ../share/texlive/texmf-dist/scripts/de-macro/de-macro
+/usr/bin/dep3changelog:                      Perl script text executable
+/usr/bin/depythontex:                        symbolic link to ../share/texlive/texmf-dist/scripts/pythontex/depythontex.py
+/usr/bin/depythontex3:                       cannot open `/usr/bin/depythontex3' (No such file or directory)
+/usr/bin/derb:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=33dcd38313fc530f8ffc5305d460034142017e01, for GNU/Linux 3.2.0, stripped
+/usr/bin/designer:                           symbolic link to qtchooser
+/usr/bin/desktop2menu:                       Perl script text executable
+/usr/bin/detex:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d348bd93771937bdadcd911c44eb6719b5bbca78, for GNU/Linux 3.2.0, stripped
+/usr/bin/devdump:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0ddfeefd7dd08fc190f0b6160ca1f4103fd913aa, for GNU/Linux 3.2.0, stripped
+/usr/bin/devnag:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ad02c58d359f2cde9a9fb4ee8a0e5eb91d2b2461, for GNU/Linux 3.2.0, stripped
+/usr/bin/dget:                               Perl script text executable
+/usr/bin/dh:                                 Perl script text executable
+/usr/bin/dh_auto_build:                      Perl script text executable
+/usr/bin/dh_auto_clean:                      Perl script text executable
+/usr/bin/dh_auto_configure:                  Perl script text executable
+/usr/bin/dh_auto_install:                    Perl script text executable
+/usr/bin/dh_autoreconf:                      Perl script text executable
+/usr/bin/dh_autoreconf_clean:                Perl script text executable
+/usr/bin/dh_auto_test:                       Perl script text executable
+/usr/bin/dh_autotools-dev_restoreconfig:     Perl script text executable
+/usr/bin/dh_autotools-dev_updateconfig:      Perl script text executable
+/usr/bin/dh_bash-completion:                 Perl script text executable
+/usr/bin/dh_bugfiles:                        Perl script text executable
+/usr/bin/dh_builddeb:                        Perl script text executable
+/usr/bin/dh_clean:                           Perl script text executable
+/usr/bin/dh_compress:                        Perl script text executable
+/usr/bin/dh_dkms:                            cannot open `/usr/bin/dh_dkms' (No such file or directory)
+/usr/bin/dh_dwz:                             Perl script text executable
+/usr/bin/dh_fixperms:                        Perl script text executable
+/usr/bin/dh_gconf:                           cannot open `/usr/bin/dh_gconf' (No such file or directory)
+/usr/bin/dh_gencontrol:                      Perl script text executable
+/usr/bin/dh_icons:                           Perl script text executable
+/usr/bin/dh_install:                         Perl script text executable
+/usr/bin/dh_installcatalogs:                 Perl script text executable
+/usr/bin/dh_installchangelogs:               Perl script text executable
+/usr/bin/dh_installcron:                     Perl script text executable
+/usr/bin/dh_installdeb:                      Perl script text executable
+/usr/bin/dh_installdebconf:                  Perl script text executable
+/usr/bin/dh_installdirs:                     Perl script text executable
+/usr/bin/dh_installdocs:                     Perl script text executable
+/usr/bin/dh_installemacsen:                  Perl script text executable
+/usr/bin/dh_installexamples:                 Perl script text executable
+/usr/bin/dh_installgsettings:                Perl script text executable
+/usr/bin/dh_installifupdown:                 Perl script text executable
+/usr/bin/dh_installinfo:                     Perl script text executable
+/usr/bin/dh_installinit:                     Perl script text executable
+/usr/bin/dh_installinitramfs:                Perl script text executable
+/usr/bin/dh_installlogcheck:                 Perl script text executable
+/usr/bin/dh_installlogrotate:                Perl script text executable
+/usr/bin/dh_installman:                      Perl script text executable
+/usr/bin/dh_installmanpages:                 Perl script text executable
+/usr/bin/dh_installmenu:                     Perl script text executable
+/usr/bin/dh_installmime:                     Perl script text executable
+/usr/bin/dh_installmodules:                  Perl script text executable
+/usr/bin/dh_installpam:                      Perl script text executable
+/usr/bin/dh_installppp:                      Perl script text executable
+/usr/bin/dh_installsystemd:                  Perl script text executable
+/usr/bin/dh_installsystemduser:              Perl script text executable
+/usr/bin/dh_installtex:                      Perl script text executable
+/usr/bin/dh_installudev:                     Perl script text executable
+/usr/bin/dh_installwm:                       Perl script text executable
+/usr/bin/dh_installxfonts:                   Perl script text executable
+/usr/bin/dh_installxmlcatalogs:              Perl script text executable
+/usr/bin/dh_link:                            Perl script text executable
+/usr/bin/dh_lintian:                         Perl script text executable
+/usr/bin/dh_listpackages:                    Perl script text executable
+/usr/bin/dh_makeshlibs:                      Perl script text executable
+/usr/bin/dh_md5sums:                         Perl script text executable
+/usr/bin/dh_missing:                         Perl script text executable
+/usr/bin/dh_movefiles:                       Perl script text executable
+/usr/bin/dh_numpy:                           cannot open `/usr/bin/dh_numpy' (No such file or directory)
+/usr/bin/dh_perl:                            Perl script text executable
+/usr/bin/dh_perl_dbi:                        Perl script text executable
+/usr/bin/dh_perl_openssl:                    Perl script text executable
+/usr/bin/dh_prep:                            Perl script text executable
+/usr/bin/dh_pypy:                            cannot open `/usr/bin/dh_pypy' (No such file or directory)
+/usr/bin/dh_pysupport:                       cannot open `/usr/bin/dh_pysupport' (No such file or directory)
+/usr/bin/dh_python2:                         cannot open `/usr/bin/dh_python2' (No such file or directory)
+/usr/bin/dh_python3:                         cannot open `/usr/bin/dh_python3' (No such file or directory)
+/usr/bin/dh_python-ply:                      cannot open `/usr/bin/dh_python-ply' (No such file or directory)
+/usr/bin/dh_quilt_patch:                     cannot open `/usr/bin/dh_quilt_patch' (No such file or directory)
+/usr/bin/dh_quilt_unpatch:                   cannot open `/usr/bin/dh_quilt_unpatch' (No such file or directory)
+/usr/bin/dh_shlibdeps:                       Perl script text executable
+/usr/bin/dh_sphinxdoc:                       cannot open `/usr/bin/dh_sphinxdoc' (No such file or directory)
+/usr/bin/dh_strip:                           Perl script text executable
+/usr/bin/dh_strip_nondeterminism:            Perl script text executable
+/usr/bin/dh_systemd_enable:                  Perl script text executable
+/usr/bin/dh_systemd_start:                   Perl script text executable
+/usr/bin/dh_testdir:                         Perl script text executable
+/usr/bin/dh_testroot:                        Perl script text executable
+/usr/bin/dh_ucf:                             Perl script text executable
+/usr/bin/dh_update_autotools_config:         Perl script text executable
+/usr/bin/dh_usrlocal:                        Perl script text executable
+/usr/bin/diff:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=fb8b2c724ea573d58b7e0fa35e0b41e03b896d27, for GNU/Linux 3.2.0, stripped
+/usr/bin/diff2patches:                       Bourne-Again shell script, ASCII text executable
+/usr/bin/diff3:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d0a2d4ac31264dd43ef49429feeddcd072fca8ad, for GNU/Linux 3.2.0, stripped
+/usr/bin/diffimg:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5350b2905cd680c032fb982feb51e5099eff03a4, for GNU/Linux 3.2.0, stripped
+/usr/bin/diffstat:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6c1bb5cabe401deca7fce8248efb3f62b387b7d0, for GNU/Linux 3.2.0, stripped
+/usr/bin/dig:                                ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=88de6f48110db0bcd0740814f79a15368c14093a, for GNU/Linux 3.2.0, stripped
+/usr/bin/dijkstra:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=e45c4d8bf23bdf2121f86c1e89e93ec74f674063, for GNU/Linux 3.2.0, stripped
+/usr/bin/dircolors:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d7fb5ffcc84b40e326377c72867af53da35ee5d4, for GNU/Linux 3.2.0, stripped
+/usr/bin/dirmngr:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6d52b43d474c9e3911605dcc850fd98cda90a304, for GNU/Linux 3.2.0, stripped
+/usr/bin/dirmngr-client:                     ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3d390459ac7c848998dd4e29b35de6b329790bce, for GNU/Linux 3.2.0, stripped
+/usr/bin/dirname:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=9bb24fa41fd5dac058ae3731279444acf0238085, for GNU/Linux 3.2.0, stripped
+/usr/bin/dirsplit:                           Perl script text executable
+/usr/bin/discover-config:                    POSIX shell script, ASCII text executable, with very long lines (933)
+/usr/bin/disdvi:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a83142272a4286996f9dd0491c8b87d09c989723, for GNU/Linux 3.2.0, stripped
+/usr/bin/display:                            symbolic link to /etc/alternatives/display
+/usr/bin/display-im6:                        symbolic link to /etc/alternatives/display-im6
+/usr/bin/display-im6.q16:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5aea813b24eaa807354a81285cc7a1b88faa6ef9, for GNU/Linux 3.2.0, stripped
+/usr/bin/dlocate:                            Bourne-Again shell script, ASCII text executable
+/usr/bin/dnstap-read:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=03feaaf8b43bede3cbd5a780644a2a61d3cd10ce, for GNU/Linux 3.2.0, stripped
+/usr/bin/dosepsbin:                          symbolic link to ../share/texlive/texmf-dist/scripts/dosepsbin/dosepsbin.pl
+/usr/bin/dot:                                symbolic link to ../sbin/libgvc6-config-update
+/usr/bin/dot2gxl:                            symbolic link to gxl2gv
+/usr/bin/dot_builtins:                       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=83009f7ec6e93f0af0dfe29f3ea241ab413a604a, for GNU/Linux 3.2.0, stripped
+/usr/bin/dotlock:                            symbolic link to /etc/alternatives/dotlock
+/usr/bin/dotlockfile:                        setgid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=39ebced8803279b5eed5c338dcbd6ec24004d649, for GNU/Linux 3.2.0, stripped
+/usr/bin/dotlock.mailutils:                  setgid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=cd731c85ffddc1ac910998aae86acdd4b9547f05, for GNU/Linux 3.2.0, stripped
+/usr/bin/dotty:                              POSIX shell script, ASCII text executable
+/usr/bin/doveadm:                            cannot open `/usr/bin/doveadm' (No such file or directory)
+/usr/bin/doveconf:                           cannot open `/usr/bin/doveconf' (No such file or directory)
+/usr/bin/dpkg:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c25f9c0ff3fec8ef45b7988d08c7477d4406b988, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-architecture:                  Perl script text executable
+/usr/bin/dpkg-buildflags:                    Perl script text executable
+/usr/bin/dpkg-buildpackage:                  Perl script text executable
+/usr/bin/dpkg-checkbuilddeps:                Perl script text executable
+/usr/bin/dpkg-deb:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=78a4714e9dfed9ea933af1e3c8d871f984bfd24a, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-depcheck:                      Perl script text executable
+/usr/bin/dpkg-distaddfile:                   Perl script text executable
+/usr/bin/dpkg-divert:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=671523f2aeb59faf75bb1e2ad91ef4056a16ebae, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-genbuilddeps:                  Bourne-Again shell script, ASCII text executable
+/usr/bin/dpkg-genbuildinfo:                  Perl script text executable
+/usr/bin/dpkg-genchanges:                    Perl script text executable
+/usr/bin/dpkg-gencontrol:                    Perl script text executable
+/usr/bin/dpkg-gensymbols:                    Perl script text executable
+/usr/bin/dpkg-maintscript-helper:            POSIX shell script, Unicode text, UTF-8 text executable
+/usr/bin/dpkg-mergechangelogs:               Perl script text executable
+/usr/bin/dpkg-name:                          Perl script text executable
+/usr/bin/dpkg-parsechangelog:                Perl script text executable
+/usr/bin/dpkg-query:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=935c684a4df5002f20082ec209ba4d6da5ff99ad, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-scanpackages:                  Perl script text executable
+/usr/bin/dpkg-scansources:                   Perl script text executable
+/usr/bin/dpkg-shlibdeps:                     Perl script text executable
+/usr/bin/dpkg-source:                        Perl script text executable
+/usr/bin/dpkg-split:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d641877914cd51fdd5f68208d16b009b58a877e7, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-statoverride:                  ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=064abdbb5b4249f0fca57ae62526a210845a9061, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-trigger:                       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=33c7b4aca4d4d55a5ae0610f91f3dd48cef559d7, for GNU/Linux 3.2.0, stripped
+/usr/bin/dpkg-vendor:                        Perl script text executable
+/usr/bin/dput:                               cannot open `/usr/bin/dput' (No such file or directory)
+/usr/bin/dreadnaut:                          cannot open `/usr/bin/dreadnaut' (No such file or directory)
+/usr/bin/dropdb:                             symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/droplang:                           symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/dropuser:                           symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/dscextract:                         POSIX shell script, ASCII text executable
+/usr/bin/dscverify:                          Perl script text executable
+/usr/bin/dshbak:                             cannot open `/usr/bin/dshbak' (No such file or directory)
+/usr/bin/dstat:                              cannot open `/usr/bin/dstat' (No such file or directory)
+/usr/bin/dsync:                              cannot open `/usr/bin/dsync' (No such file or directory)
+/usr/bin/dt2dv:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=b64cdfd79ebc8257e8e2284a6c427dd43b6291a4, for GNU/Linux 3.2.0, stripped
+/usr/bin/dtxgen:                             symbolic link to ../share/texlive/texmf-dist/scripts/dtxgen/dtxgen

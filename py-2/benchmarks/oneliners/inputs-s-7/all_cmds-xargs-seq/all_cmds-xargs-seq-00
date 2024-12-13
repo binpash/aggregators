@@ -1,0 +1,261 @@
+/usr/bin/[:                                  ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=f7795cd5b54bfa71cab88f597d40c6d6229d679c, for GNU/Linux 3.2.0, stripped
+/usr/bin/2to3-2.7:                           cannot open `/usr/bin/2to3-2.7' (No such file or directory)
+/usr/bin/411toppm:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=45da1ccf3de0b7c6489d6764113aaf375aed8220, for GNU/Linux 3.2.0, stripped
+/usr/bin/4ti2-circuits:                      cannot open `/usr/bin/4ti2-circuits' (No such file or directory)
+/usr/bin/4ti2-genmodel:                      cannot open `/usr/bin/4ti2-genmodel' (No such file or directory)
+/usr/bin/4ti2-gensymm:                       cannot open `/usr/bin/4ti2-gensymm' (No such file or directory)
+/usr/bin/4ti2-graver:                        cannot open `/usr/bin/4ti2-graver' (No such file or directory)
+/usr/bin/4ti2-groebner:                      cannot open `/usr/bin/4ti2-groebner' (No such file or directory)
+/usr/bin/4ti2-hilbert:                       cannot open `/usr/bin/4ti2-hilbert' (No such file or directory)
+/usr/bin/4ti2-markov:                        cannot open `/usr/bin/4ti2-markov' (No such file or directory)
+/usr/bin/4ti2-minimize:                      cannot open `/usr/bin/4ti2-minimize' (No such file or directory)
+/usr/bin/4ti2-normalform:                    cannot open `/usr/bin/4ti2-normalform' (No such file or directory)
+/usr/bin/4ti2-output:                        cannot open `/usr/bin/4ti2-output' (No such file or directory)
+/usr/bin/4ti2-ppi:                           cannot open `/usr/bin/4ti2-ppi' (No such file or directory)
+/usr/bin/4ti2-qsolve:                        cannot open `/usr/bin/4ti2-qsolve' (No such file or directory)
+/usr/bin/4ti2-rays:                          cannot open `/usr/bin/4ti2-rays' (No such file or directory)
+/usr/bin/4ti2-walk:                          cannot open `/usr/bin/4ti2-walk' (No such file or directory)
+/usr/bin/4ti2-zbasis:                        cannot open `/usr/bin/4ti2-zbasis' (No such file or directory)
+/usr/bin/4ti2-zsolve:                        cannot open `/usr/bin/4ti2-zsolve' (No such file or directory)
+/usr/bin/a2ping:                             symbolic link to ../share/texlive/texmf-dist/scripts/a2ping/a2ping.pl
+/usr/bin/a5toa4:                             symbolic link to ../share/texlive/texmf-dist/scripts/pfarrei/a5toa4.tlu
+/usr/bin/aa-enabled:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=722479cf7cdd2b3e04e9dffc1c20aed7d5e5acf1, for GNU/Linux 3.2.0, stripped
+/usr/bin/aa-exec:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=05638e16675d9f57e5be26d10a0f9bbf3cfdfc31, for GNU/Linux 3.2.0, stripped
+/usr/bin/ack:                                Perl script text executable
+/usr/bin/aclocal:                            symbolic link to /etc/alternatives/aclocal
+/usr/bin/aclocal-1.16:                       Perl script text executable
+/usr/bin/acpi:                               cannot open `/usr/bin/acpi' (No such file or directory)
+/usr/bin/acpi_listen:                        cannot open `/usr/bin/acpi_listen' (No such file or directory)
+/usr/bin/acyclic:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=4c96ffb0c446a44d334243810e31384543fca9d7, for GNU/Linux 3.2.0, stripped
+/usr/bin/addpart:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dd8600eab17ee084982aeb5db73163cbf6157117, for GNU/Linux 3.2.0, stripped
+/usr/bin/add-patch:                          symbolic link to edit-patch
+/usr/bin/addr2line:                          symbolic link to x86_64-linux-gnu-addr2line
+/usr/bin/adhocfilelist:                      symbolic link to ../share/texlive/texmf-dist/scripts/adhocfilelist/adhocfilelist.sh
+/usr/bin/afm2afm:                            symbolic link to ../share/texlive/texmf-dist/scripts/fontools/afm2afm
+/usr/bin/afm2pl:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=da6067e0f8b4e5065b957ab0a368339c1c65390e, for GNU/Linux 3.2.0, stripped
+/usr/bin/afm2tfm:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d7efa507f13fc54e6afa2e7e54a6dcd0d2bdc524, for GNU/Linux 3.2.0, stripped
+/usr/bin/aleph:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a8e13e7459db78cdd4c6c8c6a950144364aec449, for GNU/Linux 3.2.0, stripped
+/usr/bin/alien:                              Perl script text executable
+/usr/bin/allcm:                              symbolic link to ../share/texlive/texmf-dist/scripts/texlive-extra/allcm.sh
+/usr/bin/allec:                              symbolic link to allcm
+/usr/bin/allneeded:                          symbolic link to ../share/texlive/texmf-dist/scripts/texlive-extra/allneeded.sh
+/usr/bin/amuFormat.sh:                       POSIX shell script, ASCII text executable
+/usr/bin/animate:                            symbolic link to /etc/alternatives/animate
+/usr/bin/animate-im6:                        symbolic link to /etc/alternatives/animate-im6
+/usr/bin/animate-im6.q16:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ebd120cae70953bfe244ce0530439d4e56120b2b, for GNU/Linux 3.2.0, stripped
+/usr/bin/annotate-output:                    Bourne-Again shell script, ASCII text executable
+/usr/bin/ant:                                symbolic link to ../share/ant/bin/ant
+/usr/bin/anytopnm:                           POSIX shell script, ASCII text executable
+/usr/bin/appres:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c3e2f665d8698ea3bf4d3807730dafff85cc4fb7, for GNU/Linux 3.2.0, stripped
+/usr/bin/apropos:                            symbolic link to whatis
+/usr/bin/apt:                                ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=157631f2617f73dee730273c7c598fd4d17b7284, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-cache:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0e651a7cb1a6607d2ef7821cc7ad4b420b6d683c, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-cdrom:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5add461a8e2fed32771c879fdfc69abfb8155641, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-config:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a976003cdc52998aeb2f095245fd64f24d3110d8, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-extracttemplates:               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c17b18db77054cc1b5e2c2ce0af8a98eb62b78b3, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-file:                           cannot open `/usr/bin/apt-file' (No such file or directory)
+/usr/bin/apt-ftparchive:                     ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=21452d31657ca1d939b8ce2fb38d358089f272b8, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-get:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=286f4abe2da6341ef32cf6c52bdb33604ebee8be, for GNU/Linux 3.2.0, stripped
+/usr/bin/aptitude:                           symbolic link to /etc/alternatives/aptitude
+/usr/bin/aptitude-create-state-bundle:       Bourne-Again shell script, ASCII text executable
+/usr/bin/aptitude-curses:                    ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7b241a91e617342e555693ae8e22daf38a7276f9, for GNU/Linux 3.2.0, stripped
+/usr/bin/aptitude-run-state-bundle:          Bourne-Again shell script, ASCII text executable
+/usr/bin/apt-key:                            POSIX shell script, Unicode text, UTF-8 text executable
+/usr/bin/apt-listchanges:                    Python script, ASCII text executable
+/usr/bin/apt-mark:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a4b996763122ab585ee0133525fbbd4b372420fc, for GNU/Linux 3.2.0, stripped
+/usr/bin/apt-sortpkgs:                       ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=e6cb0b9d1bec1a6b6db11d145349770324ba13e5, for GNU/Linux 3.2.0, stripped
+/usr/bin/ar:                                 symbolic link to x86_64-linux-gnu-ar
+/usr/bin/arara:                              symbolic link to ../share/texlive/texmf-dist/scripts/arara/arara.sh
+/usr/bin/arch:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=9af47c5922f165fd4a1a93c95c7522cb800a5a68, for GNU/Linux 3.2.0, stripped
+/usr/bin/archpath:                           Bourne-Again shell script, ASCII text executable
+/usr/bin/arch-test:                          cannot open `/usr/bin/arch-test' (No such file or directory)
+/usr/bin/arlatex:                            symbolic link to ../share/texlive/texmf-dist/scripts/bundledoc/arlatex
+/usr/bin/as:                                 symbolic link to x86_64-linux-gnu-as
+/usr/bin/asciitopgm:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0a49d970f044ca93bfc92537e973e621f958b8e8, for GNU/Linux 3.2.0, stripped
+/usr/bin/ascii-xfr:                          cannot open `/usr/bin/ascii-xfr' (No such file or directory)
+/usr/bin/aspcud:                             cannot open `/usr/bin/aspcud' (No such file or directory)
+/usr/bin/assistant:                          symbolic link to qtchooser
+/usr/bin/at:                                 setuid, setgid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=4d4156dc56c48426483e4a32acc7bfe3cd7dc141, for GNU/Linux 3.2.0, stripped
+/usr/bin/atktopbm:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=38b15365377aff2c528133d738f906b853cf06fc, for GNU/Linux 3.2.0, stripped
+/usr/bin/atq:                                symbolic link to at
+/usr/bin/atrm:                               symbolic link to at
+/usr/bin/attr:                               cannot open `/usr/bin/attr' (No such file or directory)
+/usr/bin/authorindex:                        symbolic link to ../share/texlive/texmf-dist/scripts/authorindex/authorindex
+/usr/bin/autoconf:                           POSIX shell script, ASCII text executable
+/usr/bin/autoheader:                         Perl script text executable
+/usr/bin/autoinst:                           symbolic link to ../share/texlive/texmf-dist/scripts/fontools/autoinst
+/usr/bin/autom4te:                           Perl script text executable
+/usr/bin/automake:                           symbolic link to /etc/alternatives/automake
+/usr/bin/automake-1.16:                      Perl script text executable
+/usr/bin/automat-visualize:                  cannot open `/usr/bin/automat-visualize' (No such file or directory)
+/usr/bin/autopoint:                          POSIX shell script, ASCII text executable
+/usr/bin/autoreconf:                         Perl script text executable
+/usr/bin/autoscan:                           Perl script text executable
+/usr/bin/autosp:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6ff5006068bc8955f86316801002179481785232, for GNU/Linux 3.2.0, stripped
+/usr/bin/autoupdate:                         Perl script text executable
+/usr/bin/awk:                                symbolic link to /etc/alternatives/awk
+/usr/bin/axohelp:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=36b1fbfd240f5c8a32ee36896d34d3527227f7cf, for GNU/Linux 3.2.0, stripped
+/usr/bin/b2:                                 ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=59e6ed7e12301179653aba8a5a7f0a54d323b312, for GNU/Linux 3.2.0, stripped
+/usr/bin/b2sum:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dbbb1b2608d5c58b685aa19597da38252fe2923e, for GNU/Linux 3.2.0, stripped
+/usr/bin/base32:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6abb3572f54c129e3ea67a61330bfc8d1c96f7c0, for GNU/Linux 3.2.0, stripped
+/usr/bin/base64:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=204f8e84ab43dfde53eba9ece42de3333215f385, for GNU/Linux 3.2.0, stripped
+/usr/bin/basename:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=cce5d9d95de3d376f6e4a672cb0984ee94da7cf2, for GNU/Linux 3.2.0, stripped
+/usr/bin/bashbug:                            POSIX shell script, ASCII text executable
+/usr/bin/batch:                              POSIX shell script, ASCII text executable
+/usr/bin/bbox:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=738edac92f496c8777c05981d93d8d432aff712d, for GNU/Linux 3.2.0, stripped
+/usr/bin/bc:                                 ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=b0cf6d073d9d428197b897054ec102dd000b0a7e, for GNU/Linux 3.2.0, stripped
+/usr/bin/bcomps:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5ed1fc842dcc0b6567c38e4e89a6a56a16ded296, for GNU/Linux 3.2.0, stripped
+/usr/bin/bcp:                                ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0c8d56d6b8f7d8602e4b806e42ed459e0a18d1e3, for GNU/Linux 3.2.0, stripped
+/usr/bin/bdftopcf:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=97711a01a1dcff7ab1ee2cd85e0e56438bce698a, stripped
+/usr/bin/bdftruncate:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=f51cb523f315c7c00858e9ec890a5d074b7bc04a, stripped
+/usr/bin/bibtex:                             symbolic link to /etc/alternatives/bibtex
+/usr/bin/bibtex8:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=632095c9124f6d403c5536e0798f24401f2aeeaa, for GNU/Linux 3.2.0, stripped
+/usr/bin/bibtex.original:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=de45ce911f27d6e2b5fd64c70170bdd50261f3ab, for GNU/Linux 3.2.0, stripped
+/usr/bin/bibtexu:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7e6820dae27a38a61e1fd265aebbe081777a7cb8, for GNU/Linux 3.2.0, stripped
+/usr/bin/bioradtopgm:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0c488700eb714ad836b2d7de2d84adb673051f36, for GNU/Linux 3.2.0, stripped
+/usr/bin/bison:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=9a12c243a9c757be28f81fa6687ac57603198712, for GNU/Linux 3.2.0, stripped
+/usr/bin/bison.yacc:                         POSIX shell script, ASCII text executable
+/usr/bin/bjam:                               symbolic link to b2
+/usr/bin/blkcalc:                            cannot open `/usr/bin/blkcalc' (No such file or directory)
+/usr/bin/blkcat:                             cannot open `/usr/bin/blkcat' (No such file or directory)
+/usr/bin/blkls:                              cannot open `/usr/bin/blkls' (No such file or directory)
+/usr/bin/blkstat:                            cannot open `/usr/bin/blkstat' (No such file or directory)
+/usr/bin/bmptopnm:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5827f4093277ecb164656c246f3ab2309b42be31, for GNU/Linux 3.2.0, stripped
+/usr/bin/bmptoppm:                           symbolic link to bmptopnm
+/usr/bin/bootctl:                            cannot open `/usr/bin/bootctl' (No such file or directory)
+/usr/bin/broadwayd:                          cannot open `/usr/bin/broadwayd' (No such file or directory)
+/usr/bin/brushtopbm:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=e3052ae03ff12d441282f6b0a8aaee96c1203174, for GNU/Linux 3.2.0, stripped
+/usr/bin/bsd-from:                           cannot open `/usr/bin/bsd-from' (No such file or directory)
+/usr/bin/bsd-mailx:                          cannot open `/usr/bin/bsd-mailx' (No such file or directory)
+/usr/bin/bsd-write:                          cannot open `/usr/bin/bsd-write' (No such file or directory)
+/usr/bin/bsh:                                cannot open `/usr/bin/bsh' (No such file or directory)
+/usr/bin/bts:                                Perl script text executable
+/usr/bin/buildhash:                          ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=08a54700ed81a87d095d2f5d4691170d88d5d2f2, for GNU/Linux 3.2.0, stripped
+/usr/bin/build-rdeps:                        Perl script text executable
+/usr/bin/bundle:                             Ruby script, ASCII text executable
+/usr/bin/bundledoc:                          symbolic link to ../share/texlive/texmf-dist/scripts/bundledoc/bundledoc
+/usr/bin/bundler:                            Ruby script, ASCII text executable
+/usr/bin/busctl:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=236cca9205f9954d752593eaa6fc03302db76f21, for GNU/Linux 3.2.0, stripped
+/usr/bin/bwrap:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ef40e81ba2c0495860eec3f50cd5d676fcc6047f, for GNU/Linux 3.2.0, stripped
+/usr/bin/c++:                                symbolic link to /etc/alternatives/c++
+/usr/bin/c89:                                symbolic link to /etc/alternatives/c89
+/usr/bin/c89-gcc:                            POSIX shell script, ASCII text executable
+/usr/bin/c99:                                symbolic link to /etc/alternatives/c99
+/usr/bin/c99-gcc:                            POSIX shell script, ASCII text executable
+/usr/bin/cachepic:                           symbolic link to ../share/texlive/texmf-dist/scripts/cachepic/cachepic.tlu
+/usr/bin/cache_workload_k1om:                cannot open `/usr/bin/cache_workload_k1om' (No such file or directory)
+/usr/bin/cal:                                symbolic link to ncal
+/usr/bin/calendar:                           cannot open `/usr/bin/calendar' (No such file or directory)
+/usr/bin/captoinfo:                          symbolic link to tic
+/usr/bin/cas_help:                           cannot open `/usr/bin/cas_help' (No such file or directory)
+/usr/bin/catchsegv:                          cannot open `/usr/bin/catchsegv' (No such file or directory)
+/usr/bin/catman:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c20b2a758f4e8749fe50229048dd71b757a5cf46, for GNU/Linux 3.2.0, stripped
+/usr/bin/cc:                                 symbolic link to /etc/alternatives/cc
+/usr/bin/ccomps:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=11dbe973a468c187becce41bb28f6364edc67c40, for GNU/Linux 3.2.0, stripped
+/usr/bin/cct:                                cannot open `/usr/bin/cct' (No such file or directory)
+/usr/bin/cd-create-profile:                  ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6df0673c61fee92883722232b363abfa8d60007f, for GNU/Linux 3.2.0, stripped
+/usr/bin/cddexec:                            cannot open `/usr/bin/cddexec' (No such file or directory)
+/usr/bin/cddexec_gmp:                        cannot open `/usr/bin/cddexec_gmp' (No such file or directory)
+/usr/bin/cd-fix-profile:                     ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0ef59feaaf0406ef2845a2d1914057546b8fe163, for GNU/Linux 3.2.0, stripped
+/usr/bin/cd-iccdump:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2eff4c08ad5211d26623d077550fd337269406d1, for GNU/Linux 3.2.0, stripped
+/usr/bin/cd-it8:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=76a83f99f291ceb2766a489b1e8fff3fb870f453, for GNU/Linux 3.2.0, stripped
+/usr/bin/certtool:                           cannot open `/usr/bin/certtool' (No such file or directory)
+/usr/bin/c++filt:                            symbolic link to x86_64-linux-gnu-c++filt
+/usr/bin/chacl:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c565848eb3731de015f1cbae0dc601236cd590d7, for GNU/Linux 3.2.0, stripped
+/usr/bin/chage:                              setgid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=911fad4d9af587167e59c0fe0d8376a0ec7a0b7c, for GNU/Linux 3.2.0, stripped
+/usr/bin/chardet:                            symbolic link to chardetect
+/usr/bin/chardet3:                           cannot open `/usr/bin/chardet3' (No such file or directory)
+/usr/bin/chardetect:                         Python script, ASCII text executable
+/usr/bin/chardetect3:                        cannot open `/usr/bin/chardetect3' (No such file or directory)
+/usr/bin/chattr:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ef15370a924d887a5a7623fb7a36fd8333d1060b, for GNU/Linux 3.2.0, stripped
+/usr/bin/chcon:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d0fb6846c82da1e71f7b7ca06b15415d620d3bb6, for GNU/Linux 3.2.0, stripped
+/usr/bin/chdist:                             Perl script text executable
+/usr/bin/checkbashisms:                      Perl script text executable
+/usr/bin/checklistings:                      symbolic link to ../share/texlive/texmf-dist/scripts/checklistings/checklistings.sh
+/usr/bin/chfn:                               setuid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2fbebaba3c8de9ccb1dd17108ec07c3718bbb7e3, for GNU/Linux 3.2.0, stripped
+/usr/bin/chkdvifont:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7782d21f7a62a3aad718338fd4a036f0cb8376b3, for GNU/Linux 3.2.0, stripped
+/usr/bin/chkstow:                            cannot open `/usr/bin/chkstow' (No such file or directory)
+/usr/bin/choom:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ee4293b4fc8717c105257a15b56f2fb84ba67997, for GNU/Linux 3.2.0, stripped
+/usr/bin/chrt:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a6555f5dcf8b29df28ff7cb42c5d056c173e1eb1, for GNU/Linux 3.2.0, stripped
+/usr/bin/chsh:                               setuid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=89c6ffd94ea5ee9e1ecec47525eaea3b147861d5, for GNU/Linux 3.2.0, stripped
+/usr/bin/cifsiostat:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=e26e1bf4cd54dcd9ec8692312f8a5aed25a8f0e8, for GNU/Linux 3.2.0, stripped
+/usr/bin/circo:                              symbolic link to dot
+/usr/bin/ckbcomp:                            Perl script text executable
+/usr/bin/ckeygen:                            cannot open `/usr/bin/ckeygen' (No such file or directory)
+/usr/bin/cksum:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0f959da75a6ace50039042f2fc306229cf44e4b6, for GNU/Linux 3.2.0, stripped
+/usr/bin/clasp:                              cannot open `/usr/bin/clasp' (No such file or directory)
+/usr/bin/class-11d.x:                        cannot open `/usr/bin/class-11d.x' (No such file or directory)
+/usr/bin/class-4d.x:                         cannot open `/usr/bin/class-4d.x' (No such file or directory)
+/usr/bin/class-5d.x:                         cannot open `/usr/bin/class-5d.x' (No such file or directory)
+/usr/bin/class-6d.x:                         cannot open `/usr/bin/class-6d.x' (No such file or directory)
+/usr/bin/class.x:                            cannot open `/usr/bin/class.x' (No such file or directory)
+/usr/bin/clear:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5f31d247024399ac01a2a416d4dbf647d4a3d775, for GNU/Linux 3.2.0, stripped
+/usr/bin/clear_console:                      ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0853400449d58a35ee30d8a2d36ce200cf287a94, for GNU/Linux 3.2.0, stripped
+/usr/bin/clhsdb:                             cannot open `/usr/bin/clhsdb' (No such file or directory)
+/usr/bin/clingo:                             cannot open `/usr/bin/clingo' (No such file or directory)
+/usr/bin/cluster:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=cc65385b15aa4f366a9aba586ffdce1f05bbc322, for GNU/Linux 3.2.0, stripped
+/usr/bin/clusterdb:                          symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/cluttex:                            symbolic link to ../share/texlive/texmf-dist/scripts/cluttex/cluttex.lua
+/usr/bin/cmake:                              ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=cf32f335bac301e3a473340b18cae3fe6dd97a19, for GNU/Linux 3.2.0, stripped
+/usr/bin/cmp:                                ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=fc0f95207125b3af81df039981fee8e1cc7535e2, for GNU/Linux 3.2.0, stripped
+/usr/bin/cmuwmtopbm:                         ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0f0aac6c0fae4bcc7f944910caffefe49def11bd, for GNU/Linux 3.2.0, stripped
+/usr/bin/codepage:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=1be9f112a189240e54de879b48367d7c3c2f110b, for GNU/Linux 3.2.0, stripped
+/usr/bin/coitrace:                           cannot open `/usr/bin/coitrace' (No such file or directory)
+/usr/bin/col:                                ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=71948299add624eafb3b4bbc2742d9d9001e695f, for GNU/Linux 3.2.0, stripped
+/usr/bin/colcrt:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=fb93c914c6c011837520d0a5053127fde0bd0dd3, for GNU/Linux 3.2.0, stripped
+/usr/bin/colormgr:                           ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3d13d98744c9f356531a3599fdc0d697dfe30c7e, for GNU/Linux 3.2.0, stripped
+/usr/bin/colrm:                              ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=21cf7560f8b00d7f3f85ef4612fade5d6e1f53a6, for GNU/Linux 3.2.0, stripped
+/usr/bin/column:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c5567ba5e7dfef6486bcf0add219f92e0448dc02, for GNU/Linux 3.2.0, stripped
+/usr/bin/combinediff:                        symbolic link to interdiff
+/usr/bin/comm:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7dd096699f4027e3001c6e5c48d962fdfd1c470a, for GNU/Linux 3.2.0, stripped
+/usr/bin/command-not-found:                  cannot open `/usr/bin/command-not-found' (No such file or directory)
+/usr/bin/compare:                            symbolic link to /etc/alternatives/compare
+/usr/bin/compare-im6:                        symbolic link to /etc/alternatives/compare-im6
+/usr/bin/compare-im6.q16:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=80ac7b71bfb81022ce97c5b4cf8f40f78efe590c, for GNU/Linux 3.2.0, stripped
+/usr/bin/compose:                            symbolic link to run-mailcap
+/usr/bin/composite:                          symbolic link to /etc/alternatives/composite
+/usr/bin/composite-im6:                      symbolic link to /etc/alternatives/composite-im6
+/usr/bin/composite-im6.q16:                  ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dcda433d44d1bab681d1e7659b9ca64fc9434823, for GNU/Linux 3.2.0, stripped
+/usr/bin/conch:                              cannot open `/usr/bin/conch' (No such file or directory)
+/usr/bin/conchftp:                           cannot open `/usr/bin/conchftp' (No such file or directory)
+/usr/bin/conjure:                            symbolic link to /etc/alternatives/conjure
+/usr/bin/conjure-im6:                        symbolic link to /etc/alternatives/conjure-im6
+/usr/bin/conjure-im6.q16:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c46b37271cc286de9fbd72e5b79d500f5d243398, for GNU/Linux 3.2.0, stripped
+/usr/bin/convert:                            symbolic link to /etc/alternatives/convert
+/usr/bin/convert-im6:                        symbolic link to /etc/alternatives/convert-im6
+/usr/bin/convert-im6.q16:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ef650aa4a248af14e79d141ee1b48545b27d304a, for GNU/Linux 3.2.0, stripped
+/usr/bin/corelist:                           Perl script text executable
+/usr/bin/cowpoke:                            Bourne-Again shell script, ASCII text executable
+/usr/bin/cpack:                              ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=957782eb96e68c5d5e911ecfb277cf29ca8bd4bf, for GNU/Linux 3.2.0, stripped
+/usr/bin/cpan:                               Perl script text executable
+/usr/bin/cpan5.28-x86_64-linux-gnu:          cannot open `/usr/bin/cpan5.28-x86_64-linux-gnu' (No such file or directory)
+/usr/bin/cpio-filter:                        cannot open `/usr/bin/cpio-filter' (No such file or directory)
+/usr/bin/cpp:                                symbolic link to cpp-12
+/usr/bin/cpp-4.8:                            cannot open `/usr/bin/cpp-4.8' (No such file or directory)
+/usr/bin/cpp-4.9:                            cannot open `/usr/bin/cpp-4.9' (No such file or directory)
+/usr/bin/cpp-6:                              cannot open `/usr/bin/cpp-6' (No such file or directory)
+/usr/bin/cpp-8:                              cannot open `/usr/bin/cpp-8' (No such file or directory)
+/usr/bin/cpufreq-aperf:                      cannot open `/usr/bin/cpufreq-aperf' (No such file or directory)
+/usr/bin/cpufreq-info:                       cannot open `/usr/bin/cpufreq-info' (No such file or directory)
+/usr/bin/cpufreq-set:                        cannot open `/usr/bin/cpufreq-set' (No such file or directory)
+/usr/bin/crc32:                              Perl script text executable
+/usr/bin/createdb:                           symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/createlang:                         symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/createuser:                         symbolic link to ../share/postgresql-common/pg_wrapper
+/usr/bin/c_rehash:                           Perl script text executable
+/usr/bin/crontab:                            setgid ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=d85df4195f321ff8e16624fe77f9efd018b4118a, for GNU/Linux 3.2.0, stripped
+/usr/bin/cs2cs:                              cannot open `/usr/bin/cs2cs' (No such file or directory)
+/usr/bin/csplit:                             ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=0fa6bcca2cdbc6002a7422fd4079a88006fd47cf, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctags:                              symbolic link to /etc/alternatives/ctags
+/usr/bin/ctags.emacs:                        ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=28f169c140dde40f576046951144fa3f3120419d, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctags-exuberant:                    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=393bb8e84127f38db8f1476d5b0e65140153be9a, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctanbib:                            symbolic link to ../share/texlive/texmf-dist/scripts/ctanbib/ctanbib
+/usr/bin/ctangle:                            ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6556d11fef00950f5c01b5ed5c1992cc71a63afa, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctanify:                            symbolic link to ../share/texlive/texmf-dist/scripts/ctanify/ctanify
+/usr/bin/ctan-o-mat:                         symbolic link to ../share/texlive/texmf-dist/scripts/ctan-o-mat/ctan-o-mat.pl
+/usr/bin/ctanupload:                         symbolic link to ../share/texlive/texmf-dist/scripts/ctanupload/ctanupload.pl
+/usr/bin/ctest:                              ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=28c35e577aa847c5edabd9b829645f582174a0f6, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctie:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=db93eb443688be317da0b49d25fcd060c9a1a88e, for GNU/Linux 3.2.0, stripped
+/usr/bin/ctstat:                             symbolic link to lnstat
+/usr/bin/cudf2lp:                            cannot open `/usr/bin/cudf2lp' (No such file or directory)
+/usr/bin/curl:                               ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=f699c63f2e1f55012549019649d2aacd94c39555, for GNU/Linux 3.2.0, stripped
