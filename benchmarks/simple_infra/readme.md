@@ -42,7 +42,7 @@ Run `../simple_infra/infra_run.py -help` for argument details
 
 ### Files you'll see after running
 
-1. infra_metrics.csv: CSV file with main metric results; Header is as follows: **script,input,input size,adj input size,cmd,py agg,py agg time,py agg correct,py seq**
+1. infra_metrics.csv: CSV file with main metric results; Header is as follows: **script,input,input size,adj input size,cmd,agg,agg time,agg correct,cmd seq time**
 2. infra_debug.log: more detailed execution log
 3. inputs-s-[ID]: org: split files; cmd: files after applying current command instance (parallel partials)
 4. outputs-temp: agg-[ID] parallel output files per command instance; seq-check-[ID] sequential output files per command instance (to check aggregator correctness)
