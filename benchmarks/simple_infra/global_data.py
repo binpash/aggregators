@@ -1,4 +1,4 @@
-from os import path, makedirs
+from os import path, makedirs, chmod, stat
 import utils.find_agg_py as find_agg_py
 import utils.find_agg_lean as find_agg_lean
 
@@ -39,6 +39,7 @@ class GlobalData:
         self.debug_prefix = "" # f'{globals.script_name}: '  
         self.metrics_path = "infra_metrics.csv"
         self.d = "|"
+    
         
         self.cmd = None
         self.metri_row = ""
@@ -102,8 +103,10 @@ class GlobalData:
             agg_set = ["python", "lean"]
         elif self.agg_set == "lean": 
             agg_set = ["lean"]
-        else: 
+        elif self.agg_set == "": 
             agg_set = ["python"]
+        else: 
+            agg_set = [self.agg_set]
         
         self.agg_set = agg_set             
             
@@ -116,6 +119,12 @@ class GlobalData:
             elif agg == "lean": 
                 lean = find_agg_lean.find(self.cmd, self.lean_agg_path)
                 agg_found.append(lean)
+            else: 
+                if not path.exists(agg): 
+                    print(agg, "aggregator does not exist")
+                    exit(2)
+                else: 
+                    agg_found.append(agg)
         if len(agg_found) == 0: agg_found.append(find_agg_py.find(self.g.cmd, self.g.py_agg_path))
         return agg_found
     

@@ -11,7 +11,10 @@ class Execution:
         parse_output = byte_str.decode('utf-8').split('\n')
         executed = parse_output[0]
         output = parse_output[1]
-        time = parse_output[2].strip()
+        if parse_output[2] == "": 
+            time = parse_output[3].strip()
+        else: 
+            time = parse_output[2].strip()
         return (executed, output, time)
     
     def generate_seq_expected(self): 
