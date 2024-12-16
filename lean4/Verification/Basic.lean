@@ -3,30 +3,11 @@ import Mathlib.Data.List.Sort
 import Lean
 open Lean Elab Meta
 
-/- 
-  The wc command counts the number of characters in a file.
-  The wc_agg function is a simple aggregation function that sums the number of characters in two files.
--/
-
 def sum : Nat → Nat → Nat :=
   λ x y ↦ x + y
 
-theorem wc_correctness 
-  (wc : String → Nat)
-  (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
-  wc (xs ++ ys) = sum (wc xs) (wc ys) :=
-  by 
-    rw [sum]
-    rw [h]
-
 def pairwise_sum : Nat × Nat → Nat × Nat → Nat × Nat
   := λ (x1, y1) (x2, y2) => (x1 + x2, y1 + y2)
-
-theorem wc_correctness' (wc : String → Nat × Nat)
-  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
-  wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
-  by
-    rw [h]
 
 def triple_sum : Nat × Nat × Nat → Nat × Nat × Nat → Nat × Nat × Nat
   := λ (x1, y1, z1) (x2, y2, z2) => (x1 + x2, y1 + y2, z1 + z2)
@@ -73,6 +54,20 @@ theorem wc_ordering2 (wc : String → Nat × Nat × Nat)
     -- rw [triple_sum]
     -- subst hsplit hsplit2 hsplit1
     simp_all only
+
+theorem wc_correctness 
+  (wc : String → Nat)
+  (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
+  wc (xs ++ ys) = sum (wc xs) (wc ys) :=
+  by 
+    rw [sum]
+    rw [h]
+
+theorem wc_correctness' (wc : String → Nat × Nat)
+  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
+  wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
+  by
+    rw [h]
 
 /-
 def wc : String → Nat :=
@@ -138,31 +133,29 @@ def merge {α : Type} (r : α → α → Bool)
   | l, [] => l
   | a :: l, b :: l' => if (r a b) then a :: merge r l (b :: l') else b :: merge r (a :: l) l'
 
-def mergeSort (r : α → α → Bool) : List α → List α
+def merge_sort (r : α → α → Bool) : List α → List α
   | [] => []
   | [a] => [a]
   | a :: b :: l => by
-    -- Porting note: rewrote to make `mergeSort_cons_cons` proof easier
+    -- Porting note: rewrote to make `merge_sort_cons_cons` proof easier
     let ls := (split (a :: b :: l))
     have e : split (a :: b :: l) = ⟨ls.1, ls.2⟩ := rfl
     have h := length_split_lt e
     have := h.1
     have := h.2
-    exact merge r (mergeSort r ls.1) (mergeSort r ls.2)
+    exact merge r (merge_sort r ls.1) (merge_sort r ls.2)
   termination_by l => length l
 
--- This is mergeSort_cons_cons from the mathlib library
+-- This is merge_sort_cons_cons from the mathlib library
 
 theorem sort_correctness {a b} {c xs ys : List α} (r : α → α → Bool)
     (h : split (a :: b :: c) = (xs, ys)) :
-    mergeSort r (a :: b :: c) = merge r (mergeSort r xs) (mergeSort r ys) := 
+    merge_sort r (a :: b :: c) = merge r (merge_sort r xs) (merge_sort r ys) := 
   by
-  simp only [mergeSort, h]
+  simp only [merge_sort, h]
 
-
-/- In sort, length is the same as the length of the sorted input -/
-
-theorem merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
+/- Merge preserves length -/
+lemma merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
   by
     intro l₁ l₂
     induction l₁ generalizing l₂ with 
@@ -201,22 +194,81 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
     rw [←h₁, ←h₂]
     rw [List.length_append]
 
+/- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂ -/
+/- This does not hold if sort x = "ab" -/
+
+/- theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (α → α → Bool) → List α → List α)  -/
+/-   (h : sort r l₁ = sort r l₂) : -/
+/-   ∀ a b c d, a ++ b = l₁ → c ++ d = l₂ → merge r (sort r a) (sort r b) = merge r (sort r c) (sort r d) := -/
+/-   by -/
+/-     intro a b c d hsplit1 hsplit2 -/
+/-     rw [←hsplit1, ←hsplit2] at h -/
+/-     sorry -/
+
+/- If sort applied twice is itself, then merge applied twice is itself
+   This does not hold for if sort x = "ab" -/
+--
+-- Idempotence
+theorem sort_idempotent {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+  (h : ∀ l, sort r (sort r l) = sort r l) :
+  ∀ l l₁ l₂ l₃ l₄, l₁ ++ l₂ = l → l₃ ++ l₄ = 
+  (merge r (sort r l₁) (sort r l₂)) → (merge r (sort r l₁) (sort r l₂)) = (merge r (sort r l₃) (sort r l₄)) :=
+  by
+    intro l l₁ l₂ l₃ l₄ hl₁l₂ hl₃l₄
+    sorry
+
 /-
   The grep command searches for a pattern in a file.
   The grep_agg function is a simple aggregation function that concatenates the results of two greps.
 -/
 
-def concat : String → String → String :=
+def concat_string : String → String → String :=
   λ x y ↦ x ++ y
 
-theorem concat_correctness 
+theorem concat_string_correctness 
   (f : String → String) 
   (xs ys : String) 
   (h : ∀ xs ys, f (xs ++ ys) = f xs ++ f ys) : 
-  f (xs ++ ys) = concat (f xs) (f ys) :=
+  f (xs ++ ys) = concat_string (f xs) (f ys) :=
   by
-    rw [concat]
+    rw [concat_string]
     rw [h]
+
+/- The length of the output after f is less the length of the output after ++ -/
+theorem concat_string_ordering_lt (f : String → String → String)
+  (h : ∀ xs ys, (f xs ys).length <= (xs ++ ys).length) :
+  ∀ xs ys a b c d, 
+    xs = a ++ b → 
+    ys = c ++ d → 
+    (concat_string (f a c) (f b d)).length <= (xs ++ ys).length :=
+  by 
+    intro xs ys a b c d hsplit hsplit1
+    rw [concat_string, hsplit, hsplit1]
+    have h₁ := h a c
+    have h₂ := h b d
+    /- rw [List.length_append] at h₁ -/
+    simp [List.length_append]
+    simp [List.length_append] at h₁
+    simp [List.length_append] at h₂
+    linarith
+
+/- The length of the output after f is greater than length of the output after ++ -/
+theorem concat_string_ordering_gt (f : String → String → String)
+  (h : ∀ xs ys, (f xs ys).length >= (xs ++ ys).length) :
+  ∀ xs ys a b c d, 
+    xs = a ++ b → 
+    ys = c ++ d → 
+    (concat_string (f a c) (f b d)).length >= (xs ++ ys).length :=
+  by 
+    intro xs ys a b c d hsplit hsplit1
+    rw [concat_string, hsplit, hsplit1]
+    have h₁ := h a c
+    have h₂ := h b d
+    /- rw [List.length_append] at h₁ -/
+    simp [List.length_append]
+    simp [List.length_append] at h₁
+    simp [List.length_append] at h₂
+    linarith
 
 -- Cat is just a function that concatenates two strings
 theorem cat_size
@@ -226,12 +278,25 @@ theorem cat_size
     s = xs ++ ys → 
     xs = a ++ b →
     ys = c ++ d →
-    concat (cat xs) (cat ys) = concat (cat a) (cat b) ++ concat (cat c) (cat d) := 
+    concat_string (cat xs) (cat ys) = concat_string (cat a) (cat b) ++ concat_string (cat c) (cat d) := 
   by
     intro s xs ys a b c d a_1 a_2 a_3
     subst a_3 a_1 a_2
     simp_all only
     rfl
+
+-- The actual Concat function is a ByteArray
+def concat_bytearray (acc x : ByteArray) : ByteArray := 
+  acc ++ x
+
+theorem concat_bytearray_correctness
+  (f : ByteArray → ByteArray) 
+  (xs ys : ByteArray) 
+  (h : ∀ xs ys, f (xs ++ ys) = f xs ++ f ys) : 
+  f (xs ++ ys) = concat_bytearray (f xs) (f ys) :=
+  by
+    rw [concat_bytearray]
+    rw [h]
 
 def concat_list : List String → List String → List String :=
   λ xs ys ↦ xs ++ ys
@@ -264,7 +329,7 @@ theorem grep_size
     exact Nat.add_le_add h₁ h₂
 
 -- Membership is preserved
-theorem grep_contains
+theorem grep_membership
   (grep: List String → String → List String)
   (h: ∀ lines pattern, ∀ line ∈ (grep lines pattern), line ∈ lines) :
   ∀ lines pattern, 
@@ -314,26 +379,26 @@ def uniq_uniq {α : Type} [DecidableEq α] (xs ys: List α) :
         -- rw [ih]
         -- simp
 
-def uniq_aggregator (xs ys : List String)  : List String :=
+def uniq_merge (xs ys : List String)  : List String :=
   match xs, ys with 
   | [], ys => ys
   | xs, [] => xs
   | x :: xs, y :: ys =>
-    if x == y then x :: uniq_aggregator xs ys
-    else x :: uniq_aggregator xs (y :: ys)
+    if x == y then x :: uniq_merge xs ys
+    else x :: uniq_merge xs (y :: ys)
 
-theorem uniq_agg_size : ∀ a b, (uniq_aggregator a b).length <= a.length + b.length := 
+theorem uniq_merge_size : ∀ a b, (uniq_merge a b).length <= a.length + b.length := 
   by
     intro a b
     induction a generalizing b with
       | nil => 
-        simp [uniq_aggregator]
+        simp [uniq_merge]
       | cons x xs ih =>
         induction b with
           | nil =>
-            simp [uniq_aggregator]
+            simp [uniq_merge]
           | cons y ys ih2 =>
-            simp [uniq_aggregator]
+            simp [uniq_merge]
             split_ifs
             case pos =>
               simp [List.length_cons]
@@ -350,16 +415,16 @@ theorem uniq_size (uniq: List String → List String)
   (h: ∀ lines, (uniq lines).length <= lines.length) :
   ∀ lines, 
     ∀ a b, lines = a ++ b → 
-    (uniq_aggregator (uniq a) (uniq b)).length <= lines.length := 
+    (uniq_merge (uniq a) (uniq b)).length <= lines.length := 
   by
     intro lines a b hsplit 
     have h₁ := h a
     have h₂ := h b
-    have h₃ := uniq_agg_size (uniq a) (uniq b)
+    have h₃ := uniq_merge_size (uniq a) (uniq b)
     rw [hsplit]
     simp [List.length_append]
     calc
-      (uniq_aggregator (uniq a) (uniq b)).length
+      (uniq_merge (uniq a) (uniq b)).length
           ≤ (uniq a).length + (uniq b).length := h₃
       _ ≤ a.length + b.length := by
         apply add_le_add
@@ -370,20 +435,20 @@ theorem uniq_size (uniq: List String → List String)
     subst hsplit
     simp_all only [List.length_append, le_refl]
 
-theorem uniq_aggregator_contains : ∀ a b, ∀ line ∈ uniq_aggregator a b, line ∈ a ++ b := 
+theorem uniq_merge_membership : ∀ a b, ∀ line ∈ uniq_merge a b, line ∈ a ++ b := 
   by
     intro a b line hin
     induction a generalizing b with
       | nil => 
-        simp [uniq_aggregator] at hin
+        simp [uniq_merge] at hin
         exact hin
       | cons x xs ih =>
         induction b with
           | nil =>
-            simp [uniq_aggregator] at hin
+            simp [uniq_merge] at hin
             simp [hin]
           | cons y ys ih2 =>
-            simp [uniq_aggregator] at hin
+            simp [uniq_merge] at hin
             simp [List.cons_append]
             split_ifs at hin with h_eq
             case pos =>
@@ -415,16 +480,16 @@ theorem uniq_aggregator_contains : ∀ a b, ∀ line ∈ uniq_aggregator a b, li
                   simp_all only [List.mem_append, List.cons_append, List.mem_cons]
 
 -- Membership is preserved
-theorem uniq_contains
+theorem uniq_membership
   (uniq: List String → List String)
   (h: ∀ lines, ∀ line ∈ (uniq lines), line ∈ lines) :
   ∀ lines, 
     ∀ a b, lines = a ++ b → 
-      ∀ line ∈ (uniq_aggregator (uniq a) (uniq b)), line ∈ lines := 
+      ∀ line ∈ (uniq_merge (uniq a) (uniq b)), line ∈ lines := 
   by
     intro lines a b hsplit line hin
     rw [hsplit]
-    have hcontains := uniq_aggregator_contains (uniq a) (uniq b) line hin
+    have hcontains := uniq_merge_membership (uniq a) (uniq b) line hin
     cases List.mem_append.1 hcontains with
     | inl huniqa =>
       have ha := h a line huniqa
