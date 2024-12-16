@@ -22,7 +22,7 @@ except:
 
 def run_cmd_loop(globals: GlobalData) -> str: 
     cmds = simple_parse.parse_pipeline(args.script)   
-    debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}; script: {globals.script}', globals)
+    debug_log(f'command instances:  {str(cmds)}; count: {str(len(cmds))}; split: {globals.split}; script: {globals.script}; id: {globals.id}', globals)
     output_path = ""
     for idx, cmd in enumerate(cmds):
         debug_log("\n", globals)

@@ -108,7 +108,7 @@ class Execution:
                 curr_output_path = self.execute_par(self.g.agg_set[idx], agg)
                 output_path = curr_output_path
                 if idx < len(has_valid_agg)-1: 
-                    self.metric_row += "{self.g.d}"
+                    self.metric_row += self.g.d
         
         if output_path is not None: return output_path
             
