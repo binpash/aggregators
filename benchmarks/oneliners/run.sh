@@ -21,7 +21,7 @@ if [[ "$@" == *"--small"* ]]; then
     )
 elif [[ "$@" == *"--test"* ]]; then
     scripts_inputs=(
-        "single;1M"
+        "set-diff-2;1M"
         # "shortest-scripts;all_cmdsx100"
     )
 elif [[ "$@" == *"--stack_abort"* ]]; then

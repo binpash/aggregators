@@ -43,7 +43,12 @@ def findPadLength(s):
 
 def getExactLocale(): 
   all_locale_setting = check_output(["locale"]).decode(sys.stdout.encoding)
-  sys_locale = all_locale_setting.split('\n')[1].split("=")[1]
+  # sys_locale = all_locale_setting.split('\n')[1].split("=")[1]  
+  
+  for line in all_locale_setting.split("\n"):
+    if line.startswith("LC_COLLATE"):
+        lc_collate = line.split("=")[1].strip('"')
+  return lc_collate
   assert(all_locale_setting.split('\n')[1].split("=")[0] == "LC_COLLATE") # find sorting weight
   return sys_locale.split('"')[1] # return locale without quotation 
 
@@ -88,10 +93,10 @@ def write_file(content:str):
     sys.stdout.write(content + "\n")
     sys.stdout.flush()
 
-def match_file(full_file, par_file):
-    match = full_file.split(".txt")[0]
-    pattern = re.escape(match) + '-\d+\.txt'
-    return True if (re.search(re.compile(pattern), par_file) != None) else False
+# def match_file(full_file, par_file):
+#     match = full_file.split(".txt")[0]
+#     pattern = re.escape(match) + '-\d+\.txt'
+#     return True if (re.search(re.compile(pattern), par_file) != None) else False
 
 def extract_base_file(par_file): 
     if par_file == "total": return par_file
