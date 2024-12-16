@@ -3,30 +3,11 @@ import Mathlib.Data.List.Sort
 import Lean
 open Lean Elab Meta
 
-/- 
-  The wc command counts the number of characters in a file.
-  The wc_agg function is a simple aggregation function that sums the number of characters in two files.
--/
-
 def sum : Nat → Nat → Nat :=
   λ x y ↦ x + y
 
-theorem wc_correctness 
-  (wc : String → Nat)
-  (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
-  wc (xs ++ ys) = sum (wc xs) (wc ys) :=
-  by 
-    rw [sum]
-    rw [h]
-
 def pairwise_sum : Nat × Nat → Nat × Nat → Nat × Nat
   := λ (x1, y1) (x2, y2) => (x1 + x2, y1 + y2)
-
-theorem wc_correctness' (wc : String → Nat × Nat)
-  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
-  wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
-  by
-    rw [h]
 
 def triple_sum : Nat × Nat × Nat → Nat × Nat × Nat → Nat × Nat × Nat
   := λ (x1, y1, z1) (x2, y2, z2) => (x1 + x2, y1 + y2, z1 + z2)
@@ -73,6 +54,20 @@ theorem wc_ordering2 (wc : String → Nat × Nat × Nat)
     -- rw [triple_sum]
     -- subst hsplit hsplit2 hsplit1
     simp_all only
+
+theorem wc_correctness 
+  (wc : String → Nat)
+  (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
+  wc (xs ++ ys) = sum (wc xs) (wc ys) :=
+  by 
+    rw [sum]
+    rw [h]
+
+theorem wc_correctness' (wc : String → Nat × Nat)
+  (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
+  wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
+  by
+    rw [h]
 
 /-
 def wc : String → Nat :=
@@ -159,10 +154,8 @@ theorem sort_correctness {a b} {c xs ys : List α} (r : α → α → Bool)
   by
   simp only [merge_sort, h]
 
-
-/- In sort, length is the same as the length of the sorted input -/
-
-theorem merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
+/- Merge preserves length -/
+lemma merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
   by
     intro l₁ l₂
     induction l₁ generalizing l₂ with 
@@ -201,6 +194,29 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
     rw [←h₁, ←h₂]
     rw [List.length_append]
 
+/- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂ -/
+/- This does not hold if sort x = "ab" -/
+
+/- theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (α → α → Bool) → List α → List α)  -/
+/-   (h : sort r l₁ = sort r l₂) : -/
+/-   ∀ a b c d, a ++ b = l₁ → c ++ d = l₂ → merge r (sort r a) (sort r b) = merge r (sort r c) (sort r d) := -/
+/-   by -/
+/-     intro a b c d hsplit1 hsplit2 -/
+/-     rw [←hsplit1, ←hsplit2] at h -/
+/-     sorry -/
+
+/- If sort applied twice is itself, then merge applied twice is itself
+   This does not hold for if sort x = "ab" -/
+--
+-- Idempotence
+theorem sort_idempotent {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+  (h : ∀ l, sort r (sort r l) = sort r l) :
+  ∀ l l₁ l₂ l₃ l₄, l₁ ++ l₂ = l → l₃ ++ l₄ = 
+  (merge r (sort r l₁) (sort r l₂)) → (merge r (sort r l₁) (sort r l₂)) = (merge r (sort r l₃) (sort r l₄)) :=
+  by
+    intro l l₁ l₂ l₃ l₄ hl₁l₂ hl₃l₄
+    sorry
+
 /-
   The grep command searches for a pattern in a file.
   The grep_agg function is a simple aggregation function that concatenates the results of two greps.
@@ -218,8 +234,44 @@ theorem concat_string_correctness
     rw [concat_string]
     rw [h]
 
+/- The length of the output after f is less the length of the output after ++ -/
+theorem concat_string_ordering_lt (f : String → String → String)
+  (h : ∀ xs ys, (f xs ys).length <= (xs ++ ys).length) :
+  ∀ xs ys a b c d, 
+    xs = a ++ b → 
+    ys = c ++ d → 
+    (concat_string (f a c) (f b d)).length <= (xs ++ ys).length :=
+  by 
+    intro xs ys a b c d hsplit hsplit1
+    rw [concat_string, hsplit, hsplit1]
+    have h₁ := h a c
+    have h₂ := h b d
+    /- rw [List.length_append] at h₁ -/
+    simp [List.length_append]
+    simp [List.length_append] at h₁
+    simp [List.length_append] at h₂
+    linarith
+
+/- The length of the output after f is greater than length of the output after ++ -/
+theorem concat_string_ordering_gt (f : String → String → String)
+  (h : ∀ xs ys, (f xs ys).length >= (xs ++ ys).length) :
+  ∀ xs ys a b c d, 
+    xs = a ++ b → 
+    ys = c ++ d → 
+    (concat_string (f a c) (f b d)).length >= (xs ++ ys).length :=
+  by 
+    intro xs ys a b c d hsplit hsplit1
+    rw [concat_string, hsplit, hsplit1]
+    have h₁ := h a c
+    have h₂ := h b d
+    /- rw [List.length_append] at h₁ -/
+    simp [List.length_append]
+    simp [List.length_append] at h₁
+    simp [List.length_append] at h₂
+    linarith
+
 -- Cat is just a function that concatenates two strings
-theorem catSize
+theorem cat_size
   (cat : String → String)
   (h : ∀ s xs ys, s = xs ++ ys → cat s = cat xs ++ cat ys) : 
   ∀ s xs ys a b c d, 
