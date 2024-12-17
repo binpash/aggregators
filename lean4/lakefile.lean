@@ -1,7 +1,7 @@
 import Lake
 open Lake DSL
 
-package "aggregators" where
+package "Aggregators" where
   -- add package configuration options here
 
 lean_lib «Synthesis» where
@@ -15,7 +15,7 @@ lean_exe "aggregators" where
   root := `Main
 
 lean_exe "sort" where
-  root := `Aggregators.sort
+  root := `Aggregators.Sort
 
 lean_exe "sortn" where
   root := `Aggregators.sortn

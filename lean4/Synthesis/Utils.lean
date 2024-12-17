@@ -15,14 +15,14 @@ def exitWithError {α : Type} (errMsg : String) : IO α := do
   throw <| IO.userError errMsg
 
 /-- Returns a stream for the given file, or none if the file does not exist.
-    The file handle tracks the underlying file descriptor. 
+    The file handle tracks the underlying file descriptor.
     When there are no references to its value, a finalizer closes the file descriptor.
     It is given the same interface as a POSIX stream using IO.FS.Stream.ofHandle. -/
 def getFileStream (filename : System.FilePath) : IO IO.FS.Stream := do
   let fileExists ← filename.pathExists
-  if not fileExists then 
+  if not fileExists then
     exitWithError s!"File not found: {filename}"
-  else 
+  else
     let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
     pure (IO.FS.Stream.ofHandle handle)
 
@@ -49,18 +49,18 @@ partial def readString (stream : IO.FS.Stream) (buf : ByteArray) : IO ByteArray 
     readString stream buf
 
 /-- Reads from the stream and returns a list of lines. -/
-partial def readFile (stream : IO.FS.Stream) (buf : List String) : IO (List String) := do
-  let line ← stream.getLine
-  if line.isEmpty then
-    pure buf
-  else
-    let mut buf := buf.append [line]
-    readFile stream buf
+partial def readFile (stream : IO.FS.Stream) : IO (List String) := do
+  let mut ret : Array String := #[]
+  let mut line : String ← stream.getLine
+  while ! line.isEmpty do
+    ret := ret.push line
+    line ← stream.getLine
+  return ret.toList
 
 /-- Reads from the list of streams and returns a list of all lines. -/
 partial def readAll (streams : List IO.FS.Stream) (buf : List String) : IO (List String) := do
   match streams with
   | [] => pure buf
-  | stream :: rest => 
-    let buf ← readFile stream buf
-    readAll rest buf
+  | stream :: rest =>
+    let buf' ← readFile stream
+    readAll rest (buf ++ buf')

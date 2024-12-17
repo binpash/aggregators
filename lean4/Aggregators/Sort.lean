@@ -14,10 +14,10 @@ def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
 
   let output ← List.foldlM (fun acc stream => do
-      let lines ← readFile stream []
+      let lines ← readFile stream
       let inputs := parseInput lines
       let acc := merge cmp acc inputs
-      pure acc) 
+      pure acc)
       [] streams
 
   output.forM (fun output => IO.print output)
