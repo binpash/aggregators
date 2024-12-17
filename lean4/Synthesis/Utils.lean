@@ -1,5 +1,3 @@
--- TODO: Handle errors
-
 /- IO.FS.Stream represents a POSIX stream
   structure Stream where
     flush   : IO Unit
@@ -26,8 +24,22 @@ def getFileStream (filename : System.FilePath) : IO IO.FS.Stream := do
     let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
     pure (IO.FS.Stream.ofHandle handle)
 
-def getAllStreams (filenames : List System.FilePath) : IO (List IO.FS.Stream) := do
-  filenames.mapM getFileStream
+/-- Consumes a list of file paths and returns an array of streams. -/
+def getAllStreams (args: List String) : IO (List IO.FS.Stream) := do
+  List.mapM (fun arg ↦ getFileStream ⟨arg⟩) args
+
+/-- Consumes a list of file paths and returns the first stream. -/
+def getFirstStream (args : List String) : IO IO.FS.Stream :=
+  match args with
+  | [] => throw $ IO.userError "No input files"
+  | (arg :: _) => getFileStream arg
+
+/-- Consumes a list of file paths and returns the last stream. -/
+def getLastStream (args : List String) : IO IO.FS.Stream :=
+  match args with
+  | [] => throw $ IO.userError "No input files"
+  | (x :: []) => getFileStream x
+  | (_ :: xs) => getLastStream xs
 
 /-- Reads from the stream and writes to stdout until the stream is empty. -/
 partial def dump (stream : IO.FS.Stream) : IO Unit := do
@@ -39,28 +51,93 @@ partial def dump (stream : IO.FS.Stream) : IO Unit := do
     stdout.write buf
     dump stream
 
-/-- Reads from the stream and returns a bytearray. -/
-partial def readString (stream : IO.FS.Stream) (buf : ByteArray) : IO ByteArray := do
+/-- Reads from the stream and returns a ByteArray. -/
+partial def readFile (stream : IO.FS.Stream) (buf : ByteArray) : IO ByteArray := do
   let str ← stream.read bufsize
   if str.isEmpty then
     pure buf
   else
     let buf := buf ++ str
-    readString stream buf
+    readFile stream buf
 
-/-- Reads from the stream and returns a list of lines. -/
-partial def readFile (stream : IO.FS.Stream) : IO (List String) := do
+/-- Reads from a stream and returns an array of lines.-/
+partial def readFileByLine (stream : IO.FS.Stream) : IO (Array String) := do
   let mut ret : Array String := #[]
   let mut line : String ← stream.getLine
   while ! line.isEmpty do
     ret := ret.push line
     line ← stream.getLine
-  return ret.toList
+  return ret
 
-/-- Reads from the list of streams and returns a list of all lines. -/
-partial def readAll (streams : List IO.FS.Stream) (buf : List String) : IO (List String) := do
-  match streams with
-  | [] => pure buf
-  | stream :: rest =>
-    let buf' ← readFile stream
-    readAll rest (buf ++ buf')
+/-- Reads from the array of streams and returns an array of all lines. -/
+partial def readAllByLine (streams : Array IO.FS.Stream) (buf : Array String) : IO (Array String) := do
+  streams.foldlM (fun buf stream => do
+    let buf' ← readFileByLine stream
+    pure (buf ++ buf')
+  ) buf
+
+
+-- This is for parsing numbers from a string in the sort aggregators
+def is_digit (c : Char) : Bool :=
+  '0' ≤ c ∧ c ≤ '9'
+
+def is_thousand_separator (c : Char) : Bool :=
+  c = ','
+
+def is_decimal_point (c : Char) : Bool :=
+  c = '.'
+
+def get_first_number (s : String) : Option Float :=
+  let chars := (((s.trim).splitOn "," )[0]!).toList
+
+  let rec preprocess (chars : List Char) (acc : String) (exponent : Nat) (decimal_used : Bool) : Option Float :=
+    match chars with
+    | [] => 
+      if acc.isEmpty then 
+        none 
+      else 
+        some (OfScientific.ofScientific (String.toNat! acc) true exponent)
+
+    | c :: cs =>
+      if is_digit c then
+        if decimal_used then
+          preprocess cs (acc.push c) (exponent + 1) decimal_used
+        else
+          preprocess cs (acc.push c) exponent decimal_used
+
+      else if is_thousand_separator c ∧ ¬acc.isEmpty ∧ ¬decimal_used then
+        preprocess cs acc exponent decimal_used
+
+      else if is_decimal_point c ∧ ¬decimal_used then
+        preprocess cs acc exponent true
+
+      else
+        if acc.isEmpty then 
+          none 
+        else 
+          some (OfScientific.ofScientific (String.toNat! acc) true exponent)
+
+  match chars with
+  | [] => none
+  | c :: cs =>
+    if c = '-' then
+      preprocess cs "-" 0 false
+    else
+      preprocess chars "" 0 false
+
+-- #eval get_first_number ""
+-- #eval get_first_number "1"
+-- #eval get_first_number "12"
+-- #eval get_first_number "12.3"
+-- #eval get_first_number "12.34"
+--
+-- #eval get_first_number "a"
+-- #eval get_first_number "a1"
+-- #eval get_first_number "1a"
+--
+-- #eval get_first_number "123.456"
+-- #eval get_first_number "123,456"
+-- #eval get_first_number "1,23,456"
+-- #eval get_first_number "1,23.456"
+-- #eval get_first_number "1.23,456"
+

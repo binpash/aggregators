@@ -1,13 +1,8 @@
 import Synthesis
 
-/- Aggregator for sort -/
+/- Aggregator for sort -u -/
 
-abbrev Input := String
-
-def parseInput (lines : List String) : List Input :=
-  lines
-
-def cmp (a b : Input) : Bool := a <= b
+def cmp (a b : String) : Bool := a <= b
 
 def mergeUnique (xs ys : List String) : List String :=
   match xs, ys with
@@ -22,15 +17,14 @@ def mergeUnique (xs ys : List String) : List String :=
       x :: mergeUnique xs (y :: ys)
 
 def main (args : List String) : IO UInt32 := do
-  let args : List System.FilePath := List.map (fun arg ↦ ⟨arg⟩) args
   let streams ← getAllStreams args
 
-  let output ← List.foldlM (fun acc stream => do
-      let lines ← readFile stream []
-      let inputs := parseInput lines
-      let acc := mergeUnique acc inputs
+  let output ← List.foldlM 
+    (fun acc stream => do
+      let lines ← readFileByLine stream
+      let acc := mergeUnique acc lines.toListImpl
       pure acc) 
-      [] streams
+    [] streams
 
   output.forM (fun output => IO.print output)
   return 0

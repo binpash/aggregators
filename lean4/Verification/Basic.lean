@@ -196,7 +196,7 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
 
 /- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂ -/
 /- This does not hold if sort x = "ab" -/
-
+/--/
 /- theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (α → α → Bool) → List α → List α)  -/
 /-   (h : sort r l₁ = sort r l₂) : -/
 /-   ∀ a b c d, a ++ b = l₁ → c ++ d = l₂ → merge r (sort r a) (sort r b) = merge r (sort r c) (sort r d) := -/
