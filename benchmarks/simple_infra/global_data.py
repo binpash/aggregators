@@ -1,4 +1,5 @@
-from os import path, makedirs, chmod, stat
+from os import path, makedirs, chmod, stat, urandom
+import random, string
 import utils.find_agg_py as find_agg_py
 import utils.find_agg_lean as find_agg_lean
 
@@ -7,7 +8,11 @@ import utils.find_agg_lean as find_agg_lean
 
 class GlobalData: 
     def __init__(self, input_: str, script_: str, split_: str, 
-                    id_: int, agg_set_: str, inflate_: bool):
+                    id_: int, agg_set_: str, inflate_: bool, random_bytes_: int):
+        self.random_bytes = random_bytes_
+        if random_bytes_ > 0: 
+            input_ = "inputs/random.txt"
+            self.generate_random_input_alphanumerical(input_)
         if not path.exists(input_): 
             print(f'{input_} does not exist; check input to infra_run\n')
             exit(-1)
@@ -49,17 +54,46 @@ class GlobalData:
         self.create_agg_set()
         
     def change_input(self, new_input: str): 
+        if self.random_bytes > 0: 
+            input_name = path.splitext(path.basename(new_input))[0]
+            new_random_input = self.output_dir_path + "i-" + input_name + ".txt" 
+            self.generate_random_input_alphanumerical(new_random_input)
+            self.input = new_random_input
+        else: 
+            self.input = new_input  
+             
         if not path.exists(new_input): 
             FileExistsError(f'{new_input} does not exist; check output of last produced run\n')
-       
-        self.input = new_input  
         self.input_name = path.splitext(path.basename(self.input))[0]
         self.org_input_size = path.getsize(self.input)
         if self.inflate_input: 
             self.inf_input_size = self.generate_inflated_input(self.input, self.size_to_inflate_to)
         else: 
             self.inf_input_size = self.org_input_size
+            
+    def generate_random_input(self, write_to: str): 
+        file_size = self.random_bytes 
+        bytes_written = 0 
         
+        with open(write_to, "wb") as rand_file: 
+            while bytes_written < file_size: 
+                line_len = random.randint(1, file_size) 
+                line_content = urandom(line_len)
+                rand_file.write(line_content + b'\n')
+                bytes_written += line_len + 1
+                
+    def generate_random_input_alphanumerical(self, write_to: str): 
+        file_size = self.random_bytes 
+        bytes_written = 0 
+        char_pool = string.ascii_letters + string.digits
+        
+        with open(write_to, "w") as rand_file: 
+            while bytes_written < file_size: 
+                line_len = random.randint(1,32) 
+                line_content = ''.join(random.choices(char_pool, k=line_len))
+                rand_file.write(line_content + '\n')
+                bytes_written += line_len + 1
+                
     def generate_inflated_input(self, input:str, inflate_to_size: str) -> int: 
         current_size = path.getsize(input)
         bytes_still_needed = inflate_to_size - current_size

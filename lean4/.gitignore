@@ -1,2 +1,5 @@
 .lake/
 .lake/packages
+code.deb
+lake-manifest.json
+lean-toolchain

@@ -13,6 +13,7 @@ try:
     parser.add_argument('--script', '-s', type=str, help="bash script for parallelized execution; script should be in form of `$cat | <cmd> | <cmd> ..` ")
     parser.add_argument('--output', '-o', type=str, help="target output after parallelization")
     parser.add_argument('--input-inflation', '-inflate', help="include flag to inflates all input to roughly the same size between each command instance", action='store_true')
+    parser.add_argument('--input-random', '-random', type=int, default=0, help="/dev/random of [byte size] for all input to each stage")
     parser.add_argument('--id', '-id', type=int, help="unique id to this run")
     parser.add_argument('--agg-set', '-agg', type=str, help="list path to aggregators or quick access to predefined set of aggregators using [lean], [python], or [all]")
     args, cmds = parser.parse_known_args() 
@@ -37,13 +38,14 @@ def run_cmd_loop(globals: GlobalData) -> str:
     
 def run():
     try:  
-        globals = GlobalData(args.input, args.script, args.split, args.id, args.agg_set, args.input_inflation)
-    except: 
+        globals = GlobalData(args.input, args.script, args.split, args.id, args.agg_set, args.input_inflation, args.input_random)
+    except Exception as e:
+        print(e, e.backtrace()) 
         parser.print_help()
         sys.exit(2)
     final_output = run_cmd_loop(globals)
     with open(args.output, 'w', newline='\n') as outfile:
-        with open(final_output, 'r', encoding='UTF-8-sig', newline='\n') as infile:
+        with open(final_output, 'r', newline='\n') as infile:
             for line in infile:
                 outfile.write(line)
     debug_log(f"DONE\n \n", globals)

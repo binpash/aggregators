@@ -70,3 +70,5 @@ agg-synthesis/simple-benchmarks
 
 lean4/.lake/
 lean4/.lake/packages
+lean4/lake-manifest.json
+lean4/lean-toolchain

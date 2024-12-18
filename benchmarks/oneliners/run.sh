@@ -82,6 +82,7 @@ elif [[ "$@" == *"--lean"* ]]; then
 else
     agg_set=python
 fi
+
 oneliners_agg() {
     mkdir -p "outputs/agg"
 
