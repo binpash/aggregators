@@ -40,5 +40,5 @@ RUN pwd
 # The command the container will run by default
 SHELL ["/bin/bash", "-c"]
 
-ENTRYPOINT ["./linux-build.sh"]
+ENTRYPOINT ["./docker/linux-build.sh"]
 
