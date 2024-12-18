@@ -1,13 +1,10 @@
-def concat : (x y : String) → String :=
- String.append
+def concat : (x y : ByteArray) → ByteArray :=
+ ByteArray.append
 
 def sum : (x y : Nat) → Nat :=
   Nat.add
 
-/-
-Array-based tail recursive implementation
--/
-
+/-- Array-based tail recursive implementation -/
 def mergeAuxArray (acc : Array α) (le : α → α → Bool) (xs ys : Array α) : Array α :=
 if h : xs.size = 0 then ys ++ acc.reverse
 else if h2 : ys.size = 0 then xs ++ acc.reverse
@@ -19,10 +16,7 @@ termination_by (xs.size, ys.size)
 def merge (le : α → α → Bool) (xs ys : List α) : List α :=
 mergeAuxArray #[] le xs.toArray ys.toArray |>.toList
 
-
-/-
-List-based tail recursive implementation
--/
+/-- List-based tail recursive implementation -/
 def mergeAuxList (acc : List α) (le : α → α → Bool) (xs ys : List α) : List α :=
   match xs, ys with
   | [], ys => acc.reverse ++ ys

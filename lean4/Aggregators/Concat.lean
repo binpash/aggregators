@@ -1,14 +1,11 @@
 import Synthesis
 
-def concat_agg (acc x : ByteArray) : ByteArray := 
-  acc ++ x
-
 def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
   let output ← List.foldlM 
     (fun acc stream => do
-      let bytes ← readString stream ByteArray.empty
-      let acc := concat_agg acc bytes
+      let bytes ← readFile stream ByteArray.empty
+      let acc := concat acc bytes
       pure acc) 
     ByteArray.empty streams
 
