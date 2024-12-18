@@ -40,12 +40,14 @@ def mergeList (le : α → α → Bool) (xs ys : List α) : List α :=
 
 
 
--- def merge (le : α → α → Bool) (xs ys : List α) : List α :=
---   match xs, ys with
---   | [], ys => ys
---   | xs, [] => xs
---   | x :: xs, y :: ys =>
---     if le x y then
---       x :: merge le xs (y :: ys)
---     else
---       y :: merge le (x :: xs) ys
+/- Non-tail recursive implementation causes stack overflow
+def merge (le : α → α → Bool) (xs ys : List α) : List α :=
+   match xs, ys with
+   | [], ys => ys
+   | xs, [] => xs
+   | x :: xs, y :: ys =>
+     if le x y then
+       x :: merge le xs (y :: ys)
+     else
+       y :: merge le (x :: xs) ys
+-/
