@@ -69,3 +69,4 @@ agg-synthesis/missing-agg
 agg-synthesis/simple-benchmarks
 
 lean4/.lake/
+lean4/.lake/packages
