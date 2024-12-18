@@ -1,6 +1,8 @@
 # Use the official Ubuntu base image
 FROM ubuntu:latest
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Update and install basic packages
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -10,8 +12,9 @@ RUN apt-get update && apt-get install -y \
     dos2unix \ 
     bsdextrautils \
     locales-all \ 
-    software-properties-common \
     sudo \ 
+    bash \ 
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
 # Add deadsnakes PPA and install Python 3.10
@@ -29,18 +32,13 @@ RUN python3 -m ensurepip --upgrade
 # Verify Python and pip versions
 RUN python3 --version && pip3 --version
 
-# Install Lean
-RUN wget -q https://raw.githubusercontent.com/leanprover-community/mathlib4/master/scripts/install_debian.sh && \
-    bash install_debian.sh ; rm -f install_debian.sh && \
-    source ~/.profile 
-
 # Set the working directory in the container
-WORKDIR /home/aggregators
-
 ADD . /home/aggregators
+WORKDIR /home/aggregators
+RUN pwd
 
 # The command the container will run by default
 SHELL ["/bin/bash", "-c"]
 
-CMD ["/bin/bash"]
-ENTRYPOINT [ "" ]
+ENTRYPOINT ["./linux-build.sh"]
+
