@@ -18,37 +18,37 @@ lean_exe "sort" where
   root := `Aggregators.Sort
 
 lean_exe "sortn" where
-  root := `Aggregators.sortn
+  root := `Aggregators.SortN
 
 lean_exe "sortr" where
-  root := `Aggregators.sortr
+  root := `Aggregators.SortR
 
 lean_exe "sortnr" where
-  root := `Aggregators.sortnr
+  root := `Aggregators.SortNR
 
 lean_exe "sortk1n" where
-  root := `Aggregators.sortk1n
+  root := `Aggregators.SortK1N
 
 lean_exe "sortu" where
-  root := `Aggregators.sortu
+  root := `Aggregators.SortU
 
 lean_exe "uniq" where
-  root := `Aggregators.uniq
+  root := `Aggregators.Uniq
 
 lean_exe "uniqc" where
-  root := `Aggregators.uniqc
+  root := `Aggregators.UniqC
 
 lean_exe "concat" where
-  root := `Aggregators.concat
+  root := `Aggregators.Concat
 
 lean_exe "sum" where
-  root := `Aggregators.sum
+  root := `Aggregators.Sum
 
 lean_exe "headn1" where
-  root := `Aggregators.headn1
+  root := `Aggregators.HeadN1
 
 lean_exe "tailn1" where
-  root := `Aggregators.tailn1
+  root := `Aggregators.TailN1
 
 require mathlib from git "https://github.com/leanprover-community/mathlib4"
 -- require aesop from git "https://github.com/leanprover-community/aesop"
