@@ -71,7 +71,3 @@ cd run
 ### Pipeline for [Running with Benchmark](#run-with-benchmark-sets)
 
 ![alt text](./simple_infra/infra.png)
-
-```
-
-```

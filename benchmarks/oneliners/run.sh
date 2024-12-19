@@ -83,6 +83,12 @@ else
     agg_set=python
 fi
 
+if [[ "$@" == *"--inf"* ]]; then
+    set_inf=1
+else
+    set_inf=0
+fi
+
 oneliners_agg() {
     mkdir -p "outputs/agg"
 
@@ -96,10 +102,12 @@ oneliners_agg() {
         time_file="./outputs/agg/${parsed[0]}.time"
         chmod +x ../simple_infra/infra_run.py
 
-        if [[ "$input_file" == *"all_cmds"* ]]; then
+        if [[ "$input_file" == *"all_cmds"* && $set_inf == 1 ]]; then
             { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file; } 2>"$time_file" #run file with input and direct to output
-        else
+        elif [[ $set_inf == 1 ]]; then
             { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file -inflate; } 2>"$time_file" #run file with input and direct to output
+        else 
+            { time ../simple_infra/infra_run.py -n 2 -i $input_file -s $script_file -id $ID -agg $agg_set -o $output_file; } 2>"$time_file" #run file with input and direct to output
         fi
 
         cat "${time_file}" >>$all_res_file

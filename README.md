@@ -21,7 +21,7 @@ Synthesizing high-performance, formally verified aggregators for UNIX command pa
 ## Run Docker
 
 ```bash
-./run-container
+./run-container.sh
 ```
 
 ## Run Benchmarks
