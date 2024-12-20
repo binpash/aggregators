@@ -9,12 +9,36 @@ cd `benchmarks`
 - Main run script: `./simple_infra/infra_run.py`
 - Run `./simple_infra/infra_run.py -h` for flags and options.
 - Test and measure aggregator performance with,
-  - [From a benchmark set](#run-with-benchmark-set)
+  - [Run all available benchmark sets](#run-all-available-benchmark-sets)
+  - [From one benchmark set](#run-with-benchmark-set)
   - [One script and input](#run-with-custom-scripts--inputs)
+- [Explaination of files generated from run](#files-youll-see-after-running)
 
-### Run with benchmark set:
+### Run all available benchmark sets: 
+First, download all inputs.  
+```bash
+./run-all.sh --inputs # Download all input files.
+```
 
-First `cd` into the benchmark set and download input:
+Here are the configurations to the scripts. 
+* `--small`: use small input 
+* `--inf`: input inflation between stages
+* `--all`: use lean and python aggregators 
+* `--lean`: use lean aggregators (default is python aggregators)
+
+For example, to run all benchmarks with python and lean aggregators with input inflation on smaller input, 
+```bash
+./run.sh --small --all --inf
+```
+
+Cleanup all intermediate files.
+```bash
+./run-all.sh --clean 
+```
+
+### Run with one benchmark set:
+
+Below, we show how to run the `oneliners` benchmark only. First `cd` into the benchmark set and download input:
 
 ```bash
 cd oneliners

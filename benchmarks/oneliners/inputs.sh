@@ -8,14 +8,7 @@ input_files=("1M.txt" "1G.txt" "3G.txt" "all_cmds.txt" "all_cmdsx100.txt" "dict.
 
 if [ ! -f ./1M.txt ]; then
     curl -k https://atlas-group.cs.brown.edu/data/dummy/1M.txt >1M.txt
-    # TODO: Add newline to the original file
-    echo -e "\n" >>filename.txt
-    # echo > 1M.txt
-
-    ## original
-    # wget https://atlas-group.cs.brown.edu/data/dummy/1M.txt
-    # # TODO: Add newline to the original file
-    # echo >> 1M.txt
+    echo -e "\n" >>filename.txt # TODO: Add newline to the original file
 fi
 
 if [ ! -f ./1G.txt ]; then
@@ -32,18 +25,12 @@ if [ ! -f ./3G.txt ]; then
     done
 fi
 
-## original
-# if [ ! -f ./dict.txt ]; then
-#     wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort >dict.txt
-# fi
-
 if [ ! -f ./dict.txt ]; then
-    curl -k - https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort >dict.txt
+    curl -k https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort >dict.txt
 fi
 
 if [ ! -f ./all_cmds.txt ]; then
-    # TODO: Upload this file to the server
-    cp ../all_cmds.txt all_cmds.txt
+    cp ../all_cmds.txt all_cmds.txt # Not on server, saved locally.
 fi
 
 if [ ! -f ./all_cmdsx100.txt ]; then
