@@ -1,8 +1,12 @@
 inputs/
 outputs/
+outputs-temp/
 inputs-s/
+inputs-s-*/
 inputs-s-par/
 log.txt
 execution.sh
 hashes/
 diff-res/
+infra_metrics.csv
+infra_debug.log
