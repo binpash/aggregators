@@ -1,0 +1,210 @@
+top-n|outputs-temp/agg-4/python/1M-cat-tr-grep-tr-sort-uniq.txt|165479|165479|sort -rn|../../py-2/s_sort.py -rn|0.092|incorrect|0.013
+top-n|outputs-temp/seq-check-4/1M-cat-tr-grep-tr-sort-uniq-sort.txt|165479|165479|sed 100q|../../py-2/s_grep.py|0.037|incorrect|0.001
+wf|outputs-temp/agg-5/python/1M-cat-tr-grep-tr-sort-uniq.txt|165479|165479|sort -rn|../../py-2/s_sort.py -rn|0.092|incorrect|0.016
+bi-grams|outputs-temp/agg-9/python/1M-cat-tr-grep-tee.txt|960547|960547|tail -n +2||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-9/1M-cat-tr-grep-tee/cmd/0-tail.txt: Permission denied|incorrect|0.003
+bi-grams|outputs-temp/seq-check-9/1M-cat-tr-grep-tee-tail.txt|960543|960543|sed '$d'|../../py-2/s_grep.py|0.053|incorrect|0.028
+3|outputs-temp/agg-3/python/1-cat.txt|290|290|head -n 2||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-3/1-cat/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/agg-12/python/4-cat-tr-grep-cut-cut-tr-sort-uniq.txt|12|12|head -n 3||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head.txt|6|6|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head/cmd/0-tail.txt: Permission denied|incorrect|0.001
+16|outputs-temp/agg-16/python/7-cat-cut-sort-uniq-sort.txt|103|103|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+16|outputs-temp/agg-16/python/7-cat-cut-sort-uniq-sort-head-tr.txt|13|13|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort-head-tr/cmd/0-tail.txt: Permission denied|incorrect|0.001
+20|outputs-temp/agg-20/python/8-cat-grep-cut-cut.txt|1383|1383|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-20/8-cat-grep-cut-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+26|outputs-temp/agg-25/python/9.4-cat-tr-grep.txt|44|44|sed 4d|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/agg-26/python/9.6-cat-tr-grep.txt|48|48|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed.txt|44|44|sed 3d|../../py-2/s_grep.py|0.027|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed.txt|38|38|sed 3d|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/agg-26/python/9.6-cat-tr-grep-sed-sed-sed-tr-grep.txt|11|11|sed 3d|../../py-2/s_grep.py|0.026|incorrect|0.002
+29|outputs-temp/agg-27/python/9.7-cat.txt|109|109|sed 2d|../../py-2/s_grep.py|0.027|incorrect|0.002
+29|outputs-temp/seq-check-27/9.7-cat-sed.txt|76|76|sed 2d|../../py-2/s_grep.py|0.027|incorrect|0.001
+30|outputs-temp/agg-28/python/9.8-cat-tr-grep.txt|43|43|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed.txt|31|31|sed 2d|../../py-2/s_grep.py|0.025|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed.txt|28|28|sed 3d|../../py-2/s_grep.py|0.027|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed.txt|24|24|sed 4d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/agg-29/python/9.9-cat-tr-grep.txt|43|43|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed.txt|31|31|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed.txt|26|26|sed 2d|../../py-2/s_grep.py|0.025|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed.txt|21|21|sed 3d|../../py-2/s_grep.py|0.025|incorrect|0.001
+32|outputs-temp/agg-30/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.027|incorrect|0.001
+33|outputs-temp/agg-31/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+34|outputs-temp/agg-32/python/10-cat-grep-cut.txt|72|72|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-32/10-cat-grep-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+36|outputs-temp/agg-34/python/11-cat-cut-cut-sort-uniq-sort.txt|412|412|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-34/11-cat-cut-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+36|outputs-temp/agg-34/python/11-cat-cut-cut-sort-uniq-sort-head-fmt.txt|20|20|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+2|outputs-temp/agg-2/python/1-cat-cut.txt|175|8225|sort|../../py-2/s_sort.py |0.027|incorrect|0.002
+3|outputs-temp/agg-3/python/1-cat.txt|290|290|head -n 2||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-3/1-cat/cmd/0-head.txt: Permission denied|incorrect|0.001
+3|outputs-temp/seq-check-3/1-cat-head.txt|28|8204|cut -d ' ' -f 2|../../py-2/s_grep.py|0.033|incorrect|0.001
+4|outputs-temp/agg-4/python/1-cat-cut.txt|115|8280|sort|../../py-2/s_sort.py |0.028|incorrect|0.002
+4|outputs-temp/seq-check-4/1-cat-cut-sort.txt|8395|8395|uniq -c|../../py-2/s_uniq.py -c|0.026|incorrect|0.001
+4|outputs-temp/seq-check-4/1-cat-cut-sort-uniq.txt|261|8352|sort -r|../../py-2/s_sort.py -r|0.030|incorrect|0.002
+5|outputs-temp/agg-5/python/2-cat-cut.txt|153|8262|tr -d ','|../../py-2/s_grep.py|0.025|incorrect|0.001
+6|outputs-temp/agg-6/python/3-cat-cut.txt|25|8200|cut -c 1-1|../../py-2/s_grep.py|0.029|incorrect|0.001
+6|outputs-temp/seq-check-6/3-cat-cut-cut.txt|1974|1974|tr -d '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+6|outputs-temp/seq-check-6/3-cat-cut-cut-tr.txt|987|987|tr '[A-Z]' '[a-z]'|../../py-2/s_grep.py|0.029|incorrect|0.001
+7|outputs-temp/agg-7/python/4-cat-tr-grep.txt|285|8265|wc -l|../../py-2/s_wc.py -l|0.028|incorrect|0.001
+8|outputs-temp/agg-8/python/4-cat-tr-grep.txt|106|8268|grep '\.'|../../py-2/s_grep.py |0.025|incorrect|0.001
+8|outputs-temp/seq-check-8/4-cat-tr-grep-grep.txt|6241|6241|wc -l|../../py-2/s_wc.py -l|0.026|incorrect|0.001
+9|outputs-temp/agg-9/python/4-cat-tr-grep.txt|106|8268|grep '\.'|../../py-2/s_grep.py |0.026|incorrect|0.001
+9|outputs-temp/seq-check-9/4-cat-tr-grep-grep.txt|6241|6241|cut -d '.' -f 2|../../py-2/s_grep.py|0.026|incorrect|0.001
+9|outputs-temp/seq-check-9/4-cat-tr-grep-grep-cut.txt|3950|3950|grep -v '[KQRBN]'|../../py-2/s_grep.py -v|0.027|incorrect|0.001
+9|outputs-temp/seq-check-9/4-cat-tr-grep-grep-cut-grep.txt|790|790|wc -l|../../py-2/s_wc.py -l|0.027|incorrect|0.001
+10|outputs-temp/agg-10/python/4-cat-tr-grep.txt|106|8268|grep '\.'|../../py-2/s_grep.py |0.024|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep.txt|6241|6241|cut -d '.' -f 2|../../py-2/s_grep.py|0.024|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut.txt|3950|3950|grep '[KQRBN]'|../../py-2/s_grep.py |0.031|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut-grep.txt|3160|3160|cut -c 1-1|../../py-2/s_grep.py|0.026|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut-grep-cut.txt|1264|1264|sort|../../py-2/s_sort.py |0.026|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut-grep-cut-sort.txt|1264|1264|uniq -c|../../py-2/s_uniq.py -c|0.026|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut-grep-cut-sort-uniq.txt|40|8200|sort -nr|../../py-2/s_sort.py -nr|0.026|incorrect|0.006
+11|outputs-temp/agg-11/python/4-cat-tr-grep.txt|106|8268|grep '\.'|../../py-2/s_grep.py |0.026|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep.txt|6241|6241|cut -d '.' -f 2|../../py-2/s_grep.py|0.025|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut.txt|3950|3950|cut -c 1-1|../../py-2/s_grep.py|0.025|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut-cut.txt|1580|1580|tr '[a-z]' 'P'|../../py-2/s_grep.py|0.024|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut-cut-tr.txt|1580|1580|sort|../../py-2/s_sort.py |0.027|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut-cut-tr-sort.txt|1580|1580|uniq -c|../../py-2/s_uniq.py -c|0.025|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut-cut-tr-sort-uniq.txt|50|8200|sort -nr|../../py-2/s_sort.py -nr|0.025|incorrect|0.002
+12|outputs-temp/agg-12/python/4-cat-tr-grep.txt|285|8265|cut -d '.' -f 2|../../py-2/s_grep.py|0.029|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut.txt|5130|5130|cut -c 1-1|../../py-2/s_grep.py|0.026|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut.txt|2460|2460|tr '[a-z]' 'P'|../../py-2/s_grep.py|0.030|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut-tr.txt|2460|2460|sort -r|../../py-2/s_sort.py -r|0.028|incorrect|0.002
+12|outputs-temp/agg-12/python/4-cat-tr-grep-cut-cut-tr-sort-uniq.txt|12|8196|head -n 3||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head.txt|6|8196|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head/cmd/0-tail.txt: Permission denied|incorrect|0.001
+13|outputs-temp/agg-13/python/5-cat-grep.txt|30|8220|cut -d "\"" -f 2|../../py-2/s_grep.py|0.027|incorrect|0.001
+13|outputs-temp/seq-check-13/5-cat-grep-cut.txt|4125|4125|cut -c 1-12|../../py-2/s_grep.py|0.027|incorrect|0.001
+15|outputs-temp/agg-15/python/7-cat-cut.txt|164|8200|grep 'AT&T'|../../py-2/s_grep.py |0.025|incorrect|0.001
+15|outputs-temp/seq-check-15/7-cat-cut-grep.txt|3009|3009|wc -l|../../py-2/s_wc.py -l|0.026|incorrect|0.001
+16|outputs-temp/agg-16/python/7-cat-cut.txt|85|8245|sort -n|../../py-2/s_sort.py -n|0.026|incorrect|0.002
+16|outputs-temp/seq-check-16/7-cat-cut-sort.txt|8330|8330|uniq -c|../../py-2/s_uniq.py -c|0.024|incorrect|0.001
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq.txt|103|8240|sort -nr|../../py-2/s_sort.py -nr|0.026|incorrect|0.002
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq-sort.txt|8343|8343|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq-sort-head.txt|18|8208|tr -s ' ' '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq-sort-head-tr.txt|6399|6399|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort-head-tr/cmd/0-tail.txt: Permission denied|incorrect|0.001
+17|outputs-temp/agg-17/python/7-cat-cut.txt|45|8235|sort -n|../../py-2/s_sort.py -n|0.026|incorrect|0.002
+17|outputs-temp/seq-check-17/7-cat-cut-sort.txt|8280|8280|cut -c 3-3|../../py-2/s_grep.py|0.024|incorrect|0.001
+17|outputs-temp/agg-17/python/7-cat-cut-sort-cut-uniq.txt|8|8200|sed s/\$/'0s'/|../../py-2/s_grep.py|0.024|incorrect|0.002
+18|outputs-temp/agg-18/python/8-cat-tr-grep.txt|43|40893|wc -l|../../py-2/s_wc.py -l|0.025|incorrect|0.001
+19|outputs-temp/agg-19/python/8-cat-grep.txt|4818|43362|awk 'length <= 45'|../../py-2/s_grep.py|0.027|incorrect|0.001
+19|outputs-temp/seq-check-19/8-cat-grep-awk.txt|420|48300|cut -d ',' -f 2|../../py-2/s_grep.py|0.029|incorrect|0.001
+19|outputs-temp/seq-check-19/8-cat-grep-awk-cut.txt|15080|45240|awk "{\$1=\$1};1"|../../py-2/s_grep.py|0.026|incorrect|0.002
+20|outputs-temp/agg-20/python/8-cat-grep.txt|25515|51030|cut -d '(' -f 2|../../py-2/s_grep.py|0.024|incorrect|0.001
+20|outputs-temp/seq-check-20/8-cat-grep-cut.txt|21456|42912|cut -d ')' -f 1|../../py-2/s_grep.py|0.025|incorrect|0.001
+20|outputs-temp/seq-check-20/8-cat-grep-cut-cut.txt|5532|44256|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-20/8-cat-grep-cut-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+23|outputs-temp/agg-22/python/9.1-cat-tr-grep.txt|33|8217|tr '[a-z]' '\n'|../../py-2/s_grep.py|0.024|incorrect|0.001
+23|outputs-temp/seq-check-22/9.1-cat-tr-grep-tr.txt|8250|8250|grep '[A-Z]'|../../py-2/s_grep.py |0.025|incorrect|0.002
+23|outputs-temp/seq-check-22/9.1-cat-tr-grep-tr-grep.txt|2250|2250|tr -d '\n'|../../py-2/s_grep.py|0.026|incorrect|0.001
+24|outputs-temp/agg-23/python/9.2-cat-cut.txt|8|8200|tr -d '\n'|../../py-2/s_grep.py|0.027|incorrect|0.001
+25|outputs-temp/agg-24/python/9.3-cat-cut.txt|12|8196|tr -d '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+26|outputs-temp/agg-25/python/9.4-cat-tr-grep.txt|44|8228|sed 4d|../../py-2/s_grep.py|0.024|incorrect|0.001
+26|outputs-temp/seq-check-25/9.4-cat-tr-grep-sed.txt|8264|8264|cut -d "\"" -f 2|../../py-2/s_grep.py|0.024|incorrect|0.001
+26|outputs-temp/seq-check-25/9.4-cat-tr-grep-sed-cut.txt|2815|2815|tr -d '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/agg-26/python/9.6-cat-tr-grep.txt|48|8208|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed.txt|8252|8252|sed 3d|../../py-2/s_grep.py|0.024|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed.txt|8246|8246|sed 3d|../../py-2/s_grep.py|0.024|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed-sed.txt|8242|8242|tr '[a-z]' '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed-sed-tr.txt|8242|8242|grep '[A-Z]'|../../py-2/s_grep.py |0.027|incorrect|0.003
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed-sed-tr-grep.txt|2918|2918|sed 3d|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed-sed-tr-grep-sed.txt|2916|2916|tr -c '[A-Z]' '\n'|../../py-2/s_grep.py|0.024|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed-sed-tr-grep-sed-tr.txt|2916|2916|tr -d '\n'|../../py-2/s_grep.py|0.024|incorrect|0.001
+29|outputs-temp/agg-27/python/9.7-cat.txt|109|109|sed 2d|../../py-2/s_grep.py|0.027|incorrect|0.001
+29|outputs-temp/seq-check-27/9.7-cat-sed.txt|76|8208|sed 2d|../../py-2/s_grep.py|0.026|incorrect|0.001
+29|outputs-temp/seq-check-27/9.7-cat-sed-sed.txt|8255|8255|tr -c '[A-Z]' '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+29|outputs-temp/seq-check-27/9.7-cat-sed-sed-tr.txt|8255|8255|tr -d '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+30|outputs-temp/agg-28/python/9.8-cat-tr-grep.txt|43|8213|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed.txt|8244|8244|sed 2d|../../py-2/s_grep.py|0.027|incorrect|0.002
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed.txt|8241|8241|sed 3d|../../py-2/s_grep.py|0.026|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed.txt|8237|8237|sed 4d|../../py-2/s_grep.py|0.025|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed-sed.txt|8234|8234|tr -c '[A-Z]' '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed-sed-tr.txt|8234|8234|tr -d '\n'|../../py-2/s_grep.py|0.025|incorrect|0.001
+31|outputs-temp/agg-29/python/9.9-cat-tr-grep.txt|43|8213|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed.txt|8244|8244|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed.txt|8239|8239|sed 2d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed.txt|8234|8234|sed 3d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed-sed.txt|8229|8229|sed 5d|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed-sed-sed.txt|8217|8217|tr -c '[A-Z]' '\n'|../../py-2/s_grep.py|0.024|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed-sed-sed-tr.txt|8217|8217|tr -d '\n'|../../py-2/s_grep.py|0.027|incorrect|0.001
+32|outputs-temp/agg-30/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001
+32|outputs-temp/seq-check-30/10-cat-sed.txt|5536|11072|grep 'Bell'|../../py-2/s_grep.py |0.028|incorrect|0.001
+32|outputs-temp/seq-check-30/10-cat-sed-grep.txt|747|8217|cut -f 2|../../py-2/s_grep.py|0.028|incorrect|0.001
+32|outputs-temp/seq-check-30/10-cat-sed-grep-cut.txt|2592|10368|wc -l|../../py-2/s_wc.py -l|0.028|incorrect|0.001
+33|outputs-temp/agg-31/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+33|outputs-temp/seq-check-31/10-cat-sed.txt|5536|11072|grep 'Bell'|../../py-2/s_grep.py |0.025|incorrect|0.001
+33|outputs-temp/seq-check-31/10-cat-sed-grep.txt|747|8217|cut -f 2|../../py-2/s_grep.py|0.026|incorrect|0.001
+34|outputs-temp/agg-32/python/10-cat-grep.txt|249|8217|cut -f 2|../../py-2/s_grep.py|0.027|incorrect|0.001
+34|outputs-temp/seq-check-32/10-cat-grep-cut.txt|2448|9792|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-32/10-cat-grep-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+34|outputs-temp/seq-check-32/10-cat-grep-cut-head.txt|27|8208|fmt -w1|../../py-2/s_grep.py|0.028|incorrect|0.001
+34|outputs-temp/seq-check-32/10-cat-grep-cut-head-fmt.txt|8235|8235|cut -c 1-1|../../py-2/s_grep.py|0.026|incorrect|0.001
+34|outputs-temp/seq-check-32/10-cat-grep-cut-head-fmt-cut.txt|1830|9150|tr -d '\n'|../../py-2/s_grep.py|0.028|incorrect|0.001
+34|outputs-temp/seq-check-32/10-cat-grep-cut-head-fmt-cut-tr.txt|5490|10980|tr '[A-Z]' '[a-z]'|../../py-2/s_grep.py|0.028|incorrect|0.001
+35|outputs-temp/agg-33/python/11-cat-grep.txt|130|8320|cut -f 1|../../py-2/s_grep.py|0.029|incorrect|0.002
+36|outputs-temp/agg-34/python/11-cat-cut.txt|628|8792|cut -d ' ' -f 1|../../py-2/s_grep.py|0.029|incorrect|0.001
+36|outputs-temp/seq-check-34/11-cat-cut-cut.txt|3195|9585|sort|../../py-2/s_sort.py |0.087|incorrect|0.003
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort.txt|12780|12780|uniq -c|../../py-2/s_uniq.py -c|0.034|incorrect|0.001
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq.txt|412|8240|sort -nr|../../py-2/s_sort.py -nr|0.042|incorrect|0.003
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq-sort.txt|8652|8652|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-34/11-cat-cut-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq-sort-head.txt|14|8204|fmt -w1|../../py-2/s_grep.py|0.040|incorrect|0.002
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq-sort-head-fmt.txt|10566|10566|sed 1d|../../py-2/s_grep.py|0.039|incorrect|0.002
+3|outputs-temp/agg-3/lean/1-cat.txt|290|290|head -n 2||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-3/1-cat/cmd/0-head.txt: Permission denied|incorrect|0.001||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-3/1-cat/cmd/0-head.txt: Permission denied|incorrect|0.001
+4|outputs-temp/agg-4/lean/1-cat-cut-sort.txt|8395|8395|uniq -c|../../py-2/s_uniq.py -c|0.040|correct|0.001|../../lean4/.lake/build/bin/uniqc|0.006|incorrect|0.001
+4|outputs-temp/seq-check-4/1-cat-cut-sort-uniq.txt|261|8352|sort -r|../../py-2/s_sort.py -r|0.029|correct|0.003|../../lean4/.lake/build/bin/sortr|0.009|incorrect|0.002
+10|outputs-temp/agg-10/lean/4-cat-tr-grep-grep-cut-grep-cut-sort.txt|1264|1264|uniq -c|../../py-2/s_uniq.py -c|0.026|correct|0.001|../../lean4/.lake/build/bin/uniqc|0.003|incorrect|0.001
+10|outputs-temp/seq-check-10/4-cat-tr-grep-grep-cut-grep-cut-sort-uniq.txt|40|8200|sort -nr|../../py-2/s_sort.py -nr|0.036|incorrect|0.002|../../lean4/.lake/build/bin/sortnr|0.008|correct|0.002
+11|outputs-temp/agg-11/lean/4-cat-tr-grep-grep-cut-cut-tr-sort.txt|1580|1580|uniq -c|../../py-2/s_uniq.py -c|0.027|correct|0.001|../../lean4/.lake/build/bin/uniqc|0.003|incorrect|0.001
+11|outputs-temp/seq-check-11/4-cat-tr-grep-grep-cut-cut-tr-sort-uniq.txt|50|8200|sort -nr|../../py-2/s_sort.py -nr|0.034|incorrect|0.002|../../lean4/.lake/build/bin/sortnr|0.003|correct|0.002
+12|outputs-temp/agg-12/lean/4-cat-tr-grep-cut-cut-tr-sort-uniq.txt|12|8196|head -n 3||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq/cmd/0-head.txt: Permission denied|incorrect|0.001||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head.txt|6|8196|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head/cmd/0-tail.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/tailn1|0.054|correct|0.001
+16|outputs-temp/agg-16/lean/7-cat-cut-sort.txt|8330|8330|uniq -c|../../py-2/s_uniq.py -c|0.027|correct|0.001|../../lean4/.lake/build/bin/uniqc|0.003|incorrect|0.001
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq.txt|103|8240|sort -nr|../../py-2/s_sort.py -nr|0.030|incorrect|0.002|../../lean4/.lake/build/bin/sortnr|0.004|correct|0.002
+16|outputs-temp/agg-16/lean/7-cat-cut-sort-uniq-sort.txt|8343|8343|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/headn1|0.033|correct|0.002
+16|outputs-temp/agg-16/lean/7-cat-cut-sort-uniq-sort-head.txt|18|8208|tr -s ' ' '\n'|../../py-2/s_grep.py|0.029|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+16|outputs-temp/seq-check-16/7-cat-cut-sort-uniq-sort-head-tr.txt|6399|6399|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort-head-tr/cmd/0-tail.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/tailn1|0.002|correct|0.001
+20|outputs-temp/agg-20/lean/8-cat-grep-cut-cut.txt|5532|44256|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-20/8-cat-grep-cut-cut/cmd/0-head.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/headn1|0.004|correct|0.001
+21|outputs-temp/agg-21/lean/8-cat-tr.txt|40602|40602|sort|../../py-2/s_sort.py |0.036|correct|0.007|../../lean4/.lake/build/bin/sort|0.005|incorrect|0.007
+26|outputs-temp/agg-25/lean/9.4-cat-tr-grep.txt|44|8228|sed 4d|../../py-2/s_grep.py|0.025|incorrect|0.002|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+28|outputs-temp/agg-26/lean/9.6-cat-tr-grep.txt|48|8208|sed 1d|../../py-2/s_grep.py|0.024|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.003|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed.txt|8252|8252|sed 3d|../../py-2/s_grep.py|0.027|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.003|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed.txt|8246|8246|sed 3d|../../py-2/s_grep.py|0.024|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+28|outputs-temp/agg-26/lean/9.6-cat-tr-grep-sed-sed-sed-tr-grep.txt|2918|2918|sed 3d|../../py-2/s_grep.py|0.026|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.003|incorrect|0.001
+29|outputs-temp/agg-27/lean/9.7-cat.txt|109|109|sed 2d|../../py-2/s_grep.py|0.027|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+29|outputs-temp/seq-check-27/9.7-cat-sed.txt|76|8208|sed 2d|../../py-2/s_grep.py|0.031|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.003|incorrect|0.001
+30|outputs-temp/agg-28/lean/9.8-cat-tr-grep.txt|43|8213|sed 1d|../../py-2/s_grep.py|0.027|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed.txt|8244|8244|sed 2d|../../py-2/s_grep.py|0.028|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.003
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed.txt|8241|8241|sed 3d|../../py-2/s_grep.py|0.028|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.002
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed.txt|8237|8237|sed 4d|../../py-2/s_grep.py|0.026|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+31|outputs-temp/agg-29/lean/9.9-cat-tr-grep.txt|43|8213|sed 1d|../../py-2/s_grep.py|0.026|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed.txt|8244|8244|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed.txt|8239|8239|sed 2d|../../py-2/s_grep.py|0.025|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed.txt|8234|8234|sed 3d|../../py-2/s_grep.py|0.026|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed-sed.txt|8229|8229|sed 5d|../../py-2/s_grep.py|0.027|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.002
+32|outputs-temp/agg-30/lean/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.028|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+33|outputs-temp/agg-31/lean/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.032|incorrect|0.002|../../lean4/.lake/build/bin/concat|0.002|incorrect|0.001
+34|outputs-temp/agg-32/lean/10-cat-grep-cut.txt|2448|9792|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-32/10-cat-grep-cut/cmd/0-head.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/headn1|0.002|correct|0.001
+36|outputs-temp/agg-34/lean/11-cat-cut-cut.txt|3195|9585|sort|../../py-2/s_sort.py |0.030|correct|0.002|../../lean4/.lake/build/bin/sort|0.004|incorrect|0.002
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort.txt|12780|12780|uniq -c|../../py-2/s_uniq.py -c|0.026|correct|0.001|../../lean4/.lake/build/bin/uniqc|0.004|incorrect|0.001
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq.txt|412|8240|sort -nr|../../py-2/s_sort.py -nr|0.030|incorrect|0.002|../../lean4/.lake/build/bin/sortnr|0.005|incorrect|0.002
+36|outputs-temp/seq-check-34/11-cat-cut-cut-sort-uniq-sort.txt|8652|8652|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-34/11-cat-cut-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001|../../lean4/.lake/build/bin/headn1|0.004|correct|0.001
+36|outputs-temp/agg-34/lean/11-cat-cut-cut-sort-uniq-sort-head-fmt.txt|10566|10566|sed 1d|../../py-2/s_grep.py|0.028|incorrect|0.001|../../lean4/.lake/build/bin/concat|0.004|incorrect|0.002
+3|outputs-temp/agg-3/python/1-cat.txt|290|290|head -n 2||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-3/1-cat/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/agg-12/python/4-cat-tr-grep-cut-cut-tr-sort-uniq.txt|12|12|head -n 3||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq/cmd/0-head.txt: Permission denied|incorrect|0.001
+12|outputs-temp/seq-check-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head.txt|6|6|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-12/4-cat-tr-grep-cut-cut-tr-sort-uniq-head/cmd/0-tail.txt: Permission denied|incorrect|0.001
+16|outputs-temp/agg-16/python/7-cat-cut-sort-uniq-sort.txt|103|103|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+16|outputs-temp/agg-16/python/7-cat-cut-sort-uniq-sort-head-tr.txt|13|13|tail -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-16/7-cat-cut-sort-uniq-sort-head-tr/cmd/0-tail.txt: Permission denied|incorrect|0.001
+20|outputs-temp/agg-20/python/8-cat-grep-cut-cut.txt|1383|1383|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-20/8-cat-grep-cut-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+26|outputs-temp/agg-25/python/9.4-cat-tr-grep.txt|44|44|sed 4d|../../py-2/s_grep.py|0.030|incorrect|0.001
+28|outputs-temp/agg-26/python/9.6-cat-tr-grep.txt|48|48|sed 1d|../../py-2/s_grep.py|0.028|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed.txt|44|44|sed 3d|../../py-2/s_grep.py|0.027|incorrect|0.001
+28|outputs-temp/seq-check-26/9.6-cat-tr-grep-sed-sed.txt|38|38|sed 3d|../../py-2/s_grep.py|0.025|incorrect|0.001
+28|outputs-temp/agg-26/python/9.6-cat-tr-grep-sed-sed-sed-tr-grep.txt|11|11|sed 3d|../../py-2/s_grep.py|0.023|incorrect|0.001
+29|outputs-temp/agg-27/python/9.7-cat.txt|109|109|sed 2d|../../py-2/s_grep.py|0.025|incorrect|0.001
+29|outputs-temp/seq-check-27/9.7-cat-sed.txt|76|76|sed 2d|../../py-2/s_grep.py|0.028|incorrect|0.001
+30|outputs-temp/agg-28/python/9.8-cat-tr-grep.txt|43|43|sed 1d|../../py-2/s_grep.py|0.027|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed.txt|31|31|sed 2d|../../py-2/s_grep.py|0.028|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed.txt|28|28|sed 3d|../../py-2/s_grep.py|0.026|incorrect|0.001
+30|outputs-temp/seq-check-28/9.8-cat-tr-grep-sed-sed-sed.txt|24|24|sed 4d|../../py-2/s_grep.py|0.029|incorrect|0.001
+31|outputs-temp/agg-29/python/9.9-cat-tr-grep.txt|43|43|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed.txt|31|31|sed 1d|../../py-2/s_grep.py|0.027|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed.txt|26|26|sed 2d|../../py-2/s_grep.py|0.026|incorrect|0.001
+31|outputs-temp/seq-check-29/9.9-cat-tr-grep-sed-sed-sed.txt|21|21|sed 3d|../../py-2/s_grep.py|0.024|incorrect|0.001
+32|outputs-temp/agg-30/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.027|incorrect|0.001
+33|outputs-temp/agg-31/python/10-cat.txt|5626|5626|sed 1d|../../py-2/s_grep.py|0.025|incorrect|0.001
+34|outputs-temp/agg-32/python/10-cat-grep-cut.txt|72|72|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-32/10-cat-grep-cut/cmd/0-head.txt: Permission denied|incorrect|0.001
+36|outputs-temp/agg-34/python/11-cat-cut-cut-sort-uniq-sort.txt|412|412|head -n 1||../simple_infra/exec_scripts/test-par-driver.sh: line 31: inputs-s-34/11-cat-cut-cut-sort-uniq-sort/cmd/0-head.txt: Permission denied|incorrect|0.001
+36|outputs-temp/agg-34/python/11-cat-cut-cut-sort-uniq-sort-head-fmt.txt|20|20|sed 1d|../../py-2/s_grep.py|0.028|incorrect|0.001
+2|outputs-temp/agg-2/python/in_small-cat-sed-cut-sort-cut-sort-uniq.txt|16689|16689|sort -k 1 -n|../../py-2/s_sort.py -k|usage: s_sort.py [-h] [-n] [-k K] [-r] [-u] [-f] [file ...]|incorrect|0.002
+3|outputs-temp/agg-3/python/in_small-cat-sed-cut-sort-cut-sort-uniq.txt|16689|16689|sort -k 1 -n|../../py-2/s_sort.py -k|usage: s_sort.py [-h] [-n] [-k K] [-r] [-u] [-f] [file ...]|incorrect|0.002
