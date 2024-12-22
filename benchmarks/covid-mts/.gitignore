@@ -9,3 +9,4 @@ execution.sh
 hashes/
 diff-res/
 infra_metrics.csv
+infra_debug.log
