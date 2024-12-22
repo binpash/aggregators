@@ -37,6 +37,10 @@ def run_cmd_loop(globals: GlobalData) -> str:
     return output_path
     
 def run():
+    if args.input == None: 
+        parser.print_help()
+        sys.exit(2)
+        
     try:  
         globals = GlobalData(args.input, args.script, args.split, args.id, args.agg_set, args.input_inflation, args.input_random)
     except Exception as e:

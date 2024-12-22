@@ -28,13 +28,13 @@ def atof(str):
 
 def natural_keys(str):
     nat_key = 0
-    for i in range(len(str)): 
+    str = str.strip()
+    for i in range(len(str)):
         if atof(str[:i+1]) != None: 
             nat_key = atof(str[:i+1])
             continue 
         else: 
             break
-
     return nat_key 
         
         
@@ -56,7 +56,7 @@ def compare_num(a,b):
             return -1
         res = sorted(res, key=locale.strxfrm) 
     except:
-        res = sorted(res, key=locale.strxfrm) 
+        res = sorted(res, key=locale.strxfrm)
     return -1 if res[0] == a else 1 
  
 # compare based on number and alphabetical chars only 
@@ -141,3 +141,7 @@ try:
     utils.out("".join(res)) 
 except: 
     sys.exit(1) # execute sequentially
+    
+# if __name__ == '__main__':
+#     res = functools.reduce(agg, utils.read_all(), [])
+#     print(res)

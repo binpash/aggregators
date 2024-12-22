@@ -28,7 +28,7 @@ Here are the configurations to the scripts.
 
 For example, to run all benchmarks with python and lean aggregators with input inflation on smaller input, 
 ```bash
-./run.sh --small --all --inf
+./run-all.sh --small --all --inf
 ```
 
 Cleanup all intermediate files.

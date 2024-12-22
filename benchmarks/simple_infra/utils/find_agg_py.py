@@ -8,7 +8,7 @@ def find(cmd: str, agg_dir_path: str):
     agg = "s_" + cmd_in_list[0]+ ".py"
     flag = ""
     if len(cmd_in_list) > 1 and cmd_in_list[1][0] == "-": 
-        flag = cmd_in_list[1]
+        flag = " ".join(cmd_in_list[1:])
     agg_file = agg_dir_path + agg 
     
     # check if agg. actually exist 
