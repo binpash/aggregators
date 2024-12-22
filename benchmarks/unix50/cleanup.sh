@@ -7,3 +7,5 @@ rm -rf ./inputs-s-par
 rm -rf ./inputs-s-*
 rm -rf ./hashes
 rm -rf ./agg-steps
+rm infra_debug.log
+rm infra_metrics.csv

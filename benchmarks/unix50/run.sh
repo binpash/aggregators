@@ -47,7 +47,7 @@ if [[ "$@" == *"--small"* ]]; then
 elif [[ "$@" == *"--test"* ]]; then
     echo "Using test debugging input"
     scripts_inputs=(
-        "4;1"
+        "36;11"
     ) # for debugging
 else
     echo "Using default input"
