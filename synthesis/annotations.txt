@@ -1,0 +1,130 @@
+concat
+{
+  "input_type": "bytes",
+  "output_type": "bytes",
+  "stream_mode": "all",
+  "merge_logic": "append",
+  "read_mode": "bytes",
+  "output_mode": "write",
+  "accumulator_type": "bytes"
+}
+
+head
+{
+  "input_type": "list<string>",
+  "output_type": "string",
+  "stream_mode": "first",
+  "merge_logic": null,
+  "read_mode": "line",
+  "output_mode": "print",
+  "special_case": "head"
+}
+
+sort
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "sort",
+  "sort_key": "identity",
+  "order": "asc",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+sort n
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "sort",
+  "sort_key": "get_first_number",
+  "order": "asc",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+sort r n
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "sort",
+  "sort_key": "get_first_number",
+  "order": "desc",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+sort r
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "sort",
+  "sort_key": "identity",
+  "order": "desc",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+sort u
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "uniq",
+  "sort_key": "identity",
+  "order": "asc",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+sum
+{
+  "input_type": "list<num>",
+  "output_type": "num",
+  "stream_mode": "all",
+  "merge_logic": "sum",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "int"
+}
+
+last line
+{
+  "input_type": "list<string>",
+  "output_type": "string",
+  "stream_mode": "last",
+  "merge_logic": null,
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "string"
+}
+
+uniq
+{
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "uniq",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
+}
+
+uniq count
+{
+  "input_type": "list<string>",
+  "output_type": "list<{key: int, value: string}>",
+  "stream_mode": "all",
+  "merge_logic": "uniq_count",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<{key: int, value: string}>"
+}
