@@ -23,7 +23,7 @@ if [[ "$@" == *"--small"* ]]; then
 elif [[ "$@" == *"--test"* ]]; then
     echo "Using test debugging input"
     scripts_inputs=(
-        "single;1M"
+       "bi-grams;1M"
         # "shortest-scripts;all_cmdsx100"
     )
 else

@@ -38,6 +38,7 @@ class GlobalData:
         self.check_par_output_dir_path = f"outputs-temp/seq-check-{str(self.id)}/" 
         self.par_path =  self.simple_infra_path + "exec_scripts/test-par-driver.sh"
         self.seq_path = self.simple_infra_path + "exec_scripts/test-seq-driver.sh"
+        self.unpar_path = self.simple_infra_path + "exec_scripts/test-unpar-driver.sh"
         self.py_agg_path = "../../py-2/"
         self.lean_agg_path = "../../lean4/.lake/build/bin/"
         self.debug_log_path = "infra_debug.log"
@@ -45,7 +46,6 @@ class GlobalData:
         self.metrics_path = "infra_metrics.csv"
         self.d = "|"
     
-        
         self.cmd = None
         self.metri_row = ""
         self.split_file_dir = None 
@@ -161,5 +161,18 @@ class GlobalData:
                     agg_found.append(agg)
         if len(agg_found) == 0: agg_found.append(find_agg_py.find(self.g.cmd, self.g.py_agg_path))
         return agg_found
+    
+    def check_cmd_parallelizability(self, cmd: str) -> bool: 
+        cmd_list = cmd.split()
+        if len(cmd_list) <= 0: 
+            return False
+
+        if cmd_list[0] == "sed": 
+            if len(cmd_list) > 1 and 'd' in cmd_list[1]: return False 
+        
+        if cmd_list[0] == "tail": 
+            if len(cmd_list) > 2 and '+' in cmd_list[2]: return False 
+            
+        return True 
     
 

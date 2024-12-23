@@ -1,7 +1,8 @@
-from os import path 
+from os import path, chmod, stat
+from stat import S_IEXEC
 
 default_concat_agg = "s_grep.py"
-no_agg_list = ["tail", "head"]
+no_agg_list = []
 
 def find(cmd: str, agg_dir_path: str): 
     cmd_in_list = cmd.split() # sort -rn -> [sort, -rn]
@@ -17,9 +18,13 @@ def find(cmd: str, agg_dir_path: str):
     if cmd_in_list[0] in no_agg_list: 
         return "" 
     elif path.isfile(agg_file):
+        st = stat(agg_file)
+        chmod(agg_file, st.st_mode | S_IEXEC)
         return f'{agg_file} {flag}'
     else: 
         agg_file = agg_dir_path + default_concat_agg
+        st = stat(agg_file)
+        chmod(agg_file, st.st_mode | S_IEXEC)
         if path.isfile(agg_file): 
             return agg_file
         else: 

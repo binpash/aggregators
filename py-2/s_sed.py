@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import utils, re, argparse, functools, sys 
+import utils, re, argparse, itertools, sys 
 
 ## SED FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for sed")
@@ -19,30 +19,40 @@ def sed_d(concat: list[str], val: int) -> str:
     val = int(val)
     if val > len(concat): 
         return concat
+    elif val == -1: 
+        return concat[:-1]
     else:  
         concat.pop(val - 1)
         return concat
 
-def sed(a: list[str], b: list[str]) -> list[str]: 
-    val, action = re.findall(r'\d+|\D+', args.string[0])
-    concat = a + b 
+def sed(concat: list[str]) -> list[str]: 
+    try: 
+        val, action = re.findall(r'\d+|\D+', args.string[0])
+    except: 
+        if "$d" in args.string[0]: 
+            val = -1 
+            action = "d"
+        else: 
+            action = None
     res = None
+    # print(action, " action", val, " val")
     if action == "q": 
         res = sed_q(concat, val)
     elif action == "d": 
         res = sed_d(concat, val)
     else: 
-        print("no option matched")
+        return concat
     return res
-    
-try: 
-    def agg(a, b): 
-        return sed(a,b)
-except: 
-    sys.exit(1) # execute sequentially
+     
+def agg(res: list[str]): 
+    return sed(res)
 
-res = functools.reduce(agg, utils.read_all(), [])
-utils.out("".join(res)) 
-    
+try:
+    concat_file_read = utils.read_all()
+    res = agg(list(itertools.chain(*concat_file_read)))
+    utils.out("".join(res)) 
+except: 
+    sys.exit(1)
+        
     
     

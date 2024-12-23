@@ -47,13 +47,18 @@ class Execution:
             return (split_file, split_file_dir_cmd)
         split_files = simple_split.split_file(self.g.input, self.g.split, f"{split_file_dir_org}")
         
-        # Apply cmd to each partials. 
+        # Apply cmd to each partials if command is parallelizable. 
+        apply_cmd_to_file_path = self.g.unpar_path
+        if self.g.check_cmd_parallelizability(self.g.cmd): 
+            apply_cmd_to_file_path = self.g.seq_path
+      
         partials_after_cmd = []
         for file in split_files: 
-            seq_execute_partial = subprocess.check_output([self.g.seq_path, file, 
-                                                           split_file_dir_cmd, 
-                                                           self.g.cmd]) 
+            seq_execute_partial = subprocess.check_output([apply_cmd_to_file_path, file, 
+                                                        split_file_dir_cmd, 
+                                                        self.g.cmd]) 
             partials_after_cmd.append(self.get_executed_output_and_time(seq_execute_partial)[1])
+            
         return (split_files, split_file_dir_cmd)
 
     def combine_partials_with_aggregator(self, agg:str, agg_set: str, split_file_dir_cmd: str, split_files: str): 
