@@ -9,6 +9,8 @@ def find(cmd: str, agg_dir_path: str):
     flag = ""
     if len(cmd_in_list) > 1 and cmd_in_list[1][0] == "-": 
         flag = " ".join(cmd_in_list[1:])
+    if cmd_in_list[0] == "sed": 
+        flag = " ".join(cmd_in_list[1:])
     agg_file = agg_dir_path + agg 
     
     # check if agg. actually exist 

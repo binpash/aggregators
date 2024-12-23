@@ -23,7 +23,7 @@ if [[ "$@" == *"--small"* ]]; then
 elif [[ "$@" == *"--test"* ]]; then
     echo "Using test debugging input"
     scripts_inputs=(
-        "set-diff-2;1M"
+        "single;1M"
         # "shortest-scripts;all_cmdsx100"
     )
 else
@@ -40,7 +40,7 @@ else
         "diff;3G"
         "bi-grams;3G"
         "set-diff;3G"
-        "set-diff-2;3G" 
+        "set-diff-2;3G"
     )
 fi
 
@@ -55,7 +55,7 @@ oneliners_bash() {
     echo executing $benchmark_name bash $(date) | tee -a $all_res_file
 
     for script_input in "${scripts_inputs[@]}"; do
-        IFS=";" read -r -a parsed <<<"${script_input}" 
+        IFS=";" read -r -a parsed <<<"${script_input}"
         script_file="./scripts/${parsed[0]}.sh"
         chmod +x "$script_file"
         input_file="./inputs/${parsed[1]}.txt"
@@ -67,8 +67,8 @@ oneliners_bash() {
     done
 }
 
-agg_run=../run-agg.sh 
-chmod +x $agg_run 
+agg_run=../run-agg.sh
+chmod +x $agg_run
 all_args=$@
 oneliners_agg() {
     mkdir -p "outputs/agg"
@@ -76,7 +76,7 @@ oneliners_agg() {
     ID=1 # track agg run
 
     for script_input in "${scripts_inputs[@]}"; do
-        IFS=";" read -r -a parsed <<<"${script_input}" 
+        IFS=";" read -r -a parsed <<<"${script_input}"
         script_file="./scripts/${parsed[0]}.sh"
         chmod +x "$script_file"
         input_file="./inputs/${parsed[1]}.txt"
@@ -84,10 +84,9 @@ oneliners_agg() {
         time_file="./outputs/bash/${parsed[0]}.time"
 
         $agg_run $script_file $input_file $output_file $time_file $ID $benchmark_name $all_res_file "$all_args"
-        (( ID++ ))
+        ((ID++))
     done
 }
-
 
 oneliners_bash
 oneliners_agg

@@ -1,1 +1,1 @@
-cat $1 | grep "and" | sort
+cat $1 | sed 100q
