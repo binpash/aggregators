@@ -1,8 +1,9 @@
 {
-    "operation_type": "sort",
-    "input_type": "list<string>",
-    "output_type": "list<string>",
-    "is_numeric": false,
-    "is_reverse": true
+  "input_type": "list<string>",
+  "output_type": "list<string>",
+  "stream_mode": "all",
+  "merge_logic": "uniq",
+  "read_mode": "line",
+  "output_mode": "print",
+  "accumulator_type": "list<string>"
 }
-
