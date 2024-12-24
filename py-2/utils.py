@@ -1,11 +1,11 @@
-import sys, re, io 
+import sys, re, io, codecs
 from subprocess import check_output
 
 ## MORE PRECISE READ (used by curr agg))
 EOF_IS_NL = True
 def read_file(fname):
   try: 
-    return io.open(fname, 'r', encoding='UTF-8-sig', newline='\n').readlines()
+    return io.open(fname, 'r', encoding='utf-8', newline='\n').readlines()
   except UnicodeDecodeError: 
     raise UnicodeDecodeError
 
@@ -37,6 +37,15 @@ def out(s):
   else:
     sys.stdout.write(s)
   sys.stdout.flush()
+  
+def read_and_print_out(): 
+  for file in sys.argv[1:]:
+    with open(file, "rb") as f:
+        while True:
+            chunk = f.read(4096)
+            if not chunk:
+                break  
+            sys.stdout.buffer.write(chunk)  
 
 def findPadLength(s): 
   return len(s) - len(s.lstrip(' '))

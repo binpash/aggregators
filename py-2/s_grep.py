@@ -49,5 +49,9 @@ def agg(a, b):
 try: 
     res = functools.reduce(agg, utils.read_all(), [])
     utils.out("".join(res)) 
-except: 
-    sys.exit(1) # execute sequentially
+except:
+    utils.read_and_print_out()
+    
+
+# res = functools.reduce(agg, utils.read_all(), [])
+# utils.out("".join(res)) 
