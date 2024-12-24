@@ -1,9 +1,9 @@
 #!/bin/bash 
 
 benchmarks=(
-        "oneliners"
+        # "oneliners"
         "unix50"
-        "covid-mts"
+        # "covid-mts"
         # "nlp"
     )
 
@@ -39,6 +39,13 @@ clean_all() {
     done 
 }
 
+check() {
+    echo "getting all incorrect aggregator instances" 
+    for benchmark in "${benchmarks[@]}"; do 
+        grep incorrect ./$benchmark/infra_metrics.csv
+    done 
+}
+
 
 inputs() {
     for benchmark in "${benchmarks[@]}"; do 
@@ -52,6 +59,8 @@ if [[ "$@" == *"--clean"* ]]; then
     clean_all
 elif [[ "$@" == *"--inputs"* ]]; then
     inputs
+elif [[ "$@" == *"--check"* ]]; then
+    check
 else
     run_all
 fi
