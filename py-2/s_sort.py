@@ -61,10 +61,10 @@ def compare_num(a,b):
  
 # compare based on number and alphabetical chars only 
 def compare_alphanum(a,b): 
-    res = [a,b] 
+    res = [a, b] 
     res = sorted(res, key=locale.strxfrm) # cmp using correct locale
-    if args.f: 
-        res = sorted(res, key=lambda s: s.upper())
+    if args.f:
+        res = sorted(res, key=functools.cmp_to_key(locale.strcoll))
     return -1 if res[0] == a else 1
 
 # determine which compare function to use
@@ -138,8 +138,13 @@ def agg(a, b):
 
 try: 
     res = functools.reduce(agg, utils.read_all(), [])
-    utils.out("".join(res)) 
-except: 
+    try: 
+        utils.out("".join(res)) 
+    except: 
+        for line in res: 
+            utils.out(line)
+except Exception as e: 
+    print(e.traceback())
     sys.exit(1) # execute sequentially
     
 # if __name__ == '__main__':

@@ -49,9 +49,13 @@ def agg(res: list[str]):
 
 try:
     concat_file_read = utils.read_all()
-    res = agg(list(itertools.chain(*concat_file_read)))
-    utils.out("".join(res)) 
-except: 
+    res = agg(list(itertools.chain(*concat_file_read))) 
+    try: 
+        utils.out("".join(res)) 
+    except: 
+        utils.out(b''.join(res))
+except Exception as e: 
+    print(e.backtrace())
     sys.exit(1)
         
     

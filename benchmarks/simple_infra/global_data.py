@@ -172,6 +172,9 @@ class GlobalData:
         
         if cmd_list[0] == "tail": 
             if len(cmd_list) > 2 and '+' in cmd_list[2]: return False 
+
+        if "tr -sc" in cmd or "tr -cs" in cmd: 
+            return False 
             
         return True 
     

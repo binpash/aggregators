@@ -56,6 +56,11 @@ def agg(a, b):
 
 try: 
   res = functools.reduce(agg, utils.read_all(), [])
-  utils.out("".join(res))
+  try: 
+      utils.out("".join(res)) 
+  except: 
+      for line in res: 
+        utils.out(line)
+  
 except UnicodeDecodeError: 
   sys.exit(1) # execute sequentially

@@ -1,10 +1,10 @@
 #!/bin/bash 
 
 benchmarks=(
-        # "oneliners"
+        "oneliners"
         "unix50"
-        # "covid-mts"
-        # "nlp"
+        "covid-mts"
+        "nlp"
     )
 
 args=$@

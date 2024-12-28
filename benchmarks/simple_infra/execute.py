@@ -51,6 +51,8 @@ class Execution:
         apply_cmd_to_file_path = self.g.unpar_path
         if self.g.check_cmd_parallelizability(self.g.cmd): 
             apply_cmd_to_file_path = self.g.seq_path
+        else: 
+            debug_log(f'command {self.g.cmd} unparallelizable, taking sequential approach in aggregators', self.g)
       
         partials_after_cmd = []
         for file in split_files: 

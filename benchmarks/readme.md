@@ -59,6 +59,11 @@ Other configurations. Ensure to save results and use clean up script before runn
 ./run.sh --small --all --inf # Run with both lean and python aggregators on 1M input with input inflation.
 ```
 
+Check and prints out if there are incorrect aggregators. 
+```bash
+./run.sh --check
+```
+
 ### Run with custom scripts + inputs
 
 Running from one directory ensures all intermediate files are organized. Here, we will create and run from the `run` directory.

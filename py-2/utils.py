@@ -1,13 +1,29 @@
 import sys, re, io, codecs
 from subprocess import check_output
+import chardet
 
 ## MORE PRECISE READ (used by curr agg))
 EOF_IS_NL = True
-def read_file(fname):
+def read_file(fname: str) -> list[str]:
   try: 
-    return io.open(fname, 'r', encoding='utf-8', newline='\n').readlines()
+    lines = io.open(fname, 'r', encoding='utf-8', newline='\n').readlines()
+    return lines 
   except UnicodeDecodeError: 
-    raise UnicodeDecodeError
+    # with open(fname, 'rb') as file:
+    #   binary_data = file.read()
+    
+    # detected = chardet.detect(binary_data)
+    # encoding = detected['encoding']
+    # lines = binary_data.decode(encoding)
+    
+    # sys.stderr.write('decode error')
+    lines = []
+    
+    with open(fname, "rb") as file:
+      for line in file:
+          # decoded_line = line.decode("utf-8", errors="replace")
+          lines.append(line)
+    return lines
 
 def read_all(append_NL_end=False): 
   global EOF_IS_NL
@@ -15,10 +31,14 @@ def read_all(append_NL_end=False):
   for f in sys.argv[1:]:
     try: 
       contents = read_file(f)
-      if contents: 
-        EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
-        if append_NL_end: 
-          if EOF_IS_NL is False: contents[-1] += "\n"
+      try: 
+        if contents: 
+          EOF_IS_NL = EOF_IS_NL and contents[-1].endswith('\n')
+          if append_NL_end: 
+            if EOF_IS_NL is False: contents[-1] += "\n"
+      except: 
+         all_contents.append(contents)
+         continue
       all_contents.append(contents)
     except IOError as _err:
       # sys.stderr.write(f + ": " + _err.strerror + "\n") 
@@ -27,16 +47,20 @@ def read_all(append_NL_end=False):
 
 ## MORE PRECISE WRITE (used by curr agg)
 def out(s):
-  # print(s)
-  global EOF_IS_NL
-  if (not s): 
-    sys.stdout.write("")
-    return
-  if not s.endswith('\n') and EOF_IS_NL:
-    sys.stdout.write(s + '\n')
-  else:
-    sys.stdout.write(s)
-  sys.stdout.flush()
+  try: 
+    # print(s)
+    global EOF_IS_NL
+    if (not s): 
+      sys.stdout.write("")
+      return
+    if not s.endswith('\n') and EOF_IS_NL:
+      sys.stdout.write(s + '\n')
+    else:
+      sys.stdout.write(s)
+    sys.stdout.flush()
+  except: 
+    sys.stdout.buffer.write(s)
+    sys.stdout.flush()
   
 def read_and_print_out(): 
   for file in sys.argv[1:]:

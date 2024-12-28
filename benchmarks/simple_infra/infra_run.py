@@ -48,8 +48,8 @@ def run():
         parser.print_help()
         sys.exit(2)
     final_output = run_cmd_loop(globals)
-    with open(args.output, 'w', newline='\n') as outfile:
-        with open(final_output, 'r', newline='\n') as infile:
+    with open(args.output, 'wb') as outfile:
+        with open(final_output, 'rb') as infile:
             for line in infile:
                 outfile.write(line)
     debug_log(f"DONE\n \n", globals)
