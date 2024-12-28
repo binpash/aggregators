@@ -21,6 +21,7 @@ class GlobalData:
             exit(-1)
         
         self.input = input_ 
+        self.original_input = input_
         self.input_name = path.splitext(path.basename(self.input))[0] 
         self.org_input_size=path.getsize(self.input)
         self.inf_input_size=path.getsize(self.input)
@@ -99,6 +100,8 @@ class GlobalData:
         bytes_still_needed = inflate_to_size - current_size
         if bytes_still_needed <= 0: 
             return current_size
+        if current_size == 0: 
+            return self.original_input
         
         with open(input, 'r+') as file_to_inflate:
             original_content = file_to_inflate.read()

@@ -18,10 +18,19 @@ def tr_sc(concat: list[str]) -> list[str]:
     tr_args = " ".join([f"'{arg}'" for arg in args.string])
     output = subprocess.run(f"cat {files} | tr -sc {tr_args}", shell=True, capture_output=True, text=True).stdout
     return output
+
+def tr_s(concat: list[str]) -> list[str]:
+    file_obj = args.file 
+    files = " ".join([file.name for file in file_obj])
+    tr_args = " ".join([f"'{arg}'" for arg in args.string])
+    output = subprocess.run(f"cat {files} | tr -s {tr_args}", shell=True, capture_output=True, text=True).stdout
+    return output
     
 def agg(res: list[str]) -> list[str]: 
     if args.c and args.s:
         return tr_sc(res)
+    elif args.s: 
+        return tr_s(res)
     else: 
         return res
 
