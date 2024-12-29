@@ -1,5 +1,5 @@
 import Mathlib
-import Mathlib.Data.List.Sort 
+import Mathlib.Data.List.Sort
 import Lean
 open Lean Elab Meta
 
@@ -54,43 +54,54 @@ def merge_sort (r : α → α → Bool) : List α → List α
     exact merge r (merge_sort r ls.1) (merge_sort r ls.2)
   termination_by l => length l
 
+theorem merge_base_case {α : Type} (r : α → α → Bool) : merge r [] [] = [] :=
+  by
+    rw [merge]
+
+theorem sort_base_case {α : Type}
+  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+  (h : sort r [] = []) :
+  (merge r (sort r []) (sort r [])) = [] :=
+  by
+    rw [h, merge_base_case]
+
 -- This is merge_sort_cons_cons from the mathlib library
 theorem sort_correctness {a b} {c xs ys : List α} (r : α → α → Bool)
     (h : split (a :: b :: c) = (xs, ys)) :
-    merge_sort r (a :: b :: c) = merge r (merge_sort r xs) (merge_sort r ys) := 
+    merge_sort r (a :: b :: c) = merge r (merge_sort r xs) (merge_sort r ys) :=
   by
   simp only [merge_sort, h]
 
 /-- Merge preserves length -/
-lemma merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length := 
+lemma merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ l₂).length :=
   by
     intro l₁ l₂
-    induction l₁ generalizing l₂ with 
-      | nil => 
+    induction l₁ generalizing l₂ with
+      | nil =>
         rw [merge]
         rw [List.nil_append]
-      | cons x l₁ ih => 
+      | cons x l₁ ih =>
         induction l₂ with
           | nil =>
             rw [merge]
-            simp [List.length_cons] 
+            simp [List.length_cons]
             simp [List.append_nil]
-          | cons y l₂ ih₂ => 
+          | cons y l₂ ih₂ =>
             rw [merge]
             split_ifs
-            case pos => 
+            case pos =>
               simp [List.length_cons]
               rw [ih]
               simp [List.length_append]
             case neg =>
               simp [List.length_cons]
               rw [ih₂]
-              simp 
+              simp
               rw [add_assoc]
 
 theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
   (h : ∀ l, (sort r l).length = l.length) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l → (merge r (sort r l₁) (sort r l₂)).length = l.length := 
+  ∀ l l₁ l₂, l₁ ++ l₂ = l → (merge r (sort r l₁) (sort r l₂)).length = l.length :=
   by
     intro l l₁ l₂ hl
     rw [←hl]
@@ -98,12 +109,20 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
     rw [merge_equal_length]
     have h₁ : (sort r l₁).length = l₁.length := h l₁
     have h₂ : (sort r l₂).length = l₂.length := h l₂
+    simp [List.length_append]
     rw [←h₁, ←h₂]
-    rw [List.length_append]
+
+/- Sort preserves membership -/
+theorem sort_membership {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) (h : ∀ lines, ∀ line ∈ (sort r lines), line ∈ lines) :
+  ∀ lines l₁ l₂, l₁ ++ l₂ = lines → ∀ line ∈ (merge r (sort r l₁) (sort r l₂)), line ∈ lines :=
+    by
+      intro lines l₁ l₂ hsplit line hline
+      sorry
 
 /- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂.
    This does not hold if sort x = "ab" -/
-theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (α → α → Bool) → List α → List α) 
+theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (α → α → Bool) → List α → List α)
   (h : sort r l₁ = sort r l₂) :
   ∀ a b c d, a ++ b = l₁ → c ++ d = l₂ → merge r (sort r a) (sort r b) = merge r (sort r c) (sort r d) :=
   by
@@ -115,7 +134,7 @@ theorem sort_stability (l₁ l₂ : List α) (r : α → α → Bool) (sort : (�
    This does not hold for if sort x = "ab" -/
 theorem sort_idempotent {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
   (h : ∀ l, sort r (sort r l) = sort r l) :
-  ∀ l l₁ l₂ l₃ l₄, l₁ ++ l₂ = l → l₃ ++ l₄ = 
+  ∀ l l₁ l₂ l₃ l₄, l₁ ++ l₂ = l → l₃ ++ l₄ =
   (merge r (sort r l₁) (sort r l₂)) → (merge r (sort r l₁) (sort r l₂)) = (merge r (sort r l₃) (sort r l₄)) :=
   by
     intro l l₁ l₂ l₃ l₄ hl₁l₂ hl₃l₄

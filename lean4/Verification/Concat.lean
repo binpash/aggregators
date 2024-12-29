@@ -44,7 +44,7 @@ theorem concat_ordering_gt (f : ByteArray → ByteArray → ByteArray)
 /-- The output of concat is smaller than its input -/
 theorem concat_size (f: ByteArray → ByteArray)
   (h: ∀ input, (f input).size <= input.size) :
-  ∀ str a b, str = a ++ b → (concat (f a) (f b)).size <= str.size := 
+    ∀ str a b, str = a ++ b → (concat (f a) (f b)).size <= str.size := 
   by
     intro s a b hsplit
     rw [concat]
@@ -58,6 +58,13 @@ theorem concat_size (f: ByteArray → ByteArray)
     This is necessary because ByteArray does not have membership. -/
 def concat_list (acc x : List String) : List String := 
   acc ++ x
+
+theorem concat_none (f: ByteArray → ByteArray) (h : f ByteArray.empty = ByteArray.empty)
+  : concat (f ByteArray.empty) (f ByteArray.empty) = ByteArray.empty := 
+  by 
+    rw [concat]
+    rw [h]
+    rfl
 
 /-- Concat preserves membership -/
 theorem concat_membership (f: List String → List String) 
