@@ -56,7 +56,7 @@ theorem wc_ordering2 (wc : String → Nat × Nat × Nat)
     simp_all only
 
 theorem wc_correctness 
-  (wc : String → Nat)
+  (wc : String → Nat) (xs ys : String)
   (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) : 
   wc (xs ++ ys) = sum (wc xs) (wc ys) :=
   by 
@@ -64,7 +64,7 @@ theorem wc_correctness
     rw [h]
     apply Nat.add_eq
 
-theorem wc_correctness' (wc : String → Nat × Nat)
+theorem wc_correctness' (wc : String → Nat × Nat) (xs ys : String)
   (h : ∀ xs ys, wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys)) : 
   wc (xs ++ ys) = pairwise_sum (wc xs) (wc ys) :=
   by
