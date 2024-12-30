@@ -13,7 +13,7 @@ try:
     parser.add_argument('--script', '-s', type=str, help="bash script for parallelized execution; script should be in form of `$cat | <cmd> | <cmd> ..` ")
     parser.add_argument('--output', '-o', type=str, help="target output after parallelization")
     parser.add_argument('--input-inflation', '-inflate', help="include flag to inflates all input to roughly the same size between each command instance", action='store_true')
-    parser.add_argument('--input-random', '-random', type=int, default=0, help="/dev/random of [byte size] for all input to each stage")
+    parser.add_argument('--input-random', '-random', type=int, default=0, help="target size of random input at each stage")
     parser.add_argument('--id', '-id', type=int, help="unique id to this run")
     parser.add_argument('--agg-set', '-agg', type=str, help="list path to aggregators or quick access to predefined set of aggregators using [lean], [python], or [all]")
     args, cmds = parser.parse_known_args() 

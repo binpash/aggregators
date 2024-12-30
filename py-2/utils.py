@@ -1,6 +1,5 @@
-import sys, re, io, codecs
+import sys, re, io 
 from subprocess import check_output
-import chardet
 
 ## MORE PRECISE READ (used by curr agg))
 EOF_IS_NL = True
@@ -9,19 +8,10 @@ def read_file(fname: str) -> list[str]:
     lines = io.open(fname, 'r', encoding='utf-8', newline='\n').readlines()
     return lines 
   except UnicodeDecodeError: 
-    # with open(fname, 'rb') as file:
-    #   binary_data = file.read()
-    
-    # detected = chardet.detect(binary_data)
-    # encoding = detected['encoding']
-    # lines = binary_data.decode(encoding)
-    
-    # sys.stderr.write('decode error')
     lines = []
     
     with open(fname, "rb") as file:
       for line in file:
-          # decoded_line = line.decode("utf-8", errors="replace")
           lines.append(line)
     return lines
 

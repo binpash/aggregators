@@ -1,5 +1,6 @@
-from os import path, makedirs, chmod, stat, urandom
-import random, string
+from os import path, makedirs
+from math import floor
+from random_input_generation.generation import RandomGenerator
 import utils.find_agg_py as find_agg_py
 import utils.find_agg_lean as find_agg_lean
 
@@ -10,9 +11,14 @@ class GlobalData:
     def __init__(self, input_: str, script_: str, split_: str, 
                     id_: int, agg_set_: str, inflate_: bool, random_bytes_: int):
         self.random_bytes = random_bytes_
+        self.random_input_dir = f'random-inputs-{id_}/'
         if random_bytes_ > 0: 
-            input_ = "inputs/random.txt"
-            self.generate_random_input_alphanumerical(input_)
+            if not path.exists(self.random_input_dir): 
+                makedirs(self.random_input_dir)
+            input_ = self.random_input_dir + "input.txt"
+            random_generator = RandomGenerator(input_, random_bytes_)
+            random_generator.generate_random_input_alphanumerical()
+      
         if not path.exists(input_): 
             print(f'{input_} does not exist; check input to infra_run\n')
             exit(-1)
@@ -31,7 +37,7 @@ class GlobalData:
         self.id = id_
         self.agg_set=agg_set_ 
         self.inflate_input=inflate_
-        self.size_to_inflate_to=path.getsize(self.input)
+        self.size_to_inflate_to=path.getsize(self.original_input)
 
         self.simple_infra_path = "../simple_infra/"
         self.inter_dir_path = f'inputs-s-{str(self.id)}/' 
@@ -57,8 +63,9 @@ class GlobalData:
     def change_input(self, new_input: str): 
         if self.random_bytes > 0: 
             input_name = path.splitext(path.basename(new_input))[0]
-            new_random_input = self.output_dir_path + "i-" + input_name + ".txt" 
-            self.generate_random_input_alphanumerical(new_random_input)
+            new_random_input = self.random_input_dir + input_name + ".txt" 
+            rand_gen = RandomGenerator(new_random_input, self.random_bytes)
+            rand_gen.generate_random_input_alphanumerical()
             self.input = new_random_input
         else: 
             self.input = new_input  
@@ -72,43 +79,27 @@ class GlobalData:
         else: 
             self.inf_input_size = self.org_input_size
             
-    def generate_random_input(self, write_to: str): 
-        file_size = self.random_bytes 
-        bytes_written = 0 
-        
-        with open(write_to, "wb") as rand_file: 
-            while bytes_written < file_size: 
-                line_len = random.randint(1, file_size) 
-                line_content = urandom(line_len)
-                rand_file.write(line_content + b'\n')
-                bytes_written += line_len + 1
-                
-    def generate_random_input_alphanumerical(self, write_to: str): 
-        file_size = self.random_bytes 
-        bytes_written = 0 
-        char_pool = string.ascii_letters + string.digits
-        
-        with open(write_to, "w") as rand_file: 
-            while bytes_written < file_size: 
-                line_len = random.randint(1,32) 
-                line_content = ''.join(random.choices(char_pool, k=line_len))
-                rand_file.write(line_content + '\n')
-                bytes_written += line_len + 1
                 
     def generate_inflated_input(self, input:str, inflate_to_size: str) -> int: 
         current_size = path.getsize(input)
         bytes_still_needed = inflate_to_size - current_size
+    
         if bytes_still_needed <= 0: 
             return current_size
         if current_size == 0: 
-            return self.original_input
+            return current_size
         
         with open(input, 'r+') as file_to_inflate:
             original_content = file_to_inflate.read()
 
             while current_size < inflate_to_size:
-                file_to_inflate.write(original_content)
-                current_size = path.getsize(input)
+                file_to_inflate.write(original_content[: floor(current_size / 5)])
+                file_to_inflate.flush()
+                current_size = path.getsize(file_to_inflate.name)
+                
+                if current_size >= inflate_to_size:
+                    break 
+                
         return current_size
 
     def set_script(self, new_script: str): 

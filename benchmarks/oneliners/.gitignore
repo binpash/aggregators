@@ -3,6 +3,7 @@ outputs/
 outputs-temp/
 inputs-s/
 inputs-s-*/
+random-inputs-*/
 inputs-s-par/
 log.txt
 execution.sh
