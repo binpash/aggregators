@@ -54,6 +54,7 @@ def merge_sort (r : α → α → Bool) : List α → List α
     exact merge r (merge_sort r ls.1) (merge_sort r ls.2)
   termination_by l => length l
 
+/-- Merge preserves base case -/
 theorem merge_base_case {α : Type} (r : α → α → Bool) : merge r [] [] = [] :=
   by
     rw [merge]
@@ -77,27 +78,27 @@ lemma merge_equal_length : ∀ l₁ l₂, (merge r l₁ l₂).length = (l₁ ++ 
   by
     intro l₁ l₂
     induction l₁ generalizing l₂ with
+    | nil =>
+      rw [merge]
+      rw [List.nil_append]
+    | cons x l₁ ih =>
+      induction l₂ with
       | nil =>
         rw [merge]
-        rw [List.nil_append]
-      | cons x l₁ ih =>
-        induction l₂ with
-          | nil =>
-            rw [merge]
-            simp [List.length_cons]
-            simp [List.append_nil]
-          | cons y l₂ ih₂ =>
-            rw [merge]
-            split_ifs
-            case pos =>
-              simp [List.length_cons]
-              rw [ih]
-              simp [List.length_append]
-            case neg =>
-              simp [List.length_cons]
-              rw [ih₂]
-              simp
-              rw [add_assoc]
+        simp [List.length_cons]
+        simp [List.append_nil]
+      | cons y l₂ ih₂ =>
+        rw [merge]
+        split_ifs
+        case pos =>
+          simp [List.length_cons]
+          rw [ih]
+          simp [List.length_append]
+        case neg =>
+          simp [List.length_cons]
+          rw [ih₂]
+          simp
+          rw [add_assoc]
 
 theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
   (h : ∀ l, (sort r l).length = l.length) :
@@ -112,13 +113,55 @@ theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α �
     simp [List.length_append]
     rw [←h₁, ←h₂]
 
+/-- Merge preserves membership -/
+lemma merge_membership {α : Type} (r : α → α →  Bool) : ∀ l₁ l₂, ∀ line ∈ (merge r l₁ l₂), line ∈ l₁ ++ l₂ :=
+  by
+    intro l₁ l₂ line hline
+    induction l₁ generalizing l₂ with
+    | nil =>
+      rw [merge] at hline
+      rw [List.nil_append]
+      exact hline
+    | cons x l₁ ih =>
+      induction l₂ with
+      | nil =>
+        rw [merge] at hline
+        simp_all only [List.mem_append, List.mem_cons, List.append_nil]
+        simp only [reduceCtorEq, imp_self]
+      | cons y l₂ ih₂ =>
+        rw [merge] at hline
+        split_ifs at hline
+        case pos =>
+          simp at hline
+          cases hline with
+          | inl hx => simp [hx]
+          | inr hm =>
+            have hy := ih (y :: l₂) hm
+            simp [hy]
+        case neg =>
+          simp at hline
+          cases hline with
+          | inl hy => simp [hy]
+          | inr hm =>
+            have hx := ih₂ hm
+            aesop
+
 /- Sort preserves membership -/
 theorem sort_membership {α : Type} (sort : (α → α → Bool) → List α → List α)
   (r : α → α → Bool) (h : ∀ lines, ∀ line ∈ (sort r lines), line ∈ lines) :
   ∀ lines l₁ l₂, l₁ ++ l₂ = lines → ∀ line ∈ (merge r (sort r l₁) (sort r l₂)), line ∈ lines :=
     by
       intro lines l₁ l₂ hsplit line hline
-      sorry
+      rw [←hsplit]
+      have hm := merge_membership r (sort r l₁) (sort r l₂) line hline
+      rw [List.mem_append] at hm
+      cases hm with
+      | inl hsort =>
+        have hinl := h l₁ line hsort
+        simp [hinl]
+      | inr hsort =>
+        have hinl := h l₂ line hsort
+        simp [hinl]
 
 /- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂.
    This does not hold if sort x = "ab" -/
