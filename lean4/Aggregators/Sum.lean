@@ -1,6 +1,6 @@
 import Synthesis
 
-/- Aggregator to sum 
+/- Aggregator to sum
    Nat -> Nat -/
 
 def parseInput (lines : List String) : Nat :=
@@ -8,12 +8,12 @@ def parseInput (lines : List String) : Nat :=
 
 def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
-  let output ← List.foldlM 
+  let output ← List.foldlM
     (fun acc stream => do
       let lines ← readFileByLine stream
       let input := parseInput lines.toListImpl
-      let acc := sum acc input
-      pure acc) 
+      let acc := sum_agg acc input
+      pure acc)
     0 streams
 
   IO.println output

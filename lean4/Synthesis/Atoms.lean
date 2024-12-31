@@ -1,11 +1,11 @@
-def concat : (x y : ByteArray) → ByteArray :=
+def concat_agg : (x y : ByteArray) → ByteArray :=
  ByteArray.append
 
-def sum : (x y : Nat) → Nat :=
+def sum_agg : (x y : Nat) → Nat :=
   Nat.add
 
 def uniq_agg (xs ys : List String)  : List String :=
-  match xs, ys with 
+  match xs, ys with
   | [], ys => ys
   | xs, [] => xs
   | x :: xs, y :: ys =>
@@ -38,17 +38,18 @@ def mergeAuxList (acc : List α) (le : α → α → Bool) (xs ys : List α) : L
 def mergeList (le : α → α → Bool) (xs ys : List α) : List α :=
   mergeAuxList [] le xs ys
 
-/- Non-tail recursive implementation causes stack overflow
-def merge (le : α → α → Bool) (xs ys : List α) : List α :=
+/-- WARNING: The non-tail recursive implementation of merge
+    causes stack overflow. This is used for proofs in
+    Verification/Sort.lean -/
+def merge_agg_ntr (le : α → α → Bool) (xs ys : List α) : List α :=
    match xs, ys with
    | [], ys => ys
    | xs, [] => xs
    | x :: xs, y :: ys =>
      if le x y then
-       x :: merge le xs (y :: ys)
+       x :: merge_agg_ntr le xs (y :: ys)
      else
-       y :: merge le (x :: xs) ys
--/
+       y :: merge_agg_ntr le (x :: xs) ys
 
 -- This is for parsing numbers from a string in the sort aggregators
 def is_digit (c : Char) : Bool :=
@@ -65,10 +66,10 @@ def get_first_number (s : String) : Option Float :=
 
   let rec preprocess (chars : List Char) (acc : String) (exponent : Nat) (decimal_used : Bool) : Option Float :=
     match chars with
-    | [] => 
-      if acc.isEmpty then 
-        none 
-      else 
+    | [] =>
+      if acc.isEmpty then
+        none
+      else
         some (OfScientific.ofScientific (String.toNat! acc) true exponent)
 
     | c :: cs =>
@@ -85,9 +86,9 @@ def get_first_number (s : String) : Option Float :=
         preprocess cs acc exponent true
 
       else
-        if acc.isEmpty then 
-          none 
-        else 
+        if acc.isEmpty then
+          none
+        else
           some (OfScientific.ofScientific (String.toNat! acc) true exponent)
 
   match chars with
@@ -113,4 +114,3 @@ def get_first_number (s : String) : Option Float :=
 -- #eval get_first_number "1,23,456"
 -- #eval get_first_number "1,23.456"
 -- #eval get_first_number "1.23,456"
-

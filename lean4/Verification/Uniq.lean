@@ -1,9 +1,10 @@
+import Synthesis.Atoms
 import Mathlib
 import Mathlib.Data.List.Sort
 import Lean
 open Lean Elab Meta
 
-/- This is the aggregator used in Aggregators/Uniq.lean. It is not tail-recursive. -/
+/- This is the aggregator used in Aggregators/Uniq.lean. It is not tail-recursive.
 def uniq_agg (xs ys : List String)  : List String :=
   match xs, ys with
   | [], ys => ys
@@ -11,6 +12,7 @@ def uniq_agg (xs ys : List String)  : List String :=
   | x :: xs, y :: ys =>
     if x == y then x :: uniq_agg xs ys
     else x :: uniq_agg xs (y :: ys)
+-/
 
 def uniq_agg_base_case : uniq_agg [] [] = [] := by
   rw [uniq_agg]

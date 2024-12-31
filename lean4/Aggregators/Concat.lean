@@ -2,11 +2,11 @@ import Synthesis
 
 def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
-  let output ← List.foldlM 
+  let output ← List.foldlM
     (fun acc stream => do
       let bytes ← readFile stream ByteArray.empty
-      let acc := concat acc bytes
-      pure acc) 
+      let acc := concat_agg acc bytes
+      pure acc)
     ByteArray.empty streams
 
   let stdout ← IO.getStdout
