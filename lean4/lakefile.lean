@@ -50,5 +50,5 @@ lean_exe "headn1" where
 lean_exe "tailn1" where
   root := `Aggregators.TailN1
 
-require mathlib from git "https://github.com/leanprover-community/mathlib4"
+require mathlib from git "https://github.com/leanprover-community/mathlib4" @ "a51c88ccf9e815ba450c98271246c73b2296f3e7"
 -- require aesop from git "https://github.com/leanprover-community/aesop"

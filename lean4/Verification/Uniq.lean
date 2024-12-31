@@ -5,35 +5,35 @@ import Lean
 open Lean Elab Meta
 
 /- This is the aggregator used in Aggregators/Uniq.lean. It is not tail-recursive.
-def uniq_agg (xs ys : List String)  : List String :=
+def uniqAgg (xs ys : List String)  : List String :=
   match xs, ys with
   | [], ys => ys
   | xs, [] => xs
   | x :: xs, y :: ys =>
-    if x == y then x :: uniq_agg xs ys
-    else x :: uniq_agg xs (y :: ys)
+    if x == y then x :: uniqAgg xs ys
+    else x :: uniqAgg xs (y :: ys)
 -/
 
-def uniq_agg_base_case : uniq_agg [] [] = [] := by
-  rw [uniq_agg]
+def uniq_agg_base_case : uniqAgg [] [] = [] := by
+  rw [uniqAgg]
 
 def uniq_base_case (uniq : List String → List String) (h : uniq [] = []) :
-  uniq_agg (uniq []) (uniq []) = [] :=
+  uniqAgg (uniq []) (uniq []) = [] :=
   by
-    rw [h, uniq_agg]
+    rw [h, uniqAgg]
 
-theorem uniq_agg_size : ∀ a b, (uniq_agg a b).length <= a.length + b.length :=
+theorem uniq_agg_size : ∀ a b, (uniqAgg a b).length <= a.length + b.length :=
   by
     intro a b
     induction a generalizing b with
       | nil =>
-        simp [uniq_agg]
+        simp [uniqAgg]
       | cons x xs ih =>
         induction b with
           | nil =>
-            simp [uniq_agg]
+            simp [uniqAgg]
           | cons y ys ih2 =>
-            simp [uniq_agg]
+            simp [uniqAgg]
             split_ifs
             case pos =>
               simp [List.length_cons]
@@ -50,7 +50,7 @@ theorem uniq_size (uniq: List String → List String)
   (h: ∀ lines, (uniq lines).length <= lines.length) :
   ∀ lines,
     ∀ a b, lines = a ++ b →
-    (uniq_agg (uniq a) (uniq b)).length <= lines.length :=
+    (uniqAgg (uniq a) (uniq b)).length <= lines.length :=
   by
     intro lines a b hsplit
     have h₁ := h a
@@ -59,7 +59,7 @@ theorem uniq_size (uniq: List String → List String)
     rw [hsplit]
     simp [List.length_append]
     calc
-      (uniq_agg (uniq a) (uniq b)).length
+      (uniqAgg (uniq a) (uniq b)).length
           ≤ (uniq a).length + (uniq b).length := h₃
       _ ≤ a.length + b.length := by
         apply add_le_add
@@ -70,20 +70,20 @@ theorem uniq_size (uniq: List String → List String)
     subst hsplit
     simp_all only [List.length_append, le_refl]
 
-theorem uniq_agg_membership : ∀ a b, ∀ line ∈ uniq_agg a b, line ∈ a ++ b :=
+theorem uniq_agg_membership : ∀ a b, ∀ line ∈ uniqAgg a b, line ∈ a ++ b :=
   by
     intro a b line hin
     induction a generalizing b with
       | nil =>
-        simp [uniq_agg] at hin
+        simp [uniqAgg] at hin
         exact hin
       | cons x xs ih =>
         induction b with
           | nil =>
-            simp [uniq_agg] at hin
+            simp [uniqAgg] at hin
             simp [hin]
           | cons y ys ih2 =>
-            simp [uniq_agg] at hin
+            simp [uniqAgg] at hin
             simp [List.cons_append]
             split_ifs at hin with h_eq
             case pos =>
@@ -120,7 +120,7 @@ theorem uniq_membership
   (h: ∀ lines, ∀ line ∈ (uniq lines), line ∈ lines) :
   ∀ lines,
     ∀ a b, lines = a ++ b →
-      ∀ line ∈ (uniq_agg (uniq a) (uniq b)), line ∈ lines :=
+      ∀ line ∈ (uniqAgg (uniq a) (uniq b)), line ∈ lines :=
   by
     intro lines a b hsplit line hin
     rw [hsplit]
@@ -140,7 +140,7 @@ theorem uniq_membership
 /-   (h: ∀ lines, uniq lines = uniq uniq lines) :  -/
 /-   ∀ lines,  -/
 /-     ∀ a b, lines = a ++ b →  -/
-/-       uniq (uniq_agg (uniq a) (uniq b)) = uniq_agg a b := sorry -/
+/-       uniq (uniqAgg (uniq a) (uniq b)) = uniqAgg a b := sorry -/
 
 /- Some old work using the actual uniq
 def uniq {α : Type} [DecidableEq α] : List α → List α :=

@@ -5,7 +5,7 @@ import Lean
 open Lean Elab Meta
 
 /- This is the util defined in Atoms.lean
-  def sum_agg : Nat → Nat → Nat := Nat.add
+  def sumAgg : Nat → Nat → Nat := Nat.add
 -/
 
 def pairwise_sum : Nat × Nat → Nat × Nat → Nat × Nat
@@ -60,9 +60,9 @@ theorem wc_ordering2 (wc : String → Nat × Nat × Nat)
 theorem wc_correctness
   (wc : String → Nat) (xs ys : String)
   (h : ∀ xs ys, wc (xs ++ ys) = wc xs + wc ys) :
-  wc (xs ++ ys) = sum_agg (wc xs) (wc ys) :=
+  wc (xs ++ ys) = sumAgg (wc xs) (wc ys) :=
   by
-    rw [sum_agg]
+    rw [sumAgg]
     rw [h]
     apply Nat.add_eq
 
