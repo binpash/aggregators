@@ -5,24 +5,24 @@ import Synthesis
 structure Input where
   key   : Option Float
   input : String
-  deriving Repr 
+  deriving Repr
 
-instance : ToString Input where 
+instance : ToString Input where
   toString : Input → String
-  | ⟨_, input⟩ => input 
+  | ⟨_, input⟩ => input
 
 def parseInput (lines : List String) : List Input :=
-  lines.map (fun line => 
+  lines.map (fun line =>
     let key := get_first_number line
     ⟨key, line⟩
   )
 
-def cmp (a b : Input) : Bool := 
+def cmp (a b : Input) : Bool :=
   match a.key, b.key with
   | none, none => a.input >= b.input
   | none, some _ => false
   | some _, none => true
-  | some a_key, some b_key => 
+  | some a_key, some b_key =>
     if a_key == b_key then
       a.input >= b.input
     else
@@ -30,13 +30,12 @@ def cmp (a b : Input) : Bool :=
 
 def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
-
-  let output ← List.foldlM 
+  let output ← List.foldlM
     (fun acc stream => do
       let lines ← readFileByLine stream
       let inputs := parseInput lines.toListImpl
       let acc := merge cmp acc inputs
-      pure acc) 
+      pure acc)
     [] streams
 
   output.forM (fun output => IO.print output)

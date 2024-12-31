@@ -1,8 +1,5 @@
 import Synthesis
 
-/- Aggregator to sum
-   Nat -> Nat -/
-
 def parseInput (lines : List String) : Nat :=
   lines.foldl (fun acc line => acc + line.trim.toNat!) 0
 

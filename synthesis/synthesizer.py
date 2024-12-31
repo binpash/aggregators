@@ -10,7 +10,8 @@ def generate_cmp_logic(sort_key: str, order: str) -> str:
         comparison_logic = f"a {'<=' if order == 'asc' else '>='} b"
         input_type = "String"
     else:
-        comparison_logic = f"""
+        if order == "asc":
+            comparison_logic = f"""
   match a.key, b.key with
   | none, none => a.input <= b.input
   | none, some _ => true
@@ -20,13 +21,30 @@ def generate_cmp_logic(sort_key: str, order: str) -> str:
       a.input <= b.input
     else
       a_key < b_key
-        """
+            """
+        else:
+            comparison_logic = f"""
+  match a.key, b.key with
+  | none, none => a.input >= b.input
+  | none, some _ => false
+  | some _, none => true
+  | some a_key, some b_key => 
+    if a_key == b_key then
+      a.input >= b.input
+    else
+      a_key > b_key
+            """
         input_type = "Input"
     return CMP_TEMPLATE.format(input_type=input_type, comparison_logic=comparison_logic.strip())
 
-def generate_parse_function(sort_key: str) -> str:
-    """Generate parsing function if sort_key requires key extraction."""
-    if sort_key == "identity":
+def generate_parse_function(sort_key: str, merge_logic: str) -> str:
+    """Generate parsing function based on logic."""
+    if merge_logic == "sum":
+        parsing_logic = """
+        lines.foldl (fun acc line => acc + line.trim.toNat!) 0
+        """
+        input_type = "Nat"
+    elif sort_key == "identity":
         parsing_logic = "lines"
         input_type = "String"
     else:
@@ -36,26 +54,70 @@ def generate_parse_function(sort_key: str) -> str:
           ⟨key, line⟩
         )
         """
-        input_type = "Input"
+        input_type = "List Input"
 
-    return PARSE_TEMPLATE.format(input_type=input_type, parsing_logic=parsing_logic)
+    return PARSE_TEMPLATE.format(input_type=input_type, parsing_logic=parsing_logic.strip())
+
+def generate_merge_function(merge_logic: str) -> str:
+    """Generate custom merge function if needed."""
+    if merge_logic == "uniq_count":
+        return """
+def uniqCAggregator (xs ys : List Input) : List Input :=
+  match xs, ys with
+  | [], _ => ys
+  | _, [] => xs
+  | x :: xs, y :: ys => 
+    if x.value == y.value then
+      uniqCAggregator (⟨x.key + y.key, x.value⟩ :: xs) ys
+    else if x.value < y.value then
+      x :: uniqCAggregator xs (y :: ys)
+    else
+      y :: uniqCAggregator (x :: xs) ys
+        """
+    return ""
 
 def populate_template(annotations: Dict[str, Any]) -> str:
     """Populate the general Lean template based on annotations."""
-    # Stream Initialization
     stream_init = {
         "all": "let streams ← getAllStreams args",
         "first": "let stream ← getFirstStream args",
         "last": "let stream ← getLastStream args",
     }[annotations.get("stream_mode", "all")]
 
-    # Set default helper functions and extra imports
     helper_functions = ""
     extra_imports = ""
 
-    # Include `Input` structure if `sort_key` is used
     sort_key = annotations.get("sort_key", "identity")
-    if sort_key != "identity":
+    merge_logic = annotations.get("merge_logic", "append")
+
+    if merge_logic == "sum":
+        helper_functions += """
+def parseInput (lines : List String) : Nat :=
+  lines.foldl (fun acc line => acc + line.trim.toNat!) 0
+        """
+    elif merge_logic == "uniq_count":
+        extra_imports += """
+structure Input where
+  key   : Nat
+  value : String
+  deriving Repr
+
+instance : ToString Input where 
+  toString : Input → String
+  | ⟨key, value⟩ => s!" {key} {value}"
+
+        """
+        parse_function = """
+def parseInput (lines : List String) : List Input :=
+  lines.map (fun line =>
+    let trimmed := String.trimLeft line
+    let key := trimmed.takeWhile (λ c => c.isDigit)
+    let count := key.toNat!
+    ⟨count, trimmed.drop key.length⟩
+  )
+        """
+        helper_functions += parse_function
+    elif sort_key != "identity":
         extra_imports += """
 structure Input where
   key   : Option Float
@@ -66,115 +128,36 @@ instance : ToString Input where
   toString : Input → String
   | ⟨_, input⟩ => input
         """
-        parse_function = generate_parse_function(sort_key)
+        parse_function = generate_parse_function(sort_key, merge_logic)
         helper_functions += parse_function
-
-    # Processing Logic
-    merge_logic = annotations.get("merge_logic", "append")
-    processing_logic = ""
-    output_logic = ""
 
     if merge_logic == "sort":
-        # Check if reverse sort is required
-        order = annotations.get("order", "asc")
-        if sort_key == "identity" and order == "desc":
-            # Simple reverse sort (no Input structure needed)
-            cmp_logic = CMP_TEMPLATE.format(
-                input_type="List String",
-                comparison_logic="a >= b"
-            )
-            helper_functions += cmp_logic
+        cmp_logic = generate_cmp_logic(sort_key, annotations.get("order", "asc"))
+        helper_functions += cmp_logic
+    elif merge_logic in ["uniq", "uniq_count", "append"]:
+        helper_functions += generate_merge_function(merge_logic)
 
-            processing_logic = """
+    processing_logic = """
   let output ← List.foldlM 
     (fun acc stream => do
-      let lines ← readFileByLine stream
-      let acc := merge cmp acc lines.toListImpl
+      let {read_logic}
+      let acc := {merge_logic_function} acc {final_input}
       pure acc)
-    [] streams
-            """
-            output_logic = """
-  output.forM (fun output => IO.print output)
-            """
-        else:
-            # General sort with custom key or ascending order
-            cmp_logic = generate_cmp_logic(sort_key, order)
-            helper_functions += cmp_logic
+    {initial_accumulator} streams
+        """.format(
+        read_logic="bytes ← readFile stream ByteArray.empty" if annotations["read_mode"] == "bytes" else "lines ← readFileByLine stream",
+        final_input="(parseInput lines.toListImpl)" if 'parseInput' in helper_functions else "bytes" if annotations["read_mode"] == "bytes" else "lines.toListImpl",
+        merge_logic_function="sum_agg" if merge_logic == "sum" else "concat_agg" if merge_logic == "append" else "uniqCAggregator" if merge_logic == "uniq_count" else merge_logic if merge_logic != "sort" else "merge cmp",
+        initial_accumulator="0" if annotations["accumulator_type"] == "int" else "ByteArray.empty" if annotations["accumulator_type"] == "bytes" else "[]",
+    )
 
-            processing_logic = """
-  let output ← List.foldlM 
-    (fun acc stream => do
-      let lines ← readFileByLine stream
-      let inputs := parseInput lines.toListImpl
-      let acc := merge cmp acc inputs
-      pure acc)
-    [] streams
-            """
-            output_logic = """
-  output.forM (fun line => IO.print line)
-            """
-    elif merge_logic == "sum":
-        # Include parseInput for summation
-        parse_function = PARSE_TEMPLATE.format(
-            input_type="Nat",
-            parsing_logic="""
-            lines.foldl (fun acc line => acc + line.trim.toNat!) 0
-            """.strip()
-        )
-        helper_functions += parse_function
-
-        processing_logic = """
-  let output ← List.foldlM 
-    (fun acc stream => do
-      let lines ← readFileByLine stream
-      let input := parseInput lines.toListImpl
-      let acc := sum acc input
-      pure acc)
-    0 streams
-        """
-        output_logic = """
+    output_logic = """
   IO.println output
-        """
-    elif merge_logic == "append":
-        processing_logic = """
-  let output ← List.foldlM 
-    (fun acc stream => do
-      let lines ← readFile stream ByteArray.empty
-      let acc := concat acc lines
-      pure acc)
-    ByteArray.empty streams
-        """
-        output_logic = """
+        """ if annotations.get("output_mode") == "print" else """
   let stdout ← IO.getStdout
   stdout.write output
         """
-    elif merge_logic == "uniq":
-        processing_logic = """
-  let output ← List.foldlM 
-    (fun acc stream => do
-      let lines ← readFileByLine stream
-      let acc := uniq_agg acc lines.toListImpl
-      pure acc)
-    [] streams
-        """
-        output_logic = """
-  output.forM (fun line => IO.print line)
-        """
-    else:
-        # Default processing logic (no specific merge logic)
-        processing_logic = """
-  let output ← List.foldlM 
-    (fun acc stream => do
-      let lines ← readFileByLine stream
-      let acc := acc ++ lines
-      pure acc)
-    [] streams
-        """
-        output_logic = """
-  output.forM (fun line => IO.print line)
-        """
 
-    # Populate Template
     return GENERAL_TEMPLATE.format(
         extra_imports=extra_imports.strip(),
         helper_functions=helper_functions.strip(),
@@ -182,7 +165,6 @@ instance : ToString Input where
         processing_logic=processing_logic.strip(),
         output_logic=output_logic.strip(),
     )
-
 
 def synthesize_aggregator_to_lean(annotations: Dict[str, Any]) -> str:
     """Generate Lean code for the specified annotations."""
