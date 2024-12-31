@@ -76,8 +76,35 @@ def uniqCAggregator (xs ys : List Input) : List Input :=
         """
     return ""
 
+def handle_special_cases(special_case: str) -> str:
+    """Generate logic for special cases."""
+    if special_case == "head":
+        return """
+        import Synthesis
+def main (args : List String) : IO UInt32 := do
+  let stream ← getFirstStream args
+  let line ← stream.getLine
+  IO.print line
+  return 0
+        """
+    elif special_case == "tail":
+        return """
+        import Synthesis
+def main (args : List String) : IO UInt32 := do
+  let stream ← getLastStream args
+  let lines ← readFileByLine stream
+  let output := lines[0]!
+  IO.print output
+  return 0
+        """
+    return ""
+
 def populate_template(annotations: Dict[str, Any]) -> str:
     """Populate the general Lean template based on annotations."""
+    special_case = annotations.get("special_case")
+    if special_case:
+        return handle_special_cases(special_case)
+
     stream_init = {
         "all": "let streams ← getAllStreams args",
         "first": "let stream ← getFirstStream args",
@@ -91,7 +118,7 @@ def populate_template(annotations: Dict[str, Any]) -> str:
     merge_logic = annotations.get("merge_logic", "append")
 
     if merge_logic == "sum":
-        helper_functions += """
+        extra_imports += """
 def parseInput (lines : List String) : Nat :=
   lines.foldl (fun acc line => acc + line.trim.toNat!) 0
         """
@@ -146,7 +173,7 @@ instance : ToString Input where
     {initial_accumulator} streams
         """.format(
         read_logic="bytes ← readFile stream ByteArray.empty" if annotations["read_mode"] == "bytes" else "lines ← readFileByLine stream",
-        final_input="(parseInput lines.toListImpl)" if 'parseInput' in helper_functions else "bytes" if annotations["read_mode"] == "bytes" else "lines.toListImpl",
+        final_input="(parseInput lines.toListImpl)" if 'parseInput' in helper_functions else "lines.toListImpl",
         merge_logic_function="sum_agg" if merge_logic == "sum" else "concat_agg" if merge_logic == "append" else "uniqCAggregator" if merge_logic == "uniq_count" else merge_logic if merge_logic != "sort" else "merge cmp",
         initial_accumulator="0" if annotations["accumulator_type"] == "int" else "ByteArray.empty" if annotations["accumulator_type"] == "bytes" else "[]",
     )
