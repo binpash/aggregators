@@ -48,12 +48,8 @@ class Execution:
         split_files = simple_split.split_file(self.g.input, self.g.split, f"{split_file_dir_org}")
         
         # Apply cmd to each partials if command is parallelizable. 
-        apply_cmd_to_file_path = self.g.unpar_path
-        if self.g.check_cmd_parallelizability(self.g.cmd): 
-            apply_cmd_to_file_path = self.g.seq_path
-        else: 
-            debug_log(f'command {self.g.cmd} unparallelizable, taking sequential approach in aggregators', self.g)
-      
+        apply_cmd_to_file_path = self.g.seq_path
+     
         partials_after_cmd = []
         for file in split_files: 
             seq_execute_partial = subprocess.check_output([apply_cmd_to_file_path, file, 
@@ -95,18 +91,24 @@ class Execution:
             return seq_out
         
     def execute_seq(self) -> str: 
-        debug_log(f'no aggregator found. running sequential script', self.g)
         seq_execute = subprocess.check_output([self.g.seq_path, self.g.input, 
                                                self.g.output_dir_path, 
                                                self.g.cmd]) 
-        e, out, time = self.get_executed_output_and_time(seq_execute)
-        debug_log_exec(e, out, time, globals)
-        self.metric_row += f'NA{self.g.d}NA{self.g.d}NA{self.g.d}{time}'
-        return out 
+        e, o, t = self.get_executed_output_and_time(seq_execute)
+        debug_log_exec(e, o, t, self.g)        
+        self.metric_row += f'NA{self.g.d}NA{self.g.d}NA{self.g.d}{t}'
+        return o 
 
     def execute_par_or_seq(self) -> str: 
         has_valid_agg = self.g.check_aggregator_exists() 
-    
+        command_parallelizable = self.g.check_cmd_parallelizability(self.g.cmd)
+
+        # If command is not considered parallelizable, we remove all matched aggregators. 
+        # This will show as no aggregators found, which will run this stage sequentially.
+        if not command_parallelizable: 
+            debug_log(f'command unparallelizable. Skipping aggregation and running sequential.', self.g)
+            has_valid_agg = []
+            
         # If aggregator found, use parallel execution. 
         # If parallel execution fails, run sequential instead to not affect next cmd. 
         output_path = ""
@@ -117,8 +119,8 @@ class Execution:
                 if idx < len(has_valid_agg)-1: 
                     self.metric_row += self.g.d
         
-        if output_path is not None: return output_path
-            
+        if output_path != "": return output_path
+        
         # If no aggregator found, use sequential execution. 
         output_path = self.execute_seq()
         return output_path
