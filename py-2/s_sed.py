@@ -16,7 +16,10 @@ def sed_q(concat: list[str], val: int) -> list[str]:
         return concat
     
 def sed(a: list[str], b: list[str]) -> list[str]: 
-    val, action = re.findall(r'\d+|\D+', args.string[0])
+    try: 
+        val, action = re.findall(r'\d+|\D+', args.string[0])
+    except Exception: 
+        action = ""
     concat = a + b 
     res = None
     if action == "q": 
