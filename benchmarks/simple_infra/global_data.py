@@ -1,5 +1,5 @@
 from os import path, makedirs
-from math import floor
+from math import floor, ceil
 from random_input.generation_without_prob import RandomGeneratorSimple
 import utils.find_agg_py as find_agg_py
 import utils.find_agg_lean as find_agg_lean
@@ -93,7 +93,7 @@ class GlobalData:
             original_content = file_to_inflate.read()
 
             while current_size < inflate_to_size:
-                file_to_inflate.write(original_content[: floor(current_size / 5)])
+                file_to_inflate.write(original_content[: ceil(current_size / 5)])
                 file_to_inflate.flush()
                 current_size = path.getsize(file_to_inflate.name)
                 
