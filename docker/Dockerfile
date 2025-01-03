@@ -32,6 +32,8 @@ RUN python3 -m ensurepip --upgrade
 # Verify Python and pip versions
 RUN python3 --version && pip3 --version
 
+RUN pip3 install numpy
+
 # Set the working directory in the container
 ADD . /home/aggregators
 WORKDIR /home/aggregators

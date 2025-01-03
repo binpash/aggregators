@@ -1,6 +1,6 @@
-import string, random
+import string, random, rstr, re
 from  collections import defaultdict
-from math import floor, sqrt, ceil 
+from math import floor, ceil 
 import numpy as np
 
 class RandomGeneratorProb(): 
@@ -13,13 +13,13 @@ class RandomGeneratorProb():
             raise ValueError("probability must be in range [0,1]", identical_line_len_prob_)
         
         if file_line_target_ > file_size_target_: 
-            raise ValueError("cannot have more lines than byte", identical_word_prob_)
+            raise ValueError("cannot have more lines than byte", file_line_target_)
         
         self.write_to = write_to_
         self.file_size_target = file_size_target_ 
         self.file_line_target = file_line_target_
         self.i_word_prob = identical_word_prob_
-        self.i_line_len_prob = identical_line_len_prob_
+        self.i_line_len_prob = identical_line_len_prob_ 
         self.char_pool = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation
         
     def generate(self): 
@@ -63,7 +63,6 @@ class RandomGeneratorProb():
                 if curr_len in distribution and l_end_idx > 1: 
                     next_l_end_idx = l_end_idx - 1
                     sum_with_next = r_end - dividers[next_l_end_idx]
-                    print(sum_with_next, "sum ")
                     new_len_1 = random.randint(1, sum_with_next - 1)
                     curr_len = new_len_1
                     l_end = r_end - new_len_1
@@ -135,7 +134,7 @@ class RandomGeneratorProb():
                     word_to_use[l] = [word] * amt
                     repeated_word -= amt
                     continue
-             
+            
             for _ in range(amt): 
                 word = self.get_random_word(l)
                 trial = 0
@@ -194,14 +193,14 @@ class RandomGeneratorProb():
     def get_random_word(self, word_len: int) -> str: 
         word = ''.join(random.choices(self.char_pool, k=word_len))
         return word
-        
 
 if __name__ == "__main__":
-    total_bytes = 2000
-    total_lines = 20
+    total_bytes = 10000
+    total_lines = 40
     i_line_len_prob = 0.2
     i_word_prob = 0.4
-    rand_generator = RandomGeneratorProb("rand.txt", total_bytes, total_lines, i_word_prob, i_line_len_prob) 
+    rand_generator = RandomGeneratorProb("rand.txt", total_bytes, total_lines, 
+                                        i_word_prob, i_line_len_prob) 
     rand_generator.generate()
     
     

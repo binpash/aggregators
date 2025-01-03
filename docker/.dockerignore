@@ -1,1 +1,5 @@
 ../lean4/.lake/*
+../benchmarks/nlp/inputs/*
+../benchmarks/oneliners/inputs/*
+../benchmarks/covid-mts/inputs/*
+../benchmarks/unix50/inputs/*
