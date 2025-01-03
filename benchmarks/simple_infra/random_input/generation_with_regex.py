@@ -23,14 +23,13 @@ class RandomGeneratorRegex():
     def generate(self): 
         bytes_without_newline = self.file_size_target 
         target_pattern_match = ceil(self.match_prob * bytes_without_newline)
-        print(target_pattern_match)
         matching_words = []
         if self.use_regex: 
             matching_words = self.generate_regex_matching_words(target_pattern_match)
         else: 
             matching_words = self.generate_word_matching_words(target_pattern_match) 
        
-        non_matching_bytes = (self.file_size_target + 1) - (len(" ".join(matching_words)) + 1)
+        non_matching_bytes = self.file_size_target - (len(" ".join(matching_words)) + 1)
         non_matching_words = self.generate_non_matching_words(non_matching_bytes) 
         
         text = self.shuffle_and_build_text(matching_words, non_matching_words)
@@ -63,7 +62,6 @@ class RandomGeneratorRegex():
             word = self.get_random_word_regex(word_len)
             target_bytes -= len(word) + 1 # Consider length for whitespace
             words.append(word)
-        print(words, len(" ".join(words)) + 1)
         return words
 
     def generate_word_matching_words(self, bytes: int) -> list[str]:
@@ -79,14 +77,15 @@ class RandomGeneratorRegex():
         target_bytes = bytes
         words = []
         while target_bytes > 0: 
-            word_len = random.randint(1, target_bytes) 
+            word_len = random.randint(1, ceil(target_bytes / self.file_line_target))
             if self.use_regex: 
                 word = self.get_random_word_not_matching_regex(word_len)
             else: 
                 word = self.get_random_word(word_len)
             target_bytes -= len(word) + 1 # Consider length for whitespace
             words.append(word)
-        print(words, len(" ".join(words)) + 1)
+        if len(" ".join(words)) < bytes: 
+            words[-1] += " "
         return words 
     
     def shuffle_and_build_text(self, matches: list[str], non_matches: list[str]): 
@@ -102,7 +101,6 @@ class RandomGeneratorRegex():
 
         text = " ".join(all_words).replace(" \n ", "\n").strip()
     
-        print(len(text))
         return text
     
     # Helper functions and functions to get single word. 
@@ -154,9 +152,9 @@ class RandomGeneratorRegex():
         return word
 
 if __name__ == "__main__":
-    total_bytes = 100
-    total_lines = 5
-    r_match_prob = 0.2
+    total_bytes = 500
+    total_lines = 20
+    r_match_prob = 0.5
     regex = "A-Za-z" # regex for specific word: \b{word}\b
     word = "light" # regex for specific word: \b{word}\b
     rand_generator = RandomGeneratorRegex("rand.txt", total_bytes, total_lines, r_match_prob, word, False) 

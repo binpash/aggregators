@@ -109,6 +109,12 @@ cd run
 
 - Given total bytes desired, max byte per line, min byte per line, generate file with random word
 - Given total bytes, total lines, percentage of non-distinct line length, and percentage of non-distinct word, generate file with random words that guarantee and best adhere to given percentages (depending on randomization and total lines given, we might have more repeats than desired percentage)
-- Given total bytes, regex or word, and percentage of file matching pattern, generate file with random words guaranteeing percentage of match with file size roughly total bytes number
+- Given total bytes, regex or word, and percentage of bytes allocated to generate words that match pattern, generate file with random word
+- Currently, change probability and size settings in the relative python file's main function.
+- Example Run:
+
+```python
+python3 generation_with_regex.py
+```
 
 ![alt text](./simple_infra/infra.png)
