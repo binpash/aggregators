@@ -14,26 +14,31 @@ cd `benchmarks`
   - [One script and input](#run-with-custom-scripts--inputs)
 - [Explaination of files generated from run](#files-youll-see-after-running)
 
-### Run all available benchmark sets: 
-First, download all inputs.  
+### Run all available benchmark sets:
+
+First, download all inputs.
+
 ```bash
 ./run-all.sh --inputs # Download all input files.
 ```
 
-Here are the configurations to the scripts. 
-* `--small`: use small input 
-* `--inf`: input inflation between stages
-* `--all`: use lean and python aggregators 
-* `--lean`: use lean aggregators (default is python aggregators)
+Here are the configurations to the scripts.
 
-For example, to run all benchmarks with python and lean aggregators with input inflation on smaller input, 
+- `--small`: use small input
+- `--inf`: input inflation between stages
+- `--all`: use lean and python aggregators
+- `--lean`: use lean aggregators (default is python aggregators)
+
+For example, to run all benchmarks with python and lean aggregators with input inflation on smaller input,
+
 ```bash
 ./run-all.sh --small --all --inf
 ```
 
 Cleanup all intermediate files.
+
 ```bash
-./run-all.sh --clean 
+./run-all.sh --clean
 ```
 
 ### Run with one benchmark set:
@@ -59,7 +64,8 @@ Other configurations. Ensure to save results and use clean up script before runn
 ./run.sh --small --all --inf # Run with both lean and python aggregators on 1M input with input inflation.
 ```
 
-Check and prints out if there are incorrect aggregators. 
+Check and prints out if there are incorrect aggregators.
+
 ```bash
 ./run.sh --check
 ```
@@ -98,5 +104,11 @@ cd run
 5. <output.txt> : output file produced after running entire script with this infrastructure (provided as last argument to ../infra_run.py)
 
 ### Pipeline for [Running with Benchmark](#run-with-benchmark-sets)
+
+## Random Input Generation:
+
+- Given total bytes desired, max byte per line, min byte per line, generate file with random word
+- Given total bytes, total lines, percentage of non-distinct line length, and percentage of non-distinct word, generate file with random words that guarantee and best adhere to given percentages (depending on randomization and total lines given, we might have more repeats than desired percentage)
+- Given total bytes, regex or word, and percentage of file matching pattern, generate file with random words guaranteeing percentage of match with file size roughly total bytes number
 
 ![alt text](./simple_infra/infra.png)
