@@ -1,9 +1,5 @@
 {
-  "input_type": "list<string>",
-  "output_type": "string",
-  "stream_mode": "first",
-  "merge_logic": null,
-  "read_mode": "line",
-  "output_mode": "print",
-  "special_case": "head"
+  "merge_logic": "append",
+  "read_mode": "bytes",
+  "accumulator_type": "bytes"
 }

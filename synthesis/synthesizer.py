@@ -76,9 +76,9 @@ def uniqCAggregator (xs ys : List Input) : List Input :=
         """
     return ""
 
-def handle_special_cases(special_case: str) -> str:
+def handle_special_cases(stream_mode: str) -> str:
     """Generate logic for special cases."""
-    if special_case == "head":
+    if stream_mode == "first":
         return """
         import Synthesis
 def main (args : List String) : IO UInt32 := do
@@ -87,7 +87,7 @@ def main (args : List String) : IO UInt32 := do
   IO.print line
   return 0
         """
-    elif special_case == "tail":
+    elif stream_mode == "last":
         return """
         import Synthesis
 def main (args : List String) : IO UInt32 := do
@@ -101,15 +101,11 @@ def main (args : List String) : IO UInt32 := do
 
 def populate_template(annotations: Dict[str, Any]) -> str:
     """Populate the general Lean template based on annotations."""
-    special_case = annotations.get("special_case")
-    if special_case:
-        return handle_special_cases(special_case)
+    stream_mode = annotations.get("stream_mode")
+    if stream_mode:
+        return handle_special_cases(stream_mode)
 
-    stream_init = {
-        "all": "let streams ← getAllStreams args",
-        "first": "let stream ← getFirstStream args",
-        "last": "let stream ← getLastStream args",
-    }[annotations.get("stream_mode", "all")]
+    stream_init = "let streams ← getAllStreams args"
 
     helper_functions = ""
     extra_imports = ""
@@ -173,14 +169,12 @@ instance : ToString Input where
     {initial_accumulator} streams
         """.format(
         read_logic="bytes ← readFile stream ByteArray.empty" if annotations["read_mode"] == "bytes" else "lines ← readFileByLine stream",
-        final_input="(parseInput lines.toListImpl)" if 'parseInput' in helper_functions else "lines.toListImpl",
-        merge_logic_function="sum_agg" if merge_logic == "sum" else "concat_agg" if merge_logic == "append" else "uniqCAggregator" if merge_logic == "uniq_count" else merge_logic if merge_logic != "sort" else "merge cmp",
+        final_input="(parseInput lines.toListImpl)" if 'parseInput' in helper_functions else "bytes" if annotations["read_mode"] == "bytes" else "lines.toListImpl",
+        merge_logic_function="sum_agg" if merge_logic == "sum" else "concatAgg" if merge_logic == "append" else "uniqCAggregator" if merge_logic == "uniq_count" else merge_logic if merge_logic != "sort" else "merge cmp",
         initial_accumulator="0" if annotations["accumulator_type"] == "int" else "ByteArray.empty" if annotations["accumulator_type"] == "bytes" else "[]",
     )
 
     output_logic = """
-  IO.println output
-        """ if annotations.get("output_mode") == "print" else """
   let stdout ← IO.getStdout
   stdout.write output
         """
