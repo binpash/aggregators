@@ -1,16 +1,29 @@
-def concat_agg : (x y : ByteArray) → ByteArray :=
+def concatAgg : (x y : ByteArray) → ByteArray :=
  ByteArray.append
 
-def sum_agg : (x y : Nat) → Nat :=
+def sumAgg : (x y : Nat) → Nat :=
   Nat.add
 
-def uniq_agg (xs ys : List String)  : List String :=
+def uniqAgg (xs ys : List String)  : List String :=
   match xs, ys with
   | [], ys => ys
   | xs, [] => xs
   | x :: xs, y :: ys =>
-    if x == y then x :: uniq_agg xs ys
-    else x :: uniq_agg xs (y :: ys)
+    if x == y then x :: uniqAgg xs ys
+    else x :: uniqAgg xs (y :: ys)
+
+/-- For sort -u -/
+def mergeUniqAgg (xs ys : List String) : List String :=
+  match xs, ys with
+  | [], ys => ys
+  | xs, [] => xs
+  | x :: xs, y :: ys =>
+    if x == y then
+      mergeUniqAgg xs (y :: ys)
+    else if x > y then
+      y :: mergeUniqAgg (x :: xs) (ys)
+    else
+      x :: mergeUniqAgg xs (y :: ys)
 
 /-- Array-based tail recursive implementation -/
 def mergeAuxArray (acc : Array α) (le : α → α → Bool) (xs ys : Array α) : Array α :=
@@ -21,7 +34,7 @@ else if le xs[xs.size - 1] ys[ys.size - 1]
   else mergeAuxArray (acc.push xs[xs.size - 1]) le xs.pop ys
 termination_by (xs.size, ys.size)
 
-def merge (le : α → α → Bool) (xs ys : List α) : List α :=
+def mergeArrayAgg (le : α → α → Bool) (xs ys : List α) : List α :=
 mergeAuxArray #[] le xs.toArray ys.toArray |>.toList
 
 /-- List-based tail recursive implementation -/
@@ -35,33 +48,24 @@ def mergeAuxList (acc : List α) (le : α → α → Bool) (xs ys : List α) : L
     else
       mergeAuxList (y::acc) le (x :: xs) ys
 
-def mergeList (le : α → α → Bool) (xs ys : List α) : List α :=
+def mergeListAgg(le : α → α → Bool) (xs ys : List α) : List α :=
   mergeAuxList [] le xs ys
 
 /-- WARNING: The non-tail recursive implementation of merge
     causes stack overflow. This is used for proofs in
     Verification/Sort.lean -/
-def merge_agg_ntr (le : α → α → Bool) (xs ys : List α) : List α :=
+def mergeListAggNTR (le : α → α → Bool) (xs ys : List α) : List α :=
    match xs, ys with
    | [], ys => ys
    | xs, [] => xs
    | x :: xs, y :: ys =>
      if le x y then
-       x :: merge_agg_ntr le xs (y :: ys)
+       x :: mergeListAggNTR le xs (y :: ys)
      else
-       y :: merge_agg_ntr le (x :: xs) ys
+       y :: mergeListAggNTR le (x :: xs) ys
 
 -- This is for parsing numbers from a string in the sort aggregators
-def is_digit (c : Char) : Bool :=
-  '0' ≤ c ∧ c ≤ '9'
-
-def is_thousand_separator (c : Char) : Bool :=
-  c = ','
-
-def is_decimal_point (c : Char) : Bool :=
-  c = '.'
-
-def get_first_number (s : String) : Option Float :=
+def getFirstNumber (s : String) : Option Float :=
   let chars := (((s.trim).splitOn "," )[0]!).toList
 
   let rec preprocess (chars : List Char) (acc : String) (exponent : Nat) (decimal_used : Bool) : Option Float :=
@@ -73,16 +77,16 @@ def get_first_number (s : String) : Option Float :=
         some (OfScientific.ofScientific (String.toNat! acc) true exponent)
 
     | c :: cs =>
-      if is_digit c then
+      if '0' ≤ c ∧ c ≤ '9' then
         if decimal_used then
           preprocess cs (acc.push c) (exponent + 1) decimal_used
         else
           preprocess cs (acc.push c) exponent decimal_used
 
-      else if is_thousand_separator c ∧ ¬acc.isEmpty ∧ ¬decimal_used then
+      else if (c = ',') ∧ ¬acc.isEmpty ∧ ¬decimal_used then
         preprocess cs acc exponent decimal_used
 
-      else if is_decimal_point c ∧ ¬decimal_used then
+      else if (c = '.') ∧ ¬decimal_used then
         preprocess cs acc exponent true
 
       else
@@ -99,18 +103,18 @@ def get_first_number (s : String) : Option Float :=
     else
       preprocess chars "" 0 false
 
--- #eval get_first_number ""
--- #eval get_first_number "1"
--- #eval get_first_number "12"
--- #eval get_first_number "12.3"
--- #eval get_first_number "12.34"
+-- #eval getFirstNumber ""
+-- #eval getFirstNumber "1"
+-- #eval getFirstNumber "12"
+-- #eval getFirstNumber "12.3"
+-- #eval getFirstNumber "12.34"
 --
--- #eval get_first_number "a"
--- #eval get_first_number "a1"
--- #eval get_first_number "1a"
+-- #eval getFirstNumber "a"
+-- #eval getFirstNumber "a1"
+-- #eval getFirstNumber "1a"
 --
--- #eval get_first_number "123.456"
--- #eval get_first_number "123,456"
--- #eval get_first_number "1,23,456"
--- #eval get_first_number "1,23.456"
--- #eval get_first_number "1.23,456"
+-- #eval getFirstNumber "123.456"
+-- #eval getFirstNumber "123,456"
+-- #eval getFirstNumber "1,23,456"
+-- #eval getFirstNumber "1,23.456"
+-- #eval getFirstNumber "1.23,456"

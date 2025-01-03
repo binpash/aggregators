@@ -1,6 +1,6 @@
 from os import path, makedirs
 from math import floor
-from random_input_generation.generation import RandomGenerator
+from random_input.generation_without_prob import RandomGeneratorSimple
 import utils.find_agg_py as find_agg_py
 import utils.find_agg_lean as find_agg_lean
 
@@ -16,8 +16,8 @@ class GlobalData:
             if not path.exists(self.random_input_dir): 
                 makedirs(self.random_input_dir)
             input_ = self.random_input_dir + "input.txt"
-            random_generator = RandomGenerator(input_, random_bytes_)
-            random_generator.generate_random_input_alphanumerical()
+            random_generator = RandomGeneratorSimple(input_, random_bytes_, 1, 32)
+            random_generator.generate()
       
         if not path.exists(input_): 
             print(f'{input_} does not exist; check input to infra_run\n')
@@ -64,8 +64,8 @@ class GlobalData:
         if self.random_bytes > 0: 
             input_name = path.splitext(path.basename(new_input))[0]
             new_random_input = self.random_input_dir + input_name + ".txt" 
-            rand_gen = RandomGenerator(new_random_input, self.random_bytes)
-            rand_gen.generate_random_input_alphanumerical()
+            rand_gen = RandomGeneratorSimple(new_random_input, self.random_bytes, 1, 32)
+            rand_gen.generate()
             self.input = new_random_input
         else: 
             self.input = new_input  

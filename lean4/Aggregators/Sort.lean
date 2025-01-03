@@ -6,10 +6,10 @@ def cmp (a b : String) : Bool := a <= b
 
 def main (args : List String) : IO UInt32 := do
   let streams ← getAllStreams args
-  let output ← List.foldlM 
+  let output ← List.foldlM
     (fun acc stream => do
       let lines ← (readFileByLine stream)
-      let acc := merge cmp acc lines.toListImpl
+      let acc := mergeArrayAgg cmp acc lines.toListImpl
       pure acc)
     [] streams
 

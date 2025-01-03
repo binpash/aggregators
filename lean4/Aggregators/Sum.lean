@@ -1,5 +1,7 @@
 import Synthesis
 
+/- Aggregator for wc -/
+
 def parseInput (lines : List String) : Nat :=
   lines.foldl (fun acc line => acc + line.trim.toNat!) 0
 
@@ -9,7 +11,7 @@ def main (args : List String) : IO UInt32 := do
     (fun acc stream => do
       let lines ← readFileByLine stream
       let input := parseInput lines.toListImpl
-      let acc := sum_agg acc input
+      let acc := sumAgg acc input
       pure acc)
     0 streams
 

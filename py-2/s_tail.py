@@ -1,36 +1,29 @@
 #!/usr/bin/env python3
 
-import utils, re, argparse, itertools, sys
+import utils, argparse, functools, sys
 
 ## SED FLAGS ## 
 parser = argparse.ArgumentParser(description="Check which flags we use for head")
-parser.add_argument('-n', type=str)
+parser.add_argument('-n', type=int)
 parser.add_argument('file', type=argparse.FileType('r'), nargs="*", help="input files to sort agg")
 args, unknown = parser.parse_known_args() 
 
-def tail(concat: list[str], action: str, val: int) -> list[str]: 
-    if action == "+" and val <= len(concat): 
-            return concat[val - 1:]
-    
-    if action == "" and val <= len(concat): 
-            return concat[-val:]
-        
-    return concat
+def tail(a: list[str], b: list[str]) -> list[str]: 
+    concat = a + b
+    if args.n <= len(concat):
+        return concat[-args.n:]
+    else: 
+        return concat
 
 
-def agg(res: list[str]): 
-    try: 
-        action, val = re.findall(r'\d+|\D+', args.n)
-    except: 
-        action = ""
-        val = args.n
-    
-    val = abs(int(val))
-    return tail(res, action, val)
-    
+def agg(a, b): 
+    args.n = abs(args.n)
+    return tail(a,b)
+
 try: 
-    concat_file_read = utils.read_all()
-    res = agg(list(itertools.chain(*concat_file_read)))
+    res = functools.reduce(agg, utils.read_all(), [])
     utils.out("".join(res)) 
-except: 
+except Exception as e:
+    print(e.traceback()) 
     sys.exit(1) # execute sequentially
+        

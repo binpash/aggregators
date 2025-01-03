@@ -13,7 +13,7 @@ instance : ToString Input where
 
 def parseInput (lines : List String) : List Input :=
   lines.map (fun line =>
-    let key := get_first_number line
+    let key := getFirstNumber line
     ⟨key, line⟩
   )
 
@@ -34,7 +34,7 @@ def main (args : List String) : IO UInt32 := do
     (fun acc stream => do
       let lines ← readFileByLine stream
       let inputs := parseInput lines.toListImpl
-      let acc := merge cmp acc inputs
+      let acc := mergeArrayAgg cmp acc inputs
       pure acc)
     [] streams
 
