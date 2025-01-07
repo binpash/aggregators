@@ -1,8 +1,9 @@
 import Synthesis.Atoms
+import Init.Data.List.Sort
+import Init.Data.List.Perm
 import Mathlib
+import Mathlib.Data.List.Basic
 import Mathlib.Data.List.Sort
---import Mathlib.Data.List.Permutation
---import Mathlib.Data.List.Perm
 import Mathlib.Data.Multiset.Basic
 import Lean
 open Lean Elab Meta
@@ -10,7 +11,8 @@ open Lean Elab Meta
 namespace SortNTR
 
 /-- `mergeListAggNTR` preserves the base case `[]` -/
-lemma merge_base_case {α : Type} (r : α → α → Bool) : mergeListAggNTR r [] [] = [] :=
+lemma merge_base_case {α : Type} (r : α → α → Bool) :
+  mergeListAggNTR r [] [] = [] :=
   by
     rw [mergeListAggNTR]
 
@@ -22,7 +24,8 @@ theorem sort_base_case {α : Type}
     rw [h, merge_base_case]
 
 /-- `mergeListAggNTR` preserves length -/
-lemma merge_equal_length : ∀ l₁ l₂, (mergeListAggNTR r l₁ l₂).length = (l₁ ++ l₂).length :=
+lemma merge_equal_length : ∀ l₁ l₂,
+  (mergeListAggNTR r l₁ l₂).length = (l₁ ++ l₂).length :=
   by
     intro l₁ l₂
     induction l₁ generalizing l₂ with
@@ -48,9 +51,10 @@ lemma merge_equal_length : ∀ l₁ l₂, (mergeListAggNTR r l₁ l₂).length =
           simp
           rw [add_assoc]
 
-theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (h : ∀ l, (sort r l).length = l.length) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l → (mergeListAggNTR r (sort r l₁) (sort r l₂)).length = l.length :=
+theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) (h : ∀ l, (sort r l).length = l.length) :
+  ∀ l l₁ l₂, l₁ ++ l₂ = l →
+    (mergeListAggNTR r (sort r l₁) (sort r l₂)).length = l.length :=
   by
     intro l l₁ l₂ hl
     rw [←hl]
@@ -137,46 +141,171 @@ lemma merge_multiset {α : Type} (r : α → α →  Bool) :
           rw [List.perm_cons]
           exact ih (y :: ys)
         case neg =>
-          have l : (y :: (mergeListAggNTR r (x :: xs) ys)).Perm (y :: (x :: xs ++ ys) ) :=
+          have hperm1 : (y :: (mergeListAggNTR r (x :: xs) ys)).Perm (y :: (x :: xs ++ ys) ) :=
             by
               rw [List.cons_append]
               rw [List.perm_cons]
               exact ih₂
-          have g : (y :: (x :: xs ++ ys)).Perm (x :: xs ++ y :: ys) :=
+          have hperm2 : (y :: (x :: xs ++ ys)).Perm (x :: (xs ++ y :: ys)) :=
             by
-              simp [List.cons_append, List.perm_cons, List.perm_append_comm]
               sorry
-          sorry
+          exact hperm1.trans hperm2
+
+/- `sort` preserves the multiset property -/
+theorem sort_multiset {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) 
+  (h : ∀ l, (Multiset.ofList (sort r l)) = (Multiset.ofList l)) :
+  ∀ l l₁ l₂, l₁ ++ l₂ = l →
+    (Multiset.ofList (mergeListAggNTR r (sort r l₁) (sort r l₂))) = (Multiset.ofList l) :=
+  by
+    intro l l₁ l₂ hsplit
+    rw [←hsplit]
+    rw [merge_multiset]
+    have h₁ := h l₁
+    have h₂ := h l₂
+    rw [Multiset.coe_eq_coe] at h₁ h₂
+    rw [Multiset.coe_eq_coe]
+    exact List.Perm.append h₁ h₂
+
+/-- `mergeListAggNTR` preserves the permutation property. 
+     This is the same as the multiset property above. -/
+lemma merge_perm {α : Type} (r : α → α →  Bool) :
+  ∀ l₁ l₂, (mergeListAggNTR r l₁ l₂).Perm (l₁ ++ l₂) :=
+  by
+    intro l₁ l₂
+    have h := merge_multiset r l₁ l₂
+    rw [Multiset.coe_eq_coe] at h
+    exact h
+
+theorem sort_perm {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) 
+  (h : ∀ l, (sort r l).Perm l) :
+  ∀ l l₁ l₂, l₁ ++ l₂ = l →
+    (mergeListAggNTR r (sort r l₁) (sort r l₂)).Perm l :=
+  by
+    intro l l₁ l₂ hsplit
+    rw [←hsplit]
+    have h₁ := h l₁
+    have h₂ := h l₂
+    apply (merge_perm r (sort r l₁) (sort r l₂)).trans
+    apply List.Perm.append h₁ h₂
+
+lemma merge_ordering (r : α → α → Bool) :
+  ∀ a b c d, List.Sublist (a ++ b) (c ++ d) →
+    List.Sublist (mergeListAggNTR r a b) (mergeListAggNTR r c d) :=
+  by
+    intro a b c d hsublist
+    sorry
 
 /-- If l₁ is a sublist of l₂, then sort l₁ is a sublist of sort l₂ -/
-theorem sort_ordering {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (l₁ l₂ : List α) (h: ∀ l₁ l₂, List.Sublist l₁ l₂ → List.Sublist (sort r l₁) (sort r l₂)) :
-  ∀ l₁ l₂, List.Sublist l₁ l₂ → ∀ a b c d, a ++ b = l₁ → c ++ d = l₂ → List.Sublist (mergeListAggNTR r (sort r a) (sort r b)) (mergeListAggNTR r (sort r c) (sort r d)) :=
+theorem sort_ordering {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) (l₁ l₂ : List α)
+  (h: ∀ l₁ l₂, List.Sublist l₁ l₂ → List.Sublist (sort r l₁) (sort r l₂)) :
+  ∀ l₁ l₂, List.Sublist l₁ l₂ →
+    ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d →
+      List.Sublist
+        (mergeListAggNTR r (sort r a) (sort r b))
+        (mergeListAggNTR r (sort r c) (sort r d)) :=
     by
       intro l₁ l₂ hsublist a b c d hsplit₁ hsplit₂
+      apply merge_ordering r (sort r a) (sort r b) (sort r c) (sort r d)
+      have hl := h l₁ l₂ hsublist
+      rw [hsplit₁, hsplit₂] at hl
       sorry
+
+inductive Sorted (r : α → α → Bool) : List α → Prop
+  | nil : Sorted r []
+  | cons : ∀ {a : α} {l : List α}, (∀ a', a' ∈ l → r a a') → Sorted r l → Sorted r (a :: l)
+
+/- Taken from Mathlib.Data.List.Sort -/
+theorem eq_of_perm_of_sorted {r : α → α → Bool} {l₁ l₂ : List α} 
+  (hp : l₁.Perm l₂) (hs₁ : Sorted r l₁) (hs₂ : Sorted r l₂) 
+  : l₁ = l₂ := by sorry
+
+/- merge preserves sorted -/
+lemma merge_sorted {r : α → α → Bool} {l₁ l₂ : List α} (hl₁ : Sorted r l₁) (hl₂ : Sorted r l₂) : 
+  Sorted r (mergeListAggNTR r l₁ l₂) := by 
+  induction l₁ generalizing l₂ with
+  | nil =>
+    rw [mergeListAggNTR]
+    exact hl₂
+  | cons x xs ih => 
+    induction l₂ with
+    | nil =>
+      rw [mergeListAggNTR]
+      exact hl₁
+      intro _
+      simp_all only [reduceCtorEq]
+    | cons y ys ih₂ => 
+      rw [mergeListAggNTR]
+      split_ifs
+      case pos hpos =>
+        apply Sorted.cons
+        intro a ha
+        simp at ha
+        sorry
+        sorry
+
+      case neg hneg =>
+        apply Sorted.cons
+        intro a ha
+        simp at ha
+        sorry
+        sorry
+
+theorem sort_sorted {α : Type} (sort : (α → α → Bool) → List α → List α)
+  (r : α → α → Bool) 
+  (h : ∀ l, Sorted r (sort r l)) :
+  ∀ l l₁ l₂, l₁ ++ l₂ = l →
+    Sorted r (mergeListAggNTR r (sort r l₁) (sort r l₂)) :=
+  by
+    intro l l₁ l₂ hsplit
+    have h₁ := h l₁
+    have h₂ := h l₂
+    exact merge_sorted h₁ h₂
+
+/- If sort applied twice is itself, then mergeListAggNTR applied twice is itself
+   This does not hold for if sort x = "ab" -/
+theorem sort_idempotence {α : Type} 
+  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
+  (hsorted : ∀ l, Sorted r (sort r l)) 
+  (hperm: ∀ l, (sort r l).Perm l) :
+  /- (h : ∀ l, sort r (sort r l) = sort r l) -/
+  ∀ l a b c d, a ++ b = l →
+    c ++ d = (mergeListAggNTR r (sort r a) (sort r b)) →
+    (mergeListAggNTR r (sort r a) (sort r b)) =
+    (mergeListAggNTR r (sort r c) (sort r d)) :=
+  by
+    intro l a b c d hsplit₁ hsplit₂ 
+    have hsab := merge_sorted (hsorted a) (hsorted b)
+    have hscd := merge_sorted (hsorted c) (hsorted d) 
+    have hp : (mergeListAggNTR r (sort r a) (sort r b)).Perm (mergeListAggNTR r (sort r c) (sort r d)) := 
+      by
+        apply (merge_perm r (sort r a) (sort r b)).trans
+        apply List.Perm.symm
+        apply (merge_perm r (sort r c) (sort r d)).trans
+        apply (List.Perm.append (hperm c) (hperm d)).trans
+        apply List.Perm.symm 
+        apply (List.Perm.append (hperm a) (hperm b)).trans
+        have hpabcd : (a ++ b).Perm (c ++ d) := by
+          rw [hsplit₂]
+          apply List.Perm.symm 
+          apply (merge_perm r (sort r a) (sort r b)).trans
+          apply List.Perm.append (hperm a) (hperm b)
+        exact hpabcd
+    exact eq_of_perm_of_sorted hp hsab hscd
 
 lemma merge_equality : ∀ a b c d, a ++ b = c ++ d → mergeListAggNTR r a b = mergeListAggNTR r c d := sorry
 
-/- If sort l₁ is equal to sort l₂, then merging the partials of l₁ is equal to merging the partials of l₂.
-   This does not hold if sort x = "ab" -/
+/- If sort l₁ is equal to sort l₂, then merging the partials of sort l₁ is equal to merging the partials of sort l₂. This does not hold if sort x = "ab" -/
 theorem sort_equality {α : Type} (sort : (α → α → Bool) → List α → List α)
   (r : α → α → Bool) (l₁ l₂ : List α) (h: sort r l₁ = sort r l₂) :
-  ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d → mergeListAggNTR r (sort r a) (sort r b) = mergeListAggNTR r (sort r c) (sort r d) :=
+  ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d →
+    mergeListAggNTR r (sort r a) (sort r b) = mergeListAggNTR r (sort r c) (sort r d) :=
     by
       intro a b c d hl₁ hl₂
       rw [hl₁, hl₂] at h
       sorry
-
-/- If sort applied twice is itself, then mergeListAggNTR applied twice is itself
-   This does not hold for if sort x = "ab" -/
-theorem sort_idempotence {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (h : ∀ l, sort r (sort r l) = sort r l) :
-  ∀ l l₁ l₂ l₃ l₄, l₁ ++ l₂ = l → l₃ ++ l₄ =
-  (mergeListAggNTR r (sort r l₁) (sort r l₂)) → (mergeListAggNTR r (sort r l₁) (sort r l₂)) = (mergeListAggNTR r (sort r l₃) (sort r l₄)) :=
-  by
-    intro l l₁ l₂ l₃ l₄ hl₁l₂ hl₃l₄
-    sorry
 
 -- Some correctness lemmas for the non-tail recursive `merge_sort` function in `Data.List.Sort`
 -- REFERENCE: https://github.com/leanprover-community/mathlib4/blob/8666bd82efec40b8b3a5abca02dc9b24bbdf2652/Mathlib/Data/List/Sort.lean
