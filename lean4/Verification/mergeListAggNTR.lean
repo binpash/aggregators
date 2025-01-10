@@ -16,13 +16,6 @@ lemma merge_base_case {α : Type} (r : α → α → Bool) :
   by
     rw [mergeListAggNTR]
 
-theorem sort_base_case {α : Type}
-  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (h : sort r [] = []) :
-  (mergeListAggNTR r (sort r []) (sort r [])) = [] :=
-  by
-    rw [h, merge_base_case]
-
 /-- `mergeListAggNTR` preserves length -/
 lemma merge_equal_length : ∀ l₁ l₂,
   (mergeListAggNTR r l₁ l₂).length = (l₁ ++ l₂).length :=
@@ -50,20 +43,6 @@ lemma merge_equal_length : ∀ l₁ l₂,
           rw [ih₂]
           simp
           rw [add_assoc]
-
-theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) (h : ∀ l, (sort r l).length = l.length) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l →
-    (mergeListAggNTR r (sort r l₁) (sort r l₂)).length = l.length :=
-  by
-    intro l l₁ l₂ hl
-    rw [←hl]
-    rw [List.length_append]
-    rw [merge_equal_length]
-    have h₁ : (sort r l₁).length = l₁.length := h l₁
-    have h₂ : (sort r l₂).length = l₂.length := h l₂
-    simp [List.length_append]
-    rw [←h₁, ←h₂]
 
 /-- `mergeListAggNTR` preserves membership -/
 lemma merge_membership {α : Type} (r : α → α →  Bool) :
@@ -98,23 +77,6 @@ lemma merge_membership {α : Type} (r : α → α →  Bool) :
           | inr hm =>
             have hx := ih₂ hm
             aesop
-
-theorem sort_membership {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) (h : ∀ lines, ∀ line ∈ (sort r lines), line ∈ lines) :
-  ∀ lines l₁ l₂, l₁ ++ l₂ = lines →
-    ∀ line ∈ (mergeListAggNTR r (sort r l₁) (sort r l₂)), line ∈ lines :=
-  by
-    intro lines l₁ l₂ hsplit line hline
-    rw [←hsplit]
-    have hm := merge_membership r (sort r l₁) (sort r l₂) line hline
-    rw [List.mem_append] at hm
-    cases hm with
-    | inl hsort =>
-      have hinl := h l₁ line hsort
-      simp [hinl]
-    | inr hsort =>
-      have hinl := h l₂ line hsort
-      simp [hinl]
 
 /-- `mergeListAggNTR` preserves multiset property -/
 lemma merge_multiset {α : Type} (r : α → α →  Bool) :
@@ -151,22 +113,6 @@ lemma merge_multiset {α : Type} (r : α → α →  Bool) :
               sorry
           exact hperm1.trans hperm2
 
-/- `sort` preserves the multiset property -/
-theorem sort_multiset {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) 
-  (h : ∀ l, (Multiset.ofList (sort r l)) = (Multiset.ofList l)) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l →
-    (Multiset.ofList (mergeListAggNTR r (sort r l₁) (sort r l₂))) = (Multiset.ofList l) :=
-  by
-    intro l l₁ l₂ hsplit
-    rw [←hsplit]
-    rw [merge_multiset]
-    have h₁ := h l₁
-    have h₂ := h l₂
-    rw [Multiset.coe_eq_coe] at h₁ h₂
-    rw [Multiset.coe_eq_coe]
-    exact List.Perm.append h₁ h₂
-
 /-- `mergeListAggNTR` preserves the permutation property. 
      This is the same as the multiset property above. -/
 lemma merge_perm {α : Type} (r : α → α →  Bool) :
@@ -177,19 +123,6 @@ lemma merge_perm {α : Type} (r : α → α →  Bool) :
     rw [Multiset.coe_eq_coe] at h
     exact h
 
-theorem sort_perm {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) 
-  (h : ∀ l, (sort r l).Perm l) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l →
-    (mergeListAggNTR r (sort r l₁) (sort r l₂)).Perm l :=
-  by
-    intro l l₁ l₂ hsplit
-    rw [←hsplit]
-    have h₁ := h l₁
-    have h₂ := h l₂
-    apply (merge_perm r (sort r l₁) (sort r l₂)).trans
-    apply List.Perm.append h₁ h₂
-
 lemma merge_ordering (r : α → α → Bool) :
   ∀ a b c d, List.Sublist (a ++ b) (c ++ d) →
     List.Sublist (mergeListAggNTR r a b) (mergeListAggNTR r c d) :=
@@ -197,28 +130,12 @@ lemma merge_ordering (r : α → α → Bool) :
     intro a b c d hsublist
     sorry
 
-/-- If l₁ is a sublist of l₂, then sort l₁ is a sublist of sort l₂ -/
-theorem sort_ordering {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) (l₁ l₂ : List α)
-  (h: ∀ l₁ l₂, List.Sublist l₁ l₂ → List.Sublist (sort r l₁) (sort r l₂)) :
-  ∀ l₁ l₂, List.Sublist l₁ l₂ →
-    ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d →
-      List.Sublist
-        (mergeListAggNTR r (sort r a) (sort r b))
-        (mergeListAggNTR r (sort r c) (sort r d)) :=
-    by
-      intro l₁ l₂ hsublist a b c d hsplit₁ hsplit₂
-      apply merge_ordering r (sort r a) (sort r b) (sort r c) (sort r d)
-      have hl := h l₁ l₂ hsublist
-      rw [hsplit₁, hsplit₂] at hl
-      sorry
-
 inductive Sorted (r : α → α → Bool) : List α → Prop
   | nil : Sorted r []
   | cons : ∀ {a : α} {l : List α}, (∀ a', a' ∈ l → r a a') → Sorted r l → Sorted r (a :: l)
 
 /- Taken from Mathlib.Data.List.Sort -/
-theorem eq_of_perm_of_sorted {r : α → α → Bool} {l₁ l₂ : List α} 
+lemma eq_of_perm_of_sorted {r : α → α → Bool} {l₁ l₂ : List α} 
   (hp : l₁.Perm l₂) (hs₁ : Sorted r l₁) (hs₂ : Sorted r l₂) 
   : l₁ = l₂ := by sorry
 
@@ -253,59 +170,138 @@ lemma merge_sorted {r : α → α → Bool} {l₁ l₂ : List α} (hl₁ : Sorte
         sorry
         sorry
 
-theorem sort_sorted {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) 
-  (h : ∀ l, Sorted r (sort r l)) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l →
-    Sorted r (mergeListAggNTR r (sort r l₁) (sort r l₂)) :=
+/- If sort l₁ is equal to sort l₂, then merging the partials of sort l₁ is equal to merging the partials of sort l₂. This does not hold if sort x = "ab" -/
+lemma merge_equality : ∀ a b c d, a ++ b = c ++ d → mergeListAggNTR r a b = mergeListAggNTR r c d := sorry
+
+-- Sort Examples
+namespace MergeListAggNTRExample
+
+-- Define opaque types and axioms
+opaque α : Type
+opaque r : α → α → Bool
+opaque foo : (α → α → Bool) → List α → List α
+
+axiom foo_base_case : foo r [] = []
+axiom foo_equal_length : ∀ l, (foo r l).length = l.length
+axiom foo_membership :  ∀ lines, ∀ line ∈ (foo r lines), line ∈ lines
+axiom foo_multiset : ∀ l, (Multiset.ofList (foo r l)) = (Multiset.ofList l)
+axiom foo_perm : ∀ l, (foo r l).Perm l
+axiom foo_sorted : ∀ l, Sorted r (foo r l)
+axiom foo_ordering : ∀ l₁ l₂, List.Sublist l₁ l₂ → List.Sublist (foo r l₁) (foo r l₂)
+
+theorem parallel_foo_base_case : (mergeListAggNTR r (foo r []) (foo r [])) = [] :=
+  by
+    rw [foo_base_case, merge_base_case]
+
+theorem parallel_foo_equal_length : ∀ l l₁ l₂, l₁ ++ l₂ = l → 
+(mergeListAggNTR r (foo r l₁) (foo r l₂)).length = l.length :=
+  by
+    intro l l₁ l₂ hl
+    rw [←hl]
+    rw [List.length_append]
+    rw [merge_equal_length]
+    have h₁ : (foo r l₁).length = l₁.length := foo_equal_length l₁
+    have h₂ : (foo r l₂).length = l₂.length := foo_equal_length l₂
+    simp [List.length_append]
+    rw [←h₁, ←h₂]
+
+theorem parallel_foo_membership : ∀ lines l₁ l₂, l₁ ++ l₂ = lines →
+∀ line ∈ (mergeListAggNTR r (foo r l₁) (foo r l₂)), line ∈ lines :=
+  by
+    intro lines l₁ l₂ hsplit line hline
+    rw [←hsplit]
+    have hm := merge_membership r (foo r l₁) (foo r l₂) line hline
+    rw [List.mem_append] at hm
+    cases hm with
+    | inl hfoo =>
+      have hinl := foo_membership l₁ line hfoo
+      simp [hinl]
+    | inr hfoo =>
+      have hinl := foo_membership l₂ line hfoo
+      simp [hinl]
+
+/- `foo` preserves the multiset property -/
+theorem parallel_foo_multiset : ∀ l l₁ l₂, l₁ ++ l₂ = l →
+(Multiset.ofList (mergeListAggNTR r (foo r l₁) (foo r l₂))) = (Multiset.ofList l) :=
   by
     intro l l₁ l₂ hsplit
-    have h₁ := h l₁
-    have h₂ := h l₂
+    rw [←hsplit]
+    rw [merge_multiset]
+    have h₁ := foo_multiset l₁
+    have h₂ := foo_multiset l₂
+    rw [Multiset.coe_eq_coe] at h₁ h₂
+    rw [Multiset.coe_eq_coe]
+    exact List.Perm.append h₁ h₂
+
+theorem parallel_foo_perm : ∀ l l₁ l₂, l₁ ++ l₂ = l →
+(mergeListAggNTR r (foo r l₁) (foo r l₂)).Perm l :=
+  by
+    intro l l₁ l₂ hsplit
+    rw [←hsplit]
+    have h₁ := foo_perm l₁
+    have h₂ := foo_perm l₂
+    apply (merge_perm r (foo r l₁) (foo r l₂)).trans
+    apply List.Perm.append h₁ h₂
+
+/-- If l₁ is a sublist of l₂, then foo l₁ is a sublist of foo l₂ -/
+theorem parallel_foo_ordering :
+  ∀ l₁ l₂, List.Sublist l₁ l₂ →
+    ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d →
+      List.Sublist
+        (mergeListAggNTR r (foo r a) (foo r b))
+        (mergeListAggNTR r (foo r c) (foo r d)) :=
+    by
+      intro l₁ l₂ hsublist a b c d hsplit₁ hsplit₂
+      apply merge_ordering r (foo r a) (foo r b) (foo r c) (foo r d)
+      have hl := foo_ordering l₁ l₂ hsublist
+      rw [hsplit₁, hsplit₂] at hl
+      sorry
+
+theorem parallel_foo_sorted :
+  ∀ l l₁ l₂, l₁ ++ l₂ = l →
+    Sorted r (mergeListAggNTR r (foo r l₁) (foo r l₂)) :=
+  by
+    intro l l₁ l₂ hsplit
+    have h₁ := foo_sorted l₁
+    have h₂ := foo_sorted l₂
     exact merge_sorted h₁ h₂
 
-/- If sort applied twice is itself, then mergeListAggNTR applied twice is itself
-   This does not hold for if sort x = "ab" -/
-theorem sort_idempotence {α : Type} 
-  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (hsorted : ∀ l, Sorted r (sort r l)) 
-  (hperm: ∀ l, (sort r l).Perm l) :
-  /- (h : ∀ l, sort r (sort r l) = sort r l) -/
+/- If foo applied twice is itself, then mergeListAggNTR applied twice is itself
+   This does not hold for if foo x = "ab" -/
+theorem parallel_foo_idempotence :
   ∀ l a b c d, a ++ b = l →
-    c ++ d = (mergeListAggNTR r (sort r a) (sort r b)) →
-    (mergeListAggNTR r (sort r a) (sort r b)) =
-    (mergeListAggNTR r (sort r c) (sort r d)) :=
+    c ++ d = (mergeListAggNTR r (foo r a) (foo r b)) →
+    (mergeListAggNTR r (foo r a) (foo r b)) =
+    (mergeListAggNTR r (foo r c) (foo r d)) :=
   by
     intro l a b c d hsplit₁ hsplit₂ 
-    have hsab := merge_sorted (hsorted a) (hsorted b)
-    have hscd := merge_sorted (hsorted c) (hsorted d) 
-    have hp : (mergeListAggNTR r (sort r a) (sort r b)).Perm (mergeListAggNTR r (sort r c) (sort r d)) := 
+    have hsab := merge_sorted (foo_sorted a) (foo_sorted b)
+    have hscd := merge_sorted (foo_sorted c) (foo_sorted d) 
+    have hp : (mergeListAggNTR r (foo r a) (foo r b)).Perm (mergeListAggNTR r (foo r c) (foo r d)) := 
       by
-        apply (merge_perm r (sort r a) (sort r b)).trans
+        apply (merge_perm r (foo r a) (foo r b)).trans
         apply List.Perm.symm
-        apply (merge_perm r (sort r c) (sort r d)).trans
-        apply (List.Perm.append (hperm c) (hperm d)).trans
+        apply (merge_perm r (foo r c) (foo r d)).trans
+        apply (List.Perm.append (foo_perm c) (foo_perm d)).trans
         apply List.Perm.symm 
-        apply (List.Perm.append (hperm a) (hperm b)).trans
+        apply (List.Perm.append (foo_perm a) (foo_perm b)).trans
         have hpabcd : (a ++ b).Perm (c ++ d) := by
           rw [hsplit₂]
           apply List.Perm.symm 
-          apply (merge_perm r (sort r a) (sort r b)).trans
-          apply List.Perm.append (hperm a) (hperm b)
+          apply (merge_perm r (foo r a) (foo r b)).trans
+          apply List.Perm.append (foo_perm a) (foo_perm b)
         exact hpabcd
     exact eq_of_perm_of_sorted hp hsab hscd
 
-lemma merge_equality : ∀ a b c d, a ++ b = c ++ d → mergeListAggNTR r a b = mergeListAggNTR r c d := sorry
-
-/- If sort l₁ is equal to sort l₂, then merging the partials of sort l₁ is equal to merging the partials of sort l₂. This does not hold if sort x = "ab" -/
-theorem sort_equality {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) (l₁ l₂ : List α) (h: sort r l₁ = sort r l₂) :
+theorem foo_equality (l₁ l₂ : List α) (h: foo r l₁ = foo r l₂) :
   ∀ a b c d, l₁ = a ++ b → l₂ = c ++ d →
-    mergeListAggNTR r (sort r a) (sort r b) = mergeListAggNTR r (sort r c) (sort r d) :=
+    mergeListAggNTR r (foo r a) (foo r b) = mergeListAggNTR r (foo r c) (foo r d) :=
     by
       intro a b c d hl₁ hl₂
       rw [hl₁, hl₂] at h
       sorry
+
+end MergeListAggNTRExample
 
 -- Some correctness lemmas for the non-tail recursive `merge_sort` function in `Data.List.Sort`
 -- REFERENCE: https://github.com/leanprover-community/mathlib4/blob/8666bd82efec40b8b3a5abca02dc9b24bbdf2652/Mathlib/Data/List/Sort.lean

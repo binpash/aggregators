@@ -13,13 +13,6 @@ lemma merge_base_case {α : Type} (r : α → α → Bool) : mergeListAgg r [] [
     rw [mergeAuxList]
     apply List.reverse_nil
 
-theorem sort_base_case {α : Type}
-  (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (h : sort r [] = []) :
-  (mergeListAgg r (sort r []) (sort r [])) = [] :=
-  by
-    rw [h, merge_base_case]
-
 --lemma merge_communicative_length :
 --  ∀ l₁ l₂, (mergeListAgg r l₁ l₂) = (mergeListAgg r l₂ l₁) := sorry
 
@@ -64,39 +57,52 @@ lemma merge_equal_length : ∀ l₁ l₂, (mergeListAgg r l₁ l₂).length = (l
     rw [mergeAux_length]
     simp
 
-theorem sort_equal_length {α : Type} (sort : (α → α → Bool) → List α → List α) (r : α → α → Bool)
-  (h : ∀ l, (sort r l).length = l.length) :
-  ∀ l l₁ l₂, l₁ ++ l₂ = l → (mergeListAgg r (sort r l₁) (sort r l₂)).length = l.length :=
-  by
-    intro l l₁ l₂ hl
-    rw [←hl]
-    rw [merge_equal_length]
-    have h₁ : (sort r l₁).length = l₁.length := h l₁
-    have h₂ : (sort r l₂).length = l₂.length := h l₂
-    simp [List.length_append]
-    rw [←h₁, ←h₂]
-
 /-- `mergeListAgg` preserves membership -/
 lemma merge_membership {α : Type} (r : α → α →  Bool) :
   ∀ l₁ l₂, ∀ line ∈ (mergeListAgg r l₁ l₂), line ∈ l₁ ++ l₂ :=
   by
     sorry
 
-theorem sort_membership {α : Type} (sort : (α → α → Bool) → List α → List α)
-  (r : α → α → Bool) (h : ∀ lines, ∀ line ∈ (sort r lines), line ∈ lines) :
+namespace MergeListAggExample 
+
+opaque α : Type
+opaque foo : (α → α → Bool) → List α → List α
+opaque r : α → α → Bool
+
+axiom foo_base_case : foo r [] = []
+axiom foo_equal_length : ∀ l, (foo r l).length = l.length
+axiom foo_membership : ∀ lines, ∀ line ∈ (foo r lines), line ∈ lines 
+
+theorem parallel_foo_base_case : mergeListAgg r (foo r []) (foo r []) = [] :=
+  by
+    rw [foo_base_case, merge_base_case]
+
+theorem parallel_foo_equal_length : ∀ l l₁ l₂, l₁ ++ l₂ = l → 
+(mergeListAgg r (foo r l₁) (foo r l₂)).length = l.length :=
+  by
+    intro l l₁ l₂ hl
+    rw [←hl]
+    rw [merge_equal_length]
+    have h₁ : (foo r l₁).length = l₁.length := foo_equal_length l₁
+    have h₂ : (foo r l₂).length = l₂.length := foo_equal_length l₂
+    simp [List.length_append]
+    rw [←h₁, ←h₂]
+
+theorem parallel_foo_membership :
   ∀ lines l₁ l₂, l₁ ++ l₂ = lines →
-    ∀ line ∈ (mergeListAgg r (sort r l₁) (sort r l₂)), line ∈ lines :=
+    ∀ line ∈ (mergeListAgg r (foo r l₁) (foo r l₂)), line ∈ lines :=
   by
     intro lines l₁ l₂ hsplit line hline
     rw [←hsplit]
-    have hm := merge_membership r (sort r l₁) (sort r l₂) line hline
+    have hm := merge_membership r (foo r l₁) (foo r l₂) line hline
     rw [List.mem_append] at hm
     cases hm with
-    | inl hsort =>
-      have hinl := h l₁ line hsort
+    | inl hfoo =>
+      have hinl := foo_membership l₁ line hfoo
       simp [hinl]
-    | inr hsort =>
-      have hinl := h l₂ line hsort
+    | inr hfoo =>
+      have hinl := foo_membership l₂ line hfoo
       simp [hinl]
 
+end MergeListAggExample
 end SortTR
